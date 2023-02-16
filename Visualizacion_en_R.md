@@ -65,7 +65,7 @@ ejes y sus etiquetas, y título principal.
 hist(penguins$bill_length_mm)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-2-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-3-1.png)
 
 Muchos de estos elementos se pueden personalizar a través de argumentos
 de la función `hist()`. Por ejemplo el título (`main`), las etiquetas de
@@ -77,7 +77,7 @@ hist(penguins$bill_length_mm, xlab = "longitud del pico (mm)", ylab = "Frecuenci
      breaks = c(seq(32, 52, 4), 60))
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-3-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-4-1.png)
 
 Como puede verse, los formación de los intervalos es muy flexible (ver
 el valor del argumento `breaks`).
@@ -96,7 +96,7 @@ con los mismos argumentos mostrados antes.
 boxplot(bill_length_mm ~ species, data = penguins)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-4-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-5-1.png)
 
 ### Gráficas de dispersión
 
@@ -108,7 +108,7 @@ primera se considera como la variable `x`.
 plot(x = penguins$bill_length_mm, y = penguins$bill_depth_mm)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-5-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-6-1.png)
 
 Existen muchas maneras de personalizar una gráfica como la anterior. Por
 ejemplo, sabiendo que se tienen datos de tres especies, podemos utilizar
@@ -120,7 +120,7 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm,
      las = 1, pch = 16, col = penguins$species)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-6-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-7-1.png)
 
 El uso de `col = penguins$species` permite definir los colores porque la
 especie esta codificada como un factor (ver el resultado de evaluar
@@ -144,7 +144,7 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm, type = "n", las = 1,
  }
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-7-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
 
 En el código previo, el llamado a la función `plot()` solo genera el
 marco del gráfico y los ejes, pero no dibuja ningún punto
@@ -164,7 +164,11 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
   text(x = 41, y = 20, pos = 4, expression(paste(R^2, "=0.42")))
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-9-1.png)
+
+Mayores detalles consultar la ayuda de la función `par()` que contiene
+los nombres y la explicación de muchos parámetros gráficos que se pueden
+controlar.
 
 ### Gráficos especializados
 
@@ -188,7 +192,7 @@ plot(dmap, axes = TRUE, xlim = c(-120, -105), ylim = c(20, 35), las = 1,
      col = "grey90", border = "grey")
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-9-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-10-1.png)
 
 #### Gráficas interactivas
 
@@ -201,7 +205,7 @@ echo2.038 <- read.echogram(hacfile)
 echogram(echo2.038, Svthr = -70, col.sep = 1.5, scheme = "EK500")
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-10-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-11-1.png)
 
 #### Imágenes de satélite
 
@@ -211,7 +215,7 @@ data("dsst")
 plot(dsst, map = dmap)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-11-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-12-1.png)
 
 ## Gráficas grid
 
@@ -226,7 +230,7 @@ library(lattice)
 xyplot(bill_length_mm ~ bill_depth_mm | species, data = penguins)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-12-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-13-1.png)
 
 ### ggplot2
 
@@ -240,4 +244,4 @@ p
 
     Warning: Removed 2 rows containing missing values (`geom_point()`).
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-13-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-14-1.png)

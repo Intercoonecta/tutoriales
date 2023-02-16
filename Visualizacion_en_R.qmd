@@ -1,11 +1,16 @@
 ---
 title: "Visualización en R"
 author: "Héctor Villalobos"
+lang: es
 format: 
   gfm:
     toc: true
 editor: visual
 ---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(dev = "ragg_png")
+```
 
 En R existen dos sistemas gráficos principales, el tradicional o básico (*base graphics*), similar al original del lenguaje S y un sistema único de R, denominado *grid graphics* en el que se basan paquetes como **lattice** y **ggplot2**. En este charla se hará énfasis en el sistema tradicional, aunque se presentarán algunos ejemplos de los paquetes mencionados.
 
@@ -95,6 +100,8 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
   text(x = 41, y = 20.5, "y = 7.5 + 0.22 x", pos = 4)
   text(x = 41, y = 20, pos = 4, expression(paste(R^2, "=0.42")))
 ```
+
+Mayores detalles consultar la ayuda de la función `par()` que contiene los nombres y la explicación de muchos parámetros gráficos que se pueden controlar.
 
 ### Gráficos especializados
 
