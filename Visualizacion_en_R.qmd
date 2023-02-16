@@ -1,0 +1,149 @@
+---
+title: "Visualización en R"
+author: "Héctor Villalobos"
+format: 
+  gfm:
+    toc: true
+editor: visual
+---
+
+En R existen dos sistemas gráficos principales, el tradicional o básico (*base graphics*), similar al original del lenguaje S y un sistema único de R, denominado *grid graphics* en el que se basan paquetes como **lattice** y **ggplot2**. En este charla se hará énfasis en el sistema tradicional, aunque se presentarán algunos ejemplos de los paquetes mencionados.
+
+## Gráficas tradicionales
+
+Las gráficas tradicionales, **ejemplificadas en el material del aula invertida**, constan de funciones que producen gráficas estadísticas completas (histogramas, cajas y bigotes, diagramas de dispersión, etc.) o que permiten agregar diversos elementos a estas.
+
+Para ilustrar algunas de las gráficas más comunes usaremos datos de tres especies de pingüinos del paquete **palmerpenguins**.
+
+```{r}
+# Datos de pingüinos del archipiélago Palmer
+library(palmerpenguins)
+data(penguins)
+head(penguins)
+```
+
+Con la instrucción `?palmerpenguins` se pueden consultar los detalles de esta base de datos.
+
+### Histogramas
+
+Los histogramas permiten ver la distribución de una variable numérica. La función `hist()` requiere especificar únicamente el nombre de la variable de interés, mientras que el número y límites de los intervalos son determinados de manera automática, al igual que las escalas de los ejes y sus etiquetas, y título principal.
+
+```{r}
+hist(penguins$bill_length_mm)
+```
+
+Muchos de estos elementos se pueden personalizar a través de argumentos de la función `hist()`. Por ejemplo el título (`main`), las etiquetas de los ejes (`xlab`, `ylab`), y los límites de los intervalos (`breaks`).
+
+```{r}
+hist(penguins$bill_length_mm, xlab = "longitud del pico (mm)", ylab = "Frecuencia",
+     main = "Histograma para 3 especies de pingüino", 
+     breaks = c(seq(32, 52, 4), 60))
+```
+
+Como puede verse, los formación de los intervalos es muy flexible (ver el valor del argumento `breaks`).
+
+### Gráficas de cajas y bigotes
+
+El *boxplot* también da una idea de la distribución de una variable numérica, en este caso para cada una de las tres especies de pingüino, lo cual se especifica con la tilde o virgulilla (`~`) y se lee "longitud del pico **en función** de la especie". Adicionalmente esta función incorpora el argumento `data` que permite especificar en donde están las variables a graficar. Las etiquetas de los ejes se pueden personalizar con los mismos argumentos mostrados antes.
+
+```{r}
+boxplot(bill_length_mm ~ species, data = penguins)
+```
+
+### Gráficas de dispersión
+
+En el caso de dos variables se pueden crear gráficas de dispersión especificando en que eje va cada variable. Si esto no se indica, la primera se considera como la variable `x`.
+
+```{r}
+plot(x = penguins$bill_length_mm, y = penguins$bill_depth_mm)
+```
+
+Existen muchas maneras de personalizar una gráfica como la anterior. Por ejemplo, sabiendo que se tienen datos de tres especies, podemos utilizar colores diferentes para cada una.
+
+```{r}
+plot(penguins$bill_length_mm, penguins$bill_depth_mm,
+     xlab = "longitud del pico (mm)", ylab = "profundidad del pico (mm)",
+     las = 1, pch = 16, col = penguins$species)
+```
+
+El uso de `col = penguins$species` permite definir los colores porque la especie esta codificada como un factor (ver el resultado de evaluar `class(penguins$species)`). Otra forma de personalizar la figura podría ser incorporar transparencias a los colores y símbolos diferentes por especie. Para ello el ejemplo de abajo hace uso de la función `rgb()` que requiere especificar 3 valores correspondientes al rojo, verde y azul, así como un cuarto valor para la transparencia (todos entre 0 y 1).
+
+```{r}
+sp <- levels(penguins$species)
+rojo <- c(0, 1, 0); verde <- c(0, 0, 1); azul <- c(0, 0, 0); alfa <- 0.4
+
+plot(penguins$bill_length_mm, penguins$bill_depth_mm, type = "n", las = 1,
+     xlab = "longitud del pico (mm)", ylab = "profundidad del pico (mm)")
+ for (i in 1:3) {
+  points(penguins$bill_length_mm[penguins$species == sp[i]],
+         penguins$bill_depth_mm[penguins$species == sp[i]], pch = i + 14, 
+         col = rgb(rojo[i], verde[i], azul[i], alfa))  
+ }
+
+```
+
+En el código previo, el llamado a la función `plot()` solo genera el marco del gráfico y los ejes, pero no dibuja ningún punto (`type = "n"`), puesto que de ello se encarga la función `points()` en donde se especifican la especie, colores y símbolos a utilizar.
+
+Un ejemplo más para ilustrar como podemos agregar otros elementos como líneas de tendencia y texto es el siguiente:
+
+```{r}
+chin <- subset(penguins, species == "Chinstrap")
+plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
+     xlab = "longitud del pico (mm)", ylab = "profundidad del pico (mm)",
+     col = rgb(0, 0, 1, 0.4))
+  abline(lm(bill_depth_mm ~ bill_length_mm, data = chin))
+  text(x = 41, y = 20.5, "y = 7.5 + 0.22 x", pos = 4)
+  text(x = 41, y = 20, pos = 4, expression(paste(R^2, "=0.42")))
+```
+
+### Gráficos especializados
+
+#### Mapas
+
+```{r}
+library(satin)
+library(sp)
+data(dmap)
+plot(dmap, axes = TRUE, xlim = c(-120, -105), ylim = c(20, 35), las = 1, 
+     col = "grey90", border = "grey")
+```
+
+#### Gráficas interactivas
+
+#### Ecogramas
+
+```{r}
+library(echogram)
+hacfile <- system.file("extdata", "D20150510-T202500.hac", package = "echogram")
+echo2.038 <- read.echogram(hacfile)
+echogram(echo2.038, Svthr = -70, col.sep = 1.5, scheme = "EK500")
+```
+
+#### Imágenes de satélite
+
+```{r, fig.height=5.5, fig.width=6}
+library(satin)
+data("dsst")
+plot(dsst, map = dmap)
+```
+
+## Gráficas grid
+
+El paquete grid proporciona funciones de bajo nivel para producir líneas, polígonos, texto, símbolos, etc. Existen dos paquetes que hacen uso de estas funciones de bajo nivel para generar resultados completos.
+
+### Lattice
+
+```{r}
+library(lattice)
+xyplot(bill_length_mm ~ bill_depth_mm | species, data = penguins)
+```
+
+### ggplot2
+
+```{r}
+library(ggplot2)
+p <- ggplot(data = penguins, 
+            aes(x = bill_length_mm, y = bill_depth_mm, colour = species)) +
+     geom_point()
+p
+```
