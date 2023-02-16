@@ -170,6 +170,10 @@ Mayores detalles consultar la ayuda de la función `par()` que contiene
 los nombres y la explicación de muchos parámetros gráficos que se pueden
 controlar.
 
+Mayores detalles consultar la ayuda de la función `par()` que contiene
+los nombres y la explicación de muchos parámetros gráficos que se pueden
+controlar.
+
 ### Gráficos especializados
 
 #### Mapas
