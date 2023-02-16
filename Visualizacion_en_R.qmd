@@ -1,6 +1,7 @@
 ---
 title: "Visualización en R"
 author: "Héctor Villalobos"
+lang: es
 format: 
   gfm:
     toc: true

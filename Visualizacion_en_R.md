@@ -166,6 +166,10 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
 
 ![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
 
+Mayores detalles consultar la ayuda de la función `par()` que contiene
+los nombres y la explicación de muchos parámetros gráficos que se pueden
+controlar.
+
 ### Gráficos especializados
 
 #### Mapas
