@@ -112,7 +112,7 @@ temp_sup_ecu
 
 Revisemos los archivos que acabamos de guardar en el disco.
 ```{r}
-archivo <- list.files("Data/", full.names = T)
+archivo <- list.files("Data/", pattern = ".nc", full.names = T)
 archivo
 ```
 
