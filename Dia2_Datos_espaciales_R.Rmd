@@ -1,0 +1,167 @@
+---
+title: "Datos espaciales en R"
+author: "Denisse Fierro Arcos"
+date: "2023-02-17"
+output: 
+  github_document:
+    toc: true
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Analisis de datos espaciales en `R`
+
+Aqui describimos como acceder a datos en formato raster disponibles de manera libre de la NOAA a traves del servidor [ERDDAP](https://coastwatch.pfeg.noaa.gov/erddap/index.html) utilizando el paquete `rerddap`.
+
+Tambien cubriremos como crear mapas utilizando datos tipo raster y poligonos utilizando las librerias `sf` y `ggplot2`.
+
+
+## Llamando paquetes relevantes
+```{r paquetes, warning = F}
+library(tidyverse) #Incluye a ggplot2
+library(rerddap)
+library(raster)
+```
+
+## Buscando y bajando datos de la NOAA
+Primero debemos buscar los servidores que estan disponibles para nuestra busqueda. La funcion `servers()` de `rerddap` nos devuelve una lista de servidores que podemos acceder.
+
+```{r servidores}
+servidores <- servers()
+#Revisemos las primeras opciones disponibles
+head(servidores)
+```
+Podemos ver que la NOAA esta incluida en nuestra lista, pero estamos interesados en Coastwatch especificamente. Podemos hacer una busqueda utilizando el `tidyverse` 
+
+```{r}
+servidores %>%
+  filter(str_detect(str_to_lower(name), "coastwatch"))
+```
+
+Para este ejemplo usaremos Coastwatch West Coast Node (CSWC). Guardemos el URL en un una variable.
+
+```{r}
+coastwatch_url <- servidores %>% 
+  #Ahora que sabemos el nombre corto, podemos utilizar esto para filtrar los servidores
+  filter(short_name == "CSWC") %>% 
+  pull(url)
+
+#Veamos el resultado
+coastwatch_url
+```
+
+Podemos hacer una busqueda sencilla de datos de temperatura de la superficie del mar (SST por sus siglas en ingles) usando la funcion `ed_search`.
+
+```{r}
+temp_sup_res <- ed_search(query = "SST", 
+          which = "griddap",
+          url = coastwatch_url)
+
+#Veamos los primeros resultados
+head(temp_sup_res$info)
+```
+Tenemos varias opciones disponibles. Podemos revisar mas informacion sobre el dataset de nuestro interes con `info`.
+```{r}
+info(temp_sup_res$info$dataset_id[1])
+```
+
+Con la funcion `ed_search_adv()` podemos hacer una busqueda mas especifica que nos da resultados mas relevantes. Supongamos que queremos datos de Ecuador
+```{r}
+temp_sup_res <- ed_search_adv(query = "SST",
+              #Datos en grilla
+              protocol = "griddap",
+              #Servidor CSWC
+              url = coastwatch_url,
+              #Datos mensuales
+              keywords = "monthly",
+              #Limites espaciales
+              maxLat = 2,
+              minLat = -5.2,
+              maxLon = -74.9,
+              minLon = -92,
+              #Limites temporales
+              minTime = "2010",
+              maxTime = "2020-06")
+
+head(temp_sup_res$info)
+```
+Revisemos los datos en mas detalle.
+```{r}
+info(temp_sup_res$info$dataset_id[15])
+```
+
+Encontramos los datos que necesitamos. Ahora los bajamos a nuestro disco.
+```{r}
+temp_sup_ecu <- griddap(temp_sup_res$info$dataset_id[15],
+                        #Limites temporales
+                        time = c("2010-01-01", "2010-12-31"),
+                        #Limites espaciales
+                        latitude = c(-5.2, 2),
+                        longitude = c(-92, -74.9),
+                        #Acceder a la informacion en formato netcdf
+                        fmt = "nc",
+                        #Guardar informacion en disco
+                        store = disk(path = "Data/"))
+
+#Esta opcion tambien guarda los datos en la variable
+temp_sup_ecu
+```
+
+Revisemos los archivos que acabamos de guardar en el disco.
+```{r}
+archivo <- list.files("Data/", full.names = T)
+archivo
+```
+
+## Graficando datos
+Tenemos primero que subir los datos a nuestra sesion.
+
+```{r}
+temp_sup_ec <- raster(archivo)
+temp_sup_ec
+```
+
+Este archivo tiene 12 bandas, una por cada mes en el anio. Revisemos el primer mes.
+
+```{r}
+raster::plot(temp_sup_ec[[1]], col = RColorBrewer::brewer.pal(9, "YlOrRd"))
+```
+Podemos calcular el promedio anual y graficar los resultados.
+```{r}
+#Promedio
+temp_prom_anual <- raster::mean(temp_sup_ec, 12)
+#Graficando
+raster::plot(temp_prom_anual, col = RColorBrewer::brewer.pal(9, "YlOrRd"))
+```
+Podemos tambien hacer uso de la variable que contiene los datos. Utilicemos esta opcion junto con `ggplot2` y agreguemos una capa del mundo.
+
+```{r}
+#Calculando el promedio de temperatura durante la epoca fria
+temp_fria <- temp_sup_ecu$data %>% 
+  #Escogemos los meses de la epoca fria
+  filter(lubridate::month(time) <= 4 | lubridate::month(time) == 12) %>% 
+  #Agrupamos por latitud y longitud
+  group_by(lat, lon) %>% 
+  #Calculamos el promedio
+  summarise(temp_prom = mean(sst, na.rm = T))
+```
+
+Ahora podemos graficar este promedio.
+
+```{r}
+#Capa de continentes
+tierra <- rnaturalearth::ne_countries(returnclass = "sf")
+
+#Grafiquemos
+temp_fria %>% 
+  ggplot(aes(x = lon, y = lat))+
+  geom_contour_filled(aes(z = temp_prom), binwidth = 2.5)+
+  scale_fill_brewer(palette = "YlOrRd")+
+  geom_sf(data = tierra, inherit.aes = F)+
+  lims(x = c(-92, -74.9), y = c(-5.2, 2))+
+  theme_bw()
+```
+
