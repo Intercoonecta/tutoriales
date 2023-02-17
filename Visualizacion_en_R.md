@@ -65,10 +65,10 @@ ejes y sus etiquetas, y título principal.
 hist(penguins$bill_length_mm)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-3-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-2-1.png)
 
 Muchos de estos elementos se pueden personalizar a través de argumentos
-de la función `hist()`. Por ejemplo el título (`main`), las etiquetas de
+de la función `hist()`. Por ejemplo el título (`main`), los nombres de
 los ejes (`xlab`, `ylab`), y los límites de los intervalos (`breaks`).
 
 ``` r
@@ -77,26 +77,26 @@ hist(penguins$bill_length_mm, xlab = "longitud del pico (mm)", ylab = "Frecuenci
      breaks = c(seq(32, 52, 4), 60))
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-4-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-3-1.png)
 
-Como puede verse, los formación de los intervalos es muy flexible (ver
-el valor del argumento `breaks`).
+Como puede verse, la formación de los intervalos es muy flexible (ver el
+valor del argumento `breaks`).
 
 ### Gráficas de cajas y bigotes
 
 El *boxplot* también da una idea de la distribución de una variable
 numérica, en este caso para cada una de las tres especies de pingüino,
 lo cual se especifica con la tilde o virgulilla (`~`) y se lee “longitud
-del pico **en función** de la especie”. Adicionalmente esta función
+del pico **en función** de la especie”. Adicionalmente, esta función
 incorpora el argumento `data` que permite especificar en donde están las
-variables a graficar. Las etiquetas de los ejes se pueden personalizar
-con los mismos argumentos mostrados antes.
+variables a graficar. Los nombres de los ejes se pueden personalizar con
+los mismos argumentos mostrados antes.
 
 ``` r
 boxplot(bill_length_mm ~ species, data = penguins)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-5-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-4-1.png)
 
 ### Gráficas de dispersión
 
@@ -108,7 +108,7 @@ primera se considera como la variable `x`.
 plot(x = penguins$bill_length_mm, y = penguins$bill_depth_mm)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-6-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-5-1.png)
 
 Existen muchas maneras de personalizar una gráfica como la anterior. Por
 ejemplo, sabiendo que se tienen datos de tres especies, podemos utilizar
@@ -120,16 +120,22 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm,
      las = 1, pch = 16, col = penguins$species)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-7-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-6-1.png)
 
 El uso de `col = penguins$species` permite definir los colores porque la
 especie esta codificada como un factor (ver el resultado de evaluar
-`class(penguins$species)`). Otra forma de personalizar la figura podría
-ser incorporar transparencias a los colores y símbolos diferentes por
-especie. Para ello el ejemplo de abajo hace uso de la función `rgb()`
-que requiere especificar 3 valores correspondientes al rojo, verde y
-azul, así como un cuarto valor para la transparencia (todos entre 0 y
-1).
+`class(penguins$species)`). Otros argumentos usados en el ejemplo
+anterior son el tipo de símbolo (`pch = 16`), que en este caso es un
+círculo relleno. En la ayuda de la función `points()` se pueden ver
+otros símbolos disponibles. Por último, el argumento `las = 1` opera en
+las etiquetas de los ejes, mostrándolas de manera horizontal en este
+caso.
+
+Otra forma de personalizar la figura podría ser incorporando
+transparencias a los colores y símbolos diferentes por especie. Para
+ello el ejemplo de abajo hace uso de la función `rgb()` que requiere
+especificar 3 valores correspondientes al rojo, verde y azul, así como
+un cuarto valor para la transparencia (todos entre 0 y 1).
 
 ``` r
 sp <- levels(penguins$species)
@@ -144,15 +150,18 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm, type = "n", las = 1,
  }
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-7-1.png)
 
 En el código previo, el llamado a la función `plot()` solo genera el
 marco del gráfico y los ejes, pero no dibuja ningún punto
 (`type = "n"`), puesto que de ello se encarga la función `points()` en
-donde se especifican la especie, colores y símbolos a utilizar.
+donde se especifican la especie, colores y símbolos a utilizar. Este
+ejemplo también hace uso de un bucle para dibujar sucesivamente los
+puntos de cada especie, así como el tipo de símbolo y los diferentes
+niveles de rojo, verde y azul en estos.
 
 Un ejemplo más para ilustrar como podemos agregar otros elementos como
-líneas de tendencia y texto es el siguiente:
+líneas de tendencia y anotaciones (texto) en la gráfico es el siguiente:
 
 ``` r
 chin <- subset(penguins, species == "Chinstrap")
@@ -164,11 +173,21 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
   text(x = 41, y = 20, pos = 4, expression(paste(R^2, "=0.42")))
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-9-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
 
-Mayores detalles consultar la ayuda de la función `par()` que contiene
-los nombres y la explicación de muchos parámetros gráficos que se pueden
-controlar.
+Aquí utilizamos un subconjunto de los datos para la especie “Chinstrap”,
+para la cual dibujamos la línea de regresión entre ambas variables
+(`lm(bill_depth_mm ~ bill_length_mm)`) e incluimos el modelo resultante
+con su correspondiente valor de R<sup>2</sup>. Nótese que para esto
+último se hace uso de la función `expression()` que permite expresar el
+número 2 como exponente.
+
+Las figuras previas son solo una muestra de las posibilidades del
+sistema tradicional de gráficas en R. Se recomienda familiarizarse con
+ayuda de la función `par()` que describe una amplia gama de parámetros
+gráficos que pueden ser modificados por el usuario. También, para más
+ejemplos se pueden ejecutar las funciones `demo(graphics)` y
+`demo(persp)`.
 
 ### Gráficos especializados
 
@@ -192,7 +211,7 @@ plot(dmap, axes = TRUE, xlim = c(-120, -105), ylim = c(20, 35), las = 1,
      col = "grey90", border = "grey")
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-10-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-9-1.png)
 
 #### Gráficas interactivas
 
@@ -205,7 +224,7 @@ echo2.038 <- read.echogram(hacfile)
 echogram(echo2.038, Svthr = -70, col.sep = 1.5, scheme = "EK500")
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-11-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-10-1.png)
 
 #### Imágenes de satélite
 
@@ -215,7 +234,7 @@ data("dsst")
 plot(dsst, map = dmap)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-12-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-11-1.png)
 
 ## Gráficas grid
 
@@ -230,7 +249,7 @@ library(lattice)
 xyplot(bill_length_mm ~ bill_depth_mm | species, data = penguins)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-13-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-12-1.png)
 
 ### ggplot2
 
@@ -244,4 +263,4 @@ p
 
     Warning: Removed 2 rows containing missing values (`geom_point()`).
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-14-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-13-1.png)
