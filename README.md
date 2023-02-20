@@ -3,17 +3,20 @@
 
 ## Viernes 24 de febrero de 2023
 
-11 h Sesión de inauguración y dinamización de grupos.
+| Hora |	Evento | 
+| ------------- |--------|
+|11:00-11:30|	Sesión de inauguración| 
+|11:00-11:30|Sesión de dinamización de grupos| 
 
 ## LUNES 27 de febrero de 2023
  
  
 | Hora |	Charla |	Presentador/a | 
 | ------------- |-------- | ------------- |
-|08:00-08:35|	Bienvenida|	AECID/Marian| 
-|08:35-08:45|	Entrada a jupyterhub en Python|	Emilio|
-|08:45-09:30	|Visualización en Python|	David|
-|09:30-10:00|	Datos online|	Laura| 
+|08:00-08:15|	Bienvenida|	Marian| 
+|08:15-08:30|	Entrada a jupyterhub en Python|	Emilio|
+|08:30-09:15	|Visualización en Python|	David|
+|09:15-10:00|	Datos online|	Laura| 
 |10:00-10:05	|Entrada a jupyterhub en R|Emilio	|
 |10:05-10:50|	Visualización en R	|Héctor|
 |10:50-11:20|	Proyectos y grupos|Marian y Emilio	|
