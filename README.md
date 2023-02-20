@@ -28,7 +28,7 @@
 |Hora|	Charla|	Presentador/a|
 | ------------- |-------- | ------------- |
 |08:00-08:15|	Bienvenida|	Marian|
-|09:45-10:30|	[Datos espaciales en R]("https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md")|	Denisse (vídeo)|
+|09:45-10:30|	[Datos espaciales en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md)|	Denisse (vídeo)|
 |08:15-09:00|	Librería `Echogram` en R| 	Héctor|
 |09:00-09:45|	Reproducibilidad y acceso abierto|	Laura |
 |10:30-11:15|	Datos espaciales en Python| 	Emilio|
