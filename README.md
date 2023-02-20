@@ -3,7 +3,7 @@
 
 ## Viernes 24 de febrero de 2023
 
-15 h Sesión de inauguración y dinamización de grupos.
+11 h Sesión de inauguración y dinamización de grupos.
 
 ## LUNES 27 de febrero de 2023
  
