@@ -1,19 +1,29 @@
 ---
 title: "Visualización en R"
-author: "Héctor Villalobos"
+lang: es
+author: 
+  - name: Héctor Villalobos
+    orcid: 0000-0002-6424-4050
+    email: hvillalo@ipn.mx
+    affiliations: Instituto Politécnico Nacional - Centro Interdisciplinario de Ciencias Marinas
+date: today
 format: 
   gfm:
     toc: true
 editor: visual
 ---
 
-En R existen dos sistemas gráficos principales, el tradicional o básico (*base graphics*), similar al original del lenguaje S y un sistema único de R, denominado *grid graphics* en el que se basan paquetes como **lattice** y **ggplot2**. En este charla se hará énfasis en el sistema tradicional, aunque se presentarán algunos ejemplos de los paquetes mencionados.
+```{r, echo=FALSE}
+knitr::opts_chunk$set(dev = "ragg_png")
+```
+
+En R existen dos sistemas gráficos principales, el tradicional o básico (*base graphics*), similar al original del lenguaje S y un sistema único de R, denominado *grid graphics* en el que se basan paquetes como **lattice** y **ggplot2**. Aquí haremos énfasis en el sistema tradicional, aunque se presentarán algunos ejemplos de los paquetes mencionados.
 
 ## Gráficas tradicionales
 
 Las gráficas tradicionales, **ejemplificadas en el material del aula invertida**, constan de funciones que producen gráficas estadísticas completas (histogramas, cajas y bigotes, diagramas de dispersión, etc.) o que permiten agregar diversos elementos a estas.
 
-Para ilustrar algunas de las gráficas más comunes usaremos datos de tres especies de pingüinos del paquete **palmerpenguins**.
+Para ilustrar algunas de las gráficas más comunes usaremos datos de tres especies de pingüinos disponibles en el paquete **palmerpenguins**.
 
 ```{r}
 # Datos de pingüinos del archipiélago Palmer
@@ -98,39 +108,101 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
   text(x = 41, y = 20, pos = 4, expression(paste(R^2, "=0.42")))
 ```
 
-Aquí utilizamos un subconjunto de los datos para la especie "Chinstrap", para la cual dibujamos la línea de regresión entre ambas variables (`lm(bill_depth_mm ~ bill_length_mm)`) e incluimos el modelo resultante con su correspondiente valor de R^2^. Nótese que para esto último se hace uso de la función `expression()` que permite expresar el número 2 como exponente.
+Aquí utilizamos un subconjunto de los datos para la especie "Chinstrap", para la cual dibujamos la línea de regresión entre ambas variables (`lm(bill_depth_mm ~ bill_length_mm)`) e incluimos el modelo resultante con su correspondiente valor de R^2^. Nótese que para esto último se hace uso de la función `expression()` que permite representar el exponente.
 
-Las figuras previas son solo una muestra de las posibilidades del sistema tradicional de gráficas en R. Se recomienda familiarizarse con ayuda de la función `par()` que describe una amplia gama de parámetros gráficos que pueden ser modificados por el usuario. También, para más ejemplos se pueden ejecutar las funciones `demo(graphics)` y `demo(persp)`.
+Las figuras previas son solo una muestra de las posibilidades del sistema tradicional de gráficas en R. Se recomienda consultar la ayuda de la función `par()`, donde se describe una amplia gama de parámetros gráficos que pueden ser modificados por el usuario. Adicionalmente, para más ejemplos se pueden ejecutar las funciones `demo(graphics)` y `demo(persp)`.
 
 ### Gráficos especializados
 
+La función `plot()` es una función genérica, lo que significa que puede producir gráficos diferentes dependiendo del tipo de datos (clase del objeto) que se le pase. Esto por supuesto requiere que exista un "método" registrado para esa clase.
+
 #### Mapas
+
+Un ejemplo de lo anterior son los mapas. En R existen varios paquetes para este propósito, incluso algunos que incluyen su propia base de datos. En este ejemplo usaremos un mapa obtenido de [GSHHG](https://www.soest.hawaii.edu/pwessel/gshhg/), acrónimo de *A Global Self-consistent, Hierarchical, High-resolution Geography Database*, disponible gratuitamente. Esta base de datos incluye líneas de costa, ríos y fronteras de todo el planeta. Los detalles y características de la base se pueden consultar en el enlace anterior.
+
+El mapa que usaremos fue extraído y guardado previamente como un archivo "rds", lo que preserva la clase y estructura del objeto R original.
+
+```{r}
+mapa <- readRDS("mapa.rds")
+class(mapa)
+```
+
+Para poder graficar este objeto de clase "SpatialPolygons" se requiere el paquete `sp`.
+
+```{r}
+library(sp)
+plot(mapa)
+```
+
+Podemos personalizar este mapa usando muchos de los argumentos presentados antes, además de que existen otros propios de la clase.
+
+```{r, fig.height=5.5, fig.width=5}
+plot(mapa, xlim = c(-120, -105), ylim = c(20, 35), las = 1, 
+     col = "grey90", border = "grey", axes = TRUE)
+box()
+```
+
+En el mapa anterior es posible agregar múltiples elementos, desde texto (función `text()`), hasta transectos (función `lines()`), localidades de colecta de muestras o lances de pesca (función `points()`), por mencionar algúnos ejemplos.
+
+#### Datos de sensores remotos
+
+Un ejemplo más sería la representación de variables oceánicas obtenidas por satélites, resultantes de modelos oceanográficos, o una combinación de ambos.
+
+El paquete **satin** tiene funciones para este propósito e incluye datos de ejemplo que podemos utilizar para ilustrar este caso.
 
 ```{r}
 library(satin)
-library(sp)
-data(dmap)
-plot(dmap, axes = TRUE, xlim = c(-120, -105), ylim = c(20, 35), las = 1, 
-     col = "grey90", border = "grey")
+data("dsst")
+dsst
 ```
 
-#### Gráficas interactivas
+La figura por defecto, solo incluyendo el mapa anterior
+
+```{r, fig.height=5.5, fig.width=6}
+plot(dsst, map = mapa)
+```
 
 #### Ecogramas
+
+Los ecogramas digitales producidos por ecosondas científicas también podrían considerarse como provenientes de sensores remotos. El paquete **echogram** permite procesar archivos HAC y RAW.
 
 ```{r}
 library(echogram)
 hacfile <- system.file("extdata", "D20150510-T202500.hac", package = "echogram")
-echo2.038 <- read.echogram(hacfile)
-echogram(echo2.038, Svthr = -70, col.sep = 1.5, scheme = "EK500")
+eco.038 <- read.echogram(hacfile)
+echogram(eco.038)
 ```
 
-#### Imágenes de satélite
+Con archivos RAW
 
-```{r, fig.height=5.5, fig.width=6}
-library(satin)
-data("dsst")
-plot(dsst, map = dmap)
+```{r}
+ekraw <- read.EK60_raw("mango1402-D20140223-T172151.raw")
+eco <- ek2echogram(ekraw)
+str(eco)
+```
+
+Figura
+
+```{r}
+echogram(eco)
+```
+
+Personalización
+
+```{r}
+bot <- read.EK_bot("mango1402-D20140223-T172151.bot")
+head(bot)
+plot(bot$depth.tr1, ylim = rev(c(0, 240)), type = "l")
+```
+
+```{r}
+# hora local
+library(lubridate)
+eco$pings$pingTime <- with_tz(eco$pings$pingTime, tzone = "America/Hermosillo")
+# Guardar fondo detectado
+eco$pings$detBottom <- bot$depth.tr1
+eco2 <- mask.echogram(eco, bott.off = -20)
+echogram(eco2, depth.max = 265, x.ref = "s", scheme = "EK500", seabed = TRUE)
 ```
 
 ## Gráficas grid
