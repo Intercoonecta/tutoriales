@@ -6,7 +6,7 @@
 | Hora |	Evento | 
 | ------------- |--------|
 |11:00-11:30|	Sesión de inauguración| 
-|11:00-11:30| Sesión de dinamización de grupos| 
+|11:30-12:30| Sesión de dinamización de grupos| 
 
 ## Lunes 27 de febrero de 2023
  
