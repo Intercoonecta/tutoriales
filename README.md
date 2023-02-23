@@ -15,7 +15,7 @@
 |08:00-08:15|	Bienvenida|	Marian| 
 |08:15-08:30|	Entrada a Jupyter Hub en Python|	Emilio|
 |08:30-09:15| Visualización en Python|	David|
-|09:15-10:00|	Datos online|	Laura| 
+|09:15-10:00|	[Datos online](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/datos_online.ipynb) |	Laura| 
 |10:00-10:05| Entrada a Jupyter Hub en R|Emilio	|
 |10:05-10:50|	[Visualización en R](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/Visualizacion_en_R/Visualizacion_en_R.md)	|Héctor|
 |10:50-11:20|	Proyectos y grupos|Marian y Emilio	|
