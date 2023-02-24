@@ -17,13 +17,13 @@ editor: visual
 knitr::opts_chunk$set(dev = "ragg_png")
 ```
 
-En R existen dos sistemas gráficos principales, el tradicional o básico (*base graphics*), similar al original del lenguaje S y un sistema único de R, denominado *grid graphics* en el que se basan paquetes como **lattice** y **ggplot2**. Aquí haremos énfasis en el sistema tradicional, aunque se presentarán algunos ejemplos de los paquetes mencionados.
+En R existen dos sistemas gráficos principales, el tradicional o básico (*base graphics*), similar al original del lenguaje S y un sistema único de R, denominado *grid graphics* en el que se basan paquetes como `lattice` y `ggplot2`. Aquí haremos énfasis en el sistema tradicional, aunque se presentarán algunos ejemplos de los paquetes mencionados.
 
 ## Gráficas tradicionales
 
-Las gráficas tradicionales, **ejemplificadas en el material del aula invertida**, constan de funciones que producen gráficas estadísticas completas (histogramas, cajas y bigotes, diagramas de dispersión, etc.) o que permiten agregar diversos elementos a estas.
+Las gráficas tradicionales, constan de funciones que producen gráficas estadísticas completas (p. ej. histogramas, diagramas de dispersión, etc.) o que permiten agregar diversos elementos a estas.
 
-Para ilustrar algunas de las gráficas más comunes usaremos datos de tres especies de pingüinos disponibles en el paquete **palmerpenguins**.
+Para ilustrar algunas ejemplos usaremos datos disponibles en el paquete `palmerpenguins`.
 
 ```{r}
 # Datos de pingüinos del archipiélago Palmer
@@ -51,14 +51,6 @@ hist(penguins$bill_length_mm, xlab = "longitud del pico (mm)", ylab = "Frecuenci
 ```
 
 Como puede verse, la formación de los intervalos es muy flexible (ver el valor del argumento `breaks`).
-
-### Gráficas de cajas y bigotes
-
-El *boxplot* también da una idea de la distribución de una variable numérica, en este caso para cada una de las tres especies de pingüino, lo cual se especifica con la tilde o virgulilla (`~`) y se lee "longitud del pico **en función** de la especie". Adicionalmente, esta función incorpora el argumento `data` que permite especificar en donde están las variables a graficar. Los nombres de los ejes se pueden personalizar con los mismos argumentos mostrados antes.
-
-```{r}
-boxplot(bill_length_mm ~ species, data = penguins)
-```
 
 ### Gráficas de dispersión
 
@@ -110,6 +102,40 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
 
 Aquí utilizamos un subconjunto de los datos para la especie "Chinstrap", para la cual dibujamos la línea de regresión entre ambas variables (`lm(bill_depth_mm ~ bill_length_mm)`) e incluimos el modelo resultante con su correspondiente valor de R^2^. Nótese que para esto último se hace uso de la función `expression()` que permite representar el exponente.
 
+### Combinando gráficas
+
+La manera más simple de organizar varias gráficas en una misma figura (ventana gráfica) es con la función `par()`, cuyo argumento `mfrow` (o `mfcol`) permite dividir la ventana gráfica en una matriz (en el ejemplo, de 2 renglones $\times$ 2 columnas). Ahora podemos explorar el comportamiento de las cuatro variables numéricas disponibles por especie.
+
+```{r}
+par(mfrow = c(2, 2), mar = c(3, 4, 1, 1))
+plot(bill_length_mm ~ species, data = penguins, xlab = "")
+plot(bill_depth_mm ~ species, data = penguins, xlab = "")
+plot(flipper_length_mm ~ species, data = penguins, xlab = "")
+plot(body_mass_g ~ species, data = penguins, xlab = "")
+```
+
+Las gráficas de cajas y bigotes (*box and whisker plots*) también se pueden obtener llamando directamente a la función `boxplot()`, pero al incluir la tilde o virgulilla (`~`) y siendo la variable `species` una variable factorial, se obtiene el mismo resultado. En el primer caso, esto se lee "longitud del pico **en función** de la especie". Adicionalmente, se hace uso del argumento `data` que permite especificar en donde están las variables a graficar.
+
+Mayor flexibilidad en el acomodo de varias gráficas en una sola figura se logra con la función `layout()`, esta también acepta una matriz que define el número y acomodo de las gráficas, además de su tamaño. En el ejemplo que sigue, se usa la función `hist()` para obtener las frecuencias por intervalo, pero el graficado se hace a través de la función `barplot()` que permite dibujar uno de los histogramas de manera horizontal.
+
+```{r}
+xhist <- hist(penguins$bill_length_mm, plot = FALSE)
+yhist <- hist(penguins$bill_depth_mm, plot = FALSE)
+
+layout(matrix(c(1, 0, 2, 3), ncol = 2, byrow = TRUE), 
+       heights = c(0.2, 1), widths = c(1, 0.2))
+par(mar = c(0,4,0,0))
+barplot(xhist$density, space = 0, axes = FALSE)
+par(mar = c(4,4,0,0))
+plot(penguins$bill_length_mm, penguins$bill_depth_mm,
+     xlab = "longitud del pico (mm)", ylab = "profundidad del pico (mm)",
+     las = 1, pch = 16, col = penguins$species)
+par(mar = c(4,0,0,0))
+barplot(yhist$density, space = 0, axes = FALSE, horiz = TRUE)
+```
+
+Nótese que en `layout()` se incluye un 0 en la matriz, para evitar que se dibuje una gráfica en esa posición. Además se especifican las alturas y anchos de las diferentes gráficas.
+
 Las figuras previas son solo una muestra de las posibilidades del sistema tradicional de gráficas en R. Se recomienda consultar la ayuda de la función `par()`, donde se describe una amplia gama de parámetros gráficos que pueden ser modificados por el usuario. Adicionalmente, para más ejemplos se pueden ejecutar las funciones `demo(graphics)` y `demo(persp)`.
 
 ### Gráficos especializados
@@ -142,9 +168,9 @@ plot(mapa, xlim = c(-120, -105), ylim = c(20, 35), las = 1,
 box()
 ```
 
-En el mapa anterior es posible agregar múltiples elementos, desde texto (función `text()`), hasta transectos (función `lines()`), localidades de colecta de muestras o lances de pesca (función `points()`), por mencionar algúnos ejemplos.
+En el mapa anterior es posible agregar múltiples elementos, desde texto (función `text()`), hasta transectos (función `lines()`), localidades de colecta de muestras o lances de pesca (función `points()`), por mencionar algunos ejemplos.
 
-#### Datos de sensores remotos
+#### Gráficos con datos de sensores remotos
 
 Un ejemplo más sería la representación de variables oceánicas obtenidas por satélites, resultantes de modelos oceanográficos, o una combinación de ambos.
 
@@ -156,10 +182,10 @@ data("dsst")
 dsst
 ```
 
-La figura por defecto, solo incluyendo el mapa anterior
+Esta estructura de datos de clase "satin" se puede graficar con la función `plot()` que llama a la función propia de la clase (`plot.satin()`) .
 
 ```{r, fig.height=5.5, fig.width=6}
-plot(dsst, map = mapa)
+plot(dsst)
 ```
 
 #### Ecogramas

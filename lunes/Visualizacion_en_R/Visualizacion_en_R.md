@@ -1,15 +1,15 @@
 Visualización en R
 ================
 Héctor Villalobos
-22/2/23
+23/2/23
 
 - <a href="#gráficas-tradicionales"
   id="toc-gráficas-tradicionales">Gráficas tradicionales</a>
   - <a href="#histogramas" id="toc-histogramas">Histogramas</a>
-  - <a href="#gráficas-de-cajas-y-bigotes"
-    id="toc-gráficas-de-cajas-y-bigotes">Gráficas de cajas y bigotes</a>
   - <a href="#gráficas-de-dispersión"
     id="toc-gráficas-de-dispersión">Gráficas de dispersión</a>
+  - <a href="#combinando-gráficas" id="toc-combinando-gráficas">Combinando
+    gráficas</a>
   - <a href="#gráficos-especializados"
     id="toc-gráficos-especializados">Gráficos especializados</a>
 - <a href="#gráficas-grid" id="toc-gráficas-grid">Gráficas grid</a>
@@ -19,19 +19,17 @@ Héctor Villalobos
 En R existen dos sistemas gráficos principales, el tradicional o básico
 (*base graphics*), similar al original del lenguaje S y un sistema único
 de R, denominado *grid graphics* en el que se basan paquetes como
-**lattice** y **ggplot2**. Aquí haremos énfasis en el sistema
-tradicional, aunque se presentarán algunos ejemplos de los paquetes
-mencionados.
+`lattice` y `ggplot2`. Aquí haremos énfasis en el sistema tradicional,
+aunque se presentarán algunos ejemplos de los paquetes mencionados.
 
 ## Gráficas tradicionales
 
-Las gráficas tradicionales, **ejemplificadas en el material del aula
-invertida**, constan de funciones que producen gráficas estadísticas
-completas (histogramas, cajas y bigotes, diagramas de dispersión, etc.)
-o que permiten agregar diversos elementos a estas.
+Las gráficas tradicionales, constan de funciones que producen gráficas
+estadísticas completas (p. ej. histogramas, diagramas de dispersión,
+etc.) o que permiten agregar diversos elementos a estas.
 
-Para ilustrar algunas de las gráficas más comunes usaremos datos de tres
-especies de pingüinos disponibles en el paquete **palmerpenguins**.
+Para ilustrar algunas ejemplos usaremos datos disponibles en el paquete
+`palmerpenguins`.
 
 ``` r
 # Datos de pingüinos del archipiélago Palmer
@@ -83,22 +81,6 @@ hist(penguins$bill_length_mm, xlab = "longitud del pico (mm)", ylab = "Frecuenci
 Como puede verse, la formación de los intervalos es muy flexible (ver el
 valor del argumento `breaks`).
 
-### Gráficas de cajas y bigotes
-
-El *boxplot* también da una idea de la distribución de una variable
-numérica, en este caso para cada una de las tres especies de pingüino,
-lo cual se especifica con la tilde o virgulilla (`~`) y se lee “longitud
-del pico **en función** de la especie”. Adicionalmente, esta función
-incorpora el argumento `data` que permite especificar en donde están las
-variables a graficar. Los nombres de los ejes se pueden personalizar con
-los mismos argumentos mostrados antes.
-
-``` r
-boxplot(bill_length_mm ~ species, data = penguins)
-```
-
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-5-1.png)
-
 ### Gráficas de dispersión
 
 En el caso de dos variables se pueden crear gráficas de dispersión
@@ -109,7 +91,7 @@ primera se considera como la variable `x`.
 plot(x = penguins$bill_length_mm, y = penguins$bill_depth_mm)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-6-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-5-1.png)
 
 Existen muchas maneras de personalizar una gráfica como la anterior. Por
 ejemplo, sabiendo que se tienen datos de tres especies, podemos utilizar
@@ -121,7 +103,7 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm,
      las = 1, pch = 16, col = penguins$species)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-7-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-6-1.png)
 
 El uso de `col = penguins$species` permite definir los colores porque la
 especie esta codificada como un factor (ver el resultado de evaluar
@@ -151,7 +133,7 @@ plot(penguins$bill_length_mm, penguins$bill_depth_mm, type = "n", las = 1,
  }
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-7-1.png)
 
 En el código previo, el llamado a la función `plot()` solo genera el
 marco del gráfico y los ejes, pero no dibuja ningún punto
@@ -174,7 +156,7 @@ plot(chin$bill_length_mm, chin$bill_depth_mm, las = 1, pch = 16,
   text(x = 41, y = 20, pos = 4, expression(paste(R^2, "=0.42")))
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-9-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-8-1.png)
 
 Aquí utilizamos un subconjunto de los datos para la especie “Chinstrap”,
 para la cual dibujamos la línea de regresión entre ambas variables
@@ -182,6 +164,63 @@ para la cual dibujamos la línea de regresión entre ambas variables
 con su correspondiente valor de R<sup>2</sup>. Nótese que para esto
 último se hace uso de la función `expression()` que permite representar
 el exponente.
+
+### Combinando gráficas
+
+La manera más simple de organizar varias gráficas en una misma figura
+(ventana gráfica) es con la función `par()`, cuyo argumento `mfrow` (o
+`mfcol`) permite dividir la ventana gráfica en una matriz (en el
+ejemplo, de 2 renglones $\times$ 2 columnas). Ahora podemos explorar el
+comportamiento de las cuatro variables numéricas disponibles por
+especie.
+
+``` r
+par(mfrow = c(2, 2), mar = c(3, 4, 1, 1))
+plot(bill_length_mm ~ species, data = penguins, xlab = "")
+plot(bill_depth_mm ~ species, data = penguins, xlab = "")
+plot(flipper_length_mm ~ species, data = penguins, xlab = "")
+plot(body_mass_g ~ species, data = penguins, xlab = "")
+```
+
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-9-1.png)
+
+Las gráficas de cajas y bigotes (*box and whisker plots*) también se
+pueden obtener llamando directamente a la función `boxplot()`, pero al
+incluir la tilde o virgulilla (`~`) y siendo la variable `species` una
+variable factorial, se obtiene el mismo resultado. En el primer caso,
+esto se lee “longitud del pico **en función** de la especie”.
+Adicionalmente, se hace uso del argumento `data` que permite especificar
+en donde están las variables a graficar.
+
+Mayor flexibilidad en el acomodo de varias gráficas en una sola figura
+se logra con la función `layout()`, esta también acepta una matriz que
+define el número y acomodo de las gráficas, además de su tamaño. En el
+ejemplo que sigue, se usa la función `hist()` para obtener las
+frecuencias por intervalo, pero el graficado se hace a través de la
+función `barplot()` que permite dibujar uno de los histogramas de manera
+horizontal.
+
+``` r
+xhist <- hist(penguins$bill_length_mm, plot = FALSE)
+yhist <- hist(penguins$bill_depth_mm, plot = FALSE)
+
+layout(matrix(c(1, 0, 2, 3), ncol = 2, byrow = TRUE), 
+       heights = c(0.2, 1), widths = c(1, 0.2))
+par(mar = c(0,4,0,0))
+barplot(xhist$density, space = 0, axes = FALSE)
+par(mar = c(4,4,0,0))
+plot(penguins$bill_length_mm, penguins$bill_depth_mm,
+     xlab = "longitud del pico (mm)", ylab = "profundidad del pico (mm)",
+     las = 1, pch = 16, col = penguins$species)
+par(mar = c(4,0,0,0))
+barplot(yhist$density, space = 0, axes = FALSE, horiz = TRUE)
+```
+
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-10-1.png)
+
+Nótese que en `layout()` se incluye un 0 en la matriz, para evitar que
+se dibuje una gráfica en esa posición. Además se especifican las alturas
+y anchos de las diferentes gráficas.
 
 Las figuras previas son solo una muestra de las posibilidades del
 sistema tradicional de gráficas en R. Se recomienda consultar la ayuda
@@ -228,7 +267,7 @@ library(sp)
 plot(mapa)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-11-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-12-1.png)
 
 Podemos personalizar este mapa usando muchos de los argumentos
 presentados antes, además de que existen otros propios de la clase.
@@ -239,14 +278,14 @@ plot(mapa, xlim = c(-120, -105), ylim = c(20, 35), las = 1,
 box()
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-12-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-13-1.png)
 
 En el mapa anterior es posible agregar múltiples elementos, desde texto
 (función `text()`), hasta transectos (función `lines()`), localidades de
 colecta de muestras o lances de pesca (función `points()`), por
-mencionar algúnos ejemplos.
+mencionar algunos ejemplos.
 
-#### Datos de sensores remotos
+#### Gráficos con datos de sensores remotos
 
 Un ejemplo más sería la representación de variables oceánicas obtenidas
 por satélites, resultantes de modelos oceanográficos, o una combinación
@@ -288,13 +327,15 @@ dsst
     min -118.9792 20.02083  9.670 2013-03-29
     max -104.0208 34.97917 27.435 2013-04-06
 
-La figura por defecto, solo incluyendo el mapa anterior
+Esta estructura de datos de clase “satin” se puede graficar con la
+función `plot()` que llama a la función propia de la clase
+(`plot.satin()`) .
 
 ``` r
-plot(dsst, map = mapa)
+plot(dsst)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-14-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-15-1.png)
 
 #### Ecogramas
 
@@ -309,7 +350,7 @@ eco.038 <- read.echogram(hacfile)
 echogram(eco.038)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-15-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-16-1.png)
 
 Con archivos RAW
 
@@ -320,8 +361,8 @@ str(eco)
 ```
 
     List of 3
-     $ depth: num [1:5155] 0.097 0.194 0.291 0.388 0.485 ...
-     $ Sv   : num [1:5155, 1:628] -12.29 5.14 9.56 12.18 6.1 ...
+     $ depth: num [1:3093] 0.097 0.194 0.291 0.388 0.485 ...
+     $ Sv   : num [1:3093, 1:628] -12.29 5.14 9.56 12.18 6.1 ...
       ..- attr(*, "frequency")= chr "38 kHz"
       ..- attr(*, "variable")= chr "Sv"
      $ pings:'data.frame':  628 obs. of  4 variables:
@@ -337,7 +378,7 @@ Figura
 echogram(eco)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-17-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-18-1.png)
 
 Personalización
 
@@ -347,18 +388,18 @@ head(bot)
 ```
 
                  pingTime depth.tr1 depth.tr2
-    1 2014-02-23 17:21:51  239.8806  239.8484
-    2 2014-02-23 17:21:52  239.8429  239.7479
-    3 2014-02-23 17:21:53  239.8127  239.6670
-    4 2014-02-23 17:21:54  239.6761  239.6238
-    5 2014-02-23 17:21:55  239.6037  239.4917
-    6 2014-02-23 17:21:56  239.4705  239.5138
+    1 2014-02-23 17:21:51    0.0000    0.0000
+    2 2014-02-23 17:21:52    0.0000    0.0000
+    3 2014-02-23 17:21:53  239.6742  239.6005
+    4 2014-02-23 17:21:54  239.6008  239.5643
+    5 2014-02-23 17:21:55  239.5258  239.4356
+    6 2014-02-23 17:21:56  239.3911  239.4244
 
 ``` r
 plot(bot$depth.tr1, ylim = rev(c(0, 240)), type = "l")
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-18-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-19-1.png)
 
 ``` r
 # hora local
@@ -380,7 +421,7 @@ eco2 <- mask.echogram(eco, bott.off = -20)
 echogram(eco2, depth.max = 265, x.ref = "s", scheme = "EK500", seabed = TRUE)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-19-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-20-1.png)
 
 ## Gráficas grid
 
@@ -395,7 +436,7 @@ library(lattice)
 xyplot(bill_length_mm ~ bill_depth_mm | species, data = penguins)
 ```
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-20-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-21-1.png)
 
 ### ggplot2
 
@@ -409,4 +450,4 @@ p
 
     Warning: Removed 2 rows containing missing values (`geom_point()`).
 
-![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-21-1.png)
+![](Visualizacion_en_R_files/figure-commonmark/unnamed-chunk-22-1.png)
