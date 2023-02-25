@@ -14,7 +14,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Analisis de datos espaciales en `R`
 
-Aqui describimos como acceder a datos en formato raster disponibles de manera libre de la NOAA a traves del servidor [ERDDAP](https://coastwatch.pfeg.noaa.gov/erddap/index.html) utilizando el paquete `rerddap`.
 
 Tambien cubriremos como crear mapas utilizando datos tipo raster y poligonos utilizando las librerias `sf` y `ggplot2`.
 

@@ -1,0 +1,157 @@
+---
+title: "Datos temporales en R"
+author: "Denisse Fierro Arcos"
+date: "2023-02-25"
+output: 
+  github_document:
+    toc: true
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Analisis de datos temporales en `R`
+
+Aqui describimos como explorar y analizar series de tiempo en `R` para poder entender mejor los patrones temporales en nuestros datos. Este tipo de analisis tambien pueden ser utilizados para predecir como una variable podria variar en el futuro basado en su variacion en el pasado.
+
+Para este ejercicio vamos a usar datos disponibles de manera libre a traves del servidor [ERDDAP](http://erddap.com/) utilizando el paquete `rerddap`.
+
+
+## Llamando paquetes relevantes
+```{r paquetes, warning = F}
+library(tidyverse) #Incluye a ggplot2
+library(rerddap)
+library(lubridate)
+```
+
+## Buscando y bajando datos desde ERDDAP
+Para instrucciones mas especificas sobre busqueda de los datos disponibles en ERDDAP pueden referirse al tutorial sobre [Datos Espaciales en `R`](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md). Especificamente vamos a hacer uso del servidor Coastwatch West Coast Node (CSWC).
+
+Hacemos una busqueda de los datos disponibles en CSWC para clorofila desde el 2015. Nos vamos a enfocar en la costa pacifica de Guatemala.
+```{r}
+datasets_chl <- ed_search_adv(query = "chl", 
+          url = "https://coastwatch.pfeg.noaa.gov/erddap/",
+          keywords = "monthly",
+          minTime = "2015",
+          minLat = 10)
+
+datasets_chl$info
+```
+Tenemos varias opciones disponibles, pero para este ejemplo vamos a escoger la cuarta opcion disponible. Vamos a escoger cuatro anios de datos. Vamos a mantener estos datos en la memoria, no hay necesidad de guardarlos en el disco.
+
+```{r}
+chl <- griddap(datasets_chl$info$dataset_id[4],
+               time = c("2016-01-01", "2020-12-31"),
+               latitude = c(10, 15.5), longitude = c(-95,-88))
+head(chl$data)
+```
+Vamos a hacer un mapa rapido con el primer mes de datos para asegurarnos de tener los datos correctos.
+
+```{r}
+#Creamos una variable con los paises del mundo
+tierra <- rnaturalearth::ne_countries(returnclass = "sf")
+
+#Creamos el mapa
+chl$data %>% 
+  #Solo con el primer mes de datos
+  filter(time == "2016-01-15T00:00:00Z") %>% 
+  ggplot(aes(longitude, latitude))+
+  #Vamos a graficar el log de la clorofila debido al rango grande de valores
+  geom_tile(aes(fill = log(chla)))+
+  #Anadimos el mapa de los paises
+  geom_sf(data = tierra, inherit.aes = F)+
+  #Nos enfocamos en el area de nuestro interes
+  lims(x = c(-95,-88), y = c(10, 16))
+  
+```
+Estamos en el area adecuada, guardaremos los datos en una nueva variable y crearemos unas columnas adicionales para poder empezar con nuestro analisis. Tambien cambiaremos el formato de las fechas porque no necesitamos las horas de recoleccion de datos. Finalmente calcularemos el promedio del area de interes para asi crear una serie de tiempo.
+
+```{r}
+st_chl <- chl$data %>% 
+  #Mantendremos solo las fechas y no las horas
+  mutate(time = as_date(time)) %>% 
+  #Agrupamos por fecha
+  group_by(time) %>% 
+  #Calculamos el promedio
+  summarise(prom_chla = mean(chla, na.rm = T)) %>% 
+  #Crearemos columnas adicionales para meses y anios
+  mutate(anio = year(time),
+         mes = month(time))
+
+#Veamos los resultados
+head(st_chl)
+```
+
+## Visualizando datos
+Vamos a crear un grafico de serie de tiempo utilizando `ggplot2`.
+
+```{r}
+st_chl %>% 
+  #Definimos ejes
+  ggplot(aes(x = time, y = prom_chla))+
+  #Escogemos el grafico de lineas
+  geom_line()+
+  #Damos mejor formato al eje X
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 year")+
+  #Damos un formato mas sencillo al grafico
+  theme_bw()
+```
+Podemos ver que la clorofila varia bastante a lo largo del tiempo, pero cierta estacionalidad parecer estar presente. Vamos a seguir con nuestro analisis para determinar si existe o no una estacionalidad en los datos.
+
+## Analisis de series de tiempo
+
+### Decomponiendo series de tiempo
+Una serie de tiempo puede tener uno o varios patrones temporales que afectan a los datos. Pueden ser a escalas tan pequenias como horas (lo cual no podriamos ver en nuestro set de datos porque tenemos promedios mensuales) y tan grandes como miles de anios (mira las [variaciones orbitales de la Tierra](https://es.wikipedia.org/wiki/Variaciones_orbitales) como ejemplo de estas grandes escalas temporales).
+
+Vamos a graficar nuestros datos nuevamente, pero esta vez incluiremos una linea de regresion LOESS. Esto suaviza los patrones en nuestros datos y hace mas evidente tendencias de nuestros datos a aumentar o disminuir en valor.
+
+```{r}
+st_chl %>% 
+  #Definimos ejes
+  ggplot(aes(x = time, y = prom_chla))+
+  #Escogemos el grafico de lineas
+  geom_line()+
+  #Damos mejor formato al eje X
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 year")+
+  geom_smooth(method = "loess", se = F)+
+  #Damos un formato mas sencillo al grafico
+  theme_bw()
+```
+Podemos ver que hubo un incremento en la clorifila en los primeros 18 meses de datos aproximadamente, seguido de una disminucion que duro alrededor de 30 meses y luego la clorifila volvio a aumentar.
+
+Debido a la variabilidad en cada anio, podemos ver cada anio con mas detalle e identificar si existe algun patron estacional.
+
+```{r}
+st_chl %>% 
+  #Definimos ejes
+  ggplot(aes(x = mes, y = prom_chla, group = anio))+
+  #Escogemos el grafico de lineas
+  geom_line(aes(colour = anio))+
+  #Vamos anadir una escala de colores que nos permite identificar los anios mas facilmente
+  scale_colour_gradient(low = "#ffb2e3", high = "#660040")+
+  #Damos un formato mas sencillo al grafico
+  theme_bw()
+```
+La clorofila no tiene una tendencia temporal clara, pero parece que existen picos al inicio y al final del anio y a mediados tambien.
+
+Podemos tambien convertir nuestros datos en objectos `ts` (es decir, series de tiempo) y descomponer las tendencias temporales en nuestros datos.
+
+```{r}
+#Creamos series de tiempo
+st_chl_mes <- ts(st_chl$prom_chla, 
+                 #Rango de tiempo cubierto
+                 start = 2016, end = 2021, 
+                 #Frecuencia mensual
+                 frequency = 12)
+
+#Descomponemos la serie de tiempo
+st_chl_des <- stl(st_chl_mes, s.window = "period")
+
+#Graficamos los resultados
+plot(st_chl_des)
+```
+## Pronosticando clorifila
+Si entendemos los patrones de una variable en el pasado es posible predicir que pasaria en el futuro.
+
