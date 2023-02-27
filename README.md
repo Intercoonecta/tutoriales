@@ -19,7 +19,7 @@
 |10:00-10:05| Entrada a Jupyter Hub en R|Emilio	|
 |10:05-10:50|	[Visualización en R](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/Visualizacion_en_R/Visualizacion_en_R.md)	|Héctor|
 |10:50-11:20|	Proyectos y grupos|Marian y Emilio	|
-|11:00-13:00| **Trabajo en grupo Proyectos A**| |
+|11:30-13:30| **Trabajo en grupo Proyectos A**| |
 |15:00-17:00| **Trabajo en grupo Proyectos B**| |
 
 
@@ -32,7 +32,7 @@
 |09:00-09:45|	Librería `echogram` en R| 	Héctor|
 |09:45-10:30|	Visualización en Python|	David|
 |10:30-11:15|	Datos espaciales en Python| 	Emilio|
-|11:00-13:00| **Trabajo en grupo Proyectos A**| |
+|11:15-13:15| **Trabajo en grupo Proyectos A**| |
 |15:00-17:00| **Trabajo en grupo Proyectos B**| |
 
 
