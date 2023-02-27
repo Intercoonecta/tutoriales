@@ -13,8 +13,8 @@
 | Hora |	Charla |	Presentador/a | 
 | ------------- |-------- | ------------- |
 |08:00-08:15|	Bienvenida|	Marian| 
-|08:15-08:30|	Entrada a Jupyter Hub en Python|	Emilio|
-|08:30-09:15| Visualización en Python|	David|
+|08:15-09:00|	[Reproducibilidad y ciencia abierta](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Ciencia_abierta/Ciencia_abierta.pdf) |	Laura |
+|09:00-09:15| Entrada a Jupyter Hub en Python|	Emilio|
 |09:15-10:00|	[Datos online](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/datos_online.ipynb) |	Laura| 
 |10:00-10:05| Entrada a Jupyter Hub en R|Emilio	|
 |10:05-10:50|	[Visualización en R](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/Visualizacion_en_R/Visualizacion_en_R.md)	|Héctor|
@@ -30,7 +30,7 @@
 |08:00-08:15|	Bienvenida|	Marian|
 |09:45-10:30|	[Datos espaciales en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md)|	Denisse (vídeo)|
 |08:15-09:00|	Librería `echogram` en R| 	Héctor|
-|09:00-09:45|	[Reproducibilidad y ciencia abierta](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Ciencia_abierta/Ciencia_abierta.pdf) |	Laura |
+|09:00-09:45|	Visualización en Python|	David|
 |10:30-11:15|	Datos espaciales en Python| 	Emilio|
 |11:00-13:00| **Trabajo en grupo Proyectos A**| |
 |15:00-17:00| **Trabajo en grupo Proyectos B**| |
