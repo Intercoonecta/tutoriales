@@ -29,7 +29,7 @@
 | ------------- |-------- | ------------- |
 |08:00-08:15|	Bienvenida|	Marian|
 |08:15-09:00|	[Datos espaciales en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md)|	Denisse (vídeo)|
-|09:00-09:45|	Librería `echogram` en R| 	Héctor|
+|09:00-09:45|	[Paquete echogram en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/El_paquete_echogram_R/echogramR.md)| 	Héctor|
 |09:45-10:30|	Visualización en Python|	David|
 |10:30-11:15|	Datos espaciales en Python| 	Emilio|
 |11:15-13:15| **Trabajo en grupo Proyectos A**| |
