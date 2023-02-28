@@ -30,7 +30,7 @@
 |08:00-08:15|	Bienvenida|	Marian|
 |08:15-09:00|	[Datos espaciales en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md)|	Denisse (vídeo)|
 |09:00-09:45|	[Paquete echogram en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/El_paquete_echogram_R/echogramR.md)| 	Héctor|
-|09:45-10:30|	Visualización en Python|	David|
+|09:45-10:30|	Visualización en Python|	David| (https://github.com/Intercoonecta/tutoriales/blob/main/martes/Charla_OHW_2023_DC.pdf)
 |10:30-11:15|	[Datos espaciales en Python](https://github.com/Intercoonecta/tutoriales/blob/main/martes/datos_espaciales_python)| 	Emilio|
 |11:15-13:15| **Trabajo en grupo Proyectos A**| |
 |15:00-17:00| **Trabajo en grupo Proyectos B**| |
