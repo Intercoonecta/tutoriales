@@ -143,7 +143,7 @@ temp_fria <- temp_sup_ecu$data %>%
   #Escogemos los meses de la epoca fria
   filter(lubridate::month(time) <= 4 | lubridate::month(time) == 12) %>% 
   #Agrupamos por latitud y longitud
-  group_by(lat, lon) %>% 
+  group_by(latitude, longitude) %>% 
   #Calculamos el promedio
   summarise(temp_prom = mean(sst, na.rm = T))
 ```
@@ -156,7 +156,7 @@ tierra <- rnaturalearth::ne_countries(returnclass = "sf")
 
 #Grafiquemos
 temp_fria %>% 
-  ggplot(aes(x = lon, y = lat))+
+  ggplot(aes(x = longitude, y = latitude))+
   geom_contour_filled(aes(z = temp_prom), binwidth = 2.5)+
   scale_fill_brewer(palette = "YlOrRd")+
   geom_sf(data = tierra, inherit.aes = F)+
