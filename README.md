@@ -28,7 +28,7 @@
 |Hora|	Charla|	Presentador/a|
 | ------------- |-------- | ------------- |
 |08:00-08:15|	Bienvenida|	Marian|
-|08:15-09:00|	[Datos espaciales en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R.md)|	Denisse (vídeo)|
+|08:15-09:00|	[Datos espaciales en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Datos_espaciales_R/Dia2_Datos_espaciales_R.md)|	Denisse (vídeo)|
 |09:00-09:45|	[Paquete echogram en R](https://github.com/Intercoonecta/tutoriales/blob/main/martes/El_paquete_echogram_R/echogramR.md)| 	Héctor|
 |09:45-10:30|	[Visualización en Python](https://github.com/Intercoonecta/tutoriales/blob/main/martes/Dia2_Visualizacion_Python.pdf)|	David| 
 |10:30-11:15|	[Datos espaciales en Python](https://github.com/Intercoonecta/tutoriales/blob/main/martes/datos_espaciales_python)| 	Emilio|
