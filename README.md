@@ -41,7 +41,7 @@
 |Hora|	Charla|	Presentador/a|
 | ------------- |-------- | ------------- |
 |08:00-08:15|	Bienvenida|	Marian|
-|08:15-09:15|	[Datos temporales en R](https://github.com/Intercoonecta/tutoriales/blob/main/miercoles/Dia3_Datos_temporales_R.md)|	Denisse (vídeo)|
+|08:15-09:15|	[Datos temporales en R](https://github.com/Intercoonecta/tutoriales/blob/main/miercoles/Dia3_Datos_temporales_R/Dia3_Datos_temporales_R.md)|	Denisse (vídeo)|
 |09:15-10:30|	[Echopype](https://github.com/Intercoonecta/tutoriales/blob/main/miercoles/acustica_python/echopype_procesamiento_ecosonar.ipynb)| 	Emilio |
 |10:30-11:00| Datos temporales en Python y repositorios| 	Emilio y Marian |
 |11:00-11:30| Revisión de proyectos| 	Marian y Emilio|
