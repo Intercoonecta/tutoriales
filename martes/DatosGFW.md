@@ -30,6 +30,9 @@ November 15, 2024
 
 # Global Fishing Watch
 
+<img src="images/GFW-fishingmap.png" data-fig-align="center"
+data-fig-pos="H" width="805" />
+
 Global Fishing Watch (GFW) es una organización no gubernamental (ONG)
 que busca avanzar en la gobernanza de los océanos a través de una mayor
 transparencia de la actividad humana en el mar. Al crear y compartir
