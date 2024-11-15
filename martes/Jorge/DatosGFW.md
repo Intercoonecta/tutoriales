@@ -340,6 +340,17 @@ hpAnual <- data %>%
 Ahora que tenemos el número acumulado de horas podemos crear un gráfico
 usando **ggplot**.
 
+``` r
+ggplot(hpAnual) +
+  geom_col(aes(x=Flag, y=hp, colour = Vessel.Type, fill=Vessel.Type)) +
+  xlab("País") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  scale_fill_discrete(name = "Tipo") +
+  scale_colour_discrete(name = "Tipo") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
 <img
 src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-5-1.png"
 data-fig-align="center" data-fig-pos="H" />
