@@ -318,6 +318,29 @@ Los objetivos de este análisis serán:
 
 ## Actividad de pesca aparente por país de registro
 
+Para analizar los datos de pesca aparente por país de registro, tenemos
+que agrupar los datos por país y sumar las horas de pesca aparente para
+cada uno de ellos.
+
+Esto lo vamos a hacer en dos pasos:
+
+1.  Actividad acumulada de pesca aparente para todo el año por país,
+    esto lo presentaremos en un gráfico.  
+    Para esto primero agrupamos todas las embarcaciones que pertenecen
+    al mismo país (`Flag`) y que son del mismo tipo (`Vessel.Type`),
+    para luego sumar las horas de pesca aparente
+    (`Apparent.Fishing.Hours`).
+
+``` r
+hpAnual <- data %>%
+  group_by(Flag, Vessel.Type) %>% 
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+```
+
+1.  Actividad mensual de pesca aparente por de pesca por pais y lo
+    presentaremos en un gráfico.
+2.  
+
 ## Actividad de pesca aparente por arte de pesca
 
 ## Serie temporal de actividad diaria de pesca aparente
