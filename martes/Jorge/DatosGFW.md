@@ -337,6 +337,13 @@ hpAnual <- data %>%
   summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
 ```
 
+Ahora que tenemos el número acumulado de horas podemos crear un gráfico
+usango **ggplot**.
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-5-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
 1.  Actividad mensual de pesca aparente por de pesca por pais y lo
     presentaremos en un gráfico.
 2.  
