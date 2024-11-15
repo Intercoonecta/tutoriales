@@ -69,9 +69,8 @@ para acceder a alguno de ellos es necesario crear una cuenta, esto es
 totalmente gratuito. Para esto se va a la página principal de la
 plataforma (<http://www.globalfishingwatch.org/map>) y en el extremo
 inferior izquierdo se puede hacer click en el icono
-([![](images/registerIcon.png)](https://gateway.api.globalfishingwatch.org/v3/auth?client=gfw&callback=https%3A%2F%2Fglobalfishingwatch.org%2Fmap%2Findex%3FcallbackUrlStorage%3Dtrue&locale=es&_gl=1*1cgh3pa*_gcl_au*MTI2MzYyNzc4OS4xNzI5NjE3OTg1*_ga*MTkzMzc2NTQwNy4xNzIxODQxMzU4*_ga_5W83X3EYGW*MTczMTY3MjkzOC4xMTMuMS4xNzMxNjczNzY3LjUwLjAuMTAxOTEzNjI4Mw..*_ga_M5J2ZHDZMV*MTczMTY3MjkzOC41My4xLjE3MzE2NzM4NDcuNjAuMC40MDQxOTg0OTQ.)),
-se debe seguir el proceso de registro y se tiene acceso a descargar los
-datos.
+(<img src="images/registerIcon.png" width="20" height="22" />), se debe
+seguir el proceso de registro y se tiene acceso a descargar los datos.
 
 Para este ejercicio, vamos a usar los datos de esfuerzo de pesca
 aparente, derivado de los dispositivos AIS, para todo el año 2023, en la
