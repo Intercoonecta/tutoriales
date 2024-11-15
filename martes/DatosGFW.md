@@ -5,7 +5,28 @@ November 15, 2024
 -   [Global Fishing Watch](#global-fishing-watch)
 -   [Datos](#datos)
     -   [Descripción de los datos](#descripción-de-los-datos)
--   [Análisis](#análisis)
+-   [Propuesta de Análisis](#propuesta-de-análisis)
+-   [Análisis Paso a paso](#análisis-paso-a-paso)
+    -   [Actividad de pesca aparente por país de
+        registro](#actividad-de-pesca-aparente-por-país-de-registro)
+    -   [Actividad de pesca aparente por arte de
+        pesca](#actividad-de-pesca-aparente-por-arte-de-pesca)
+    -   [Serie temporal de actividad diaria de pesca
+        aparente](#serie-temporal-de-actividad-diaria-de-pesca-aparente)
+        -   [Para todos los países](#para-todos-los-países)
+        -   [Para los tres países
+            principales](#para-los-tres-países-principales)
+        -   [Para los tres artes de pesca
+            principales](#para-los-tres-artes-de-pesca-principales)
+    -   [Análisis espacial de la actividad de pesca
+        aparente](#análisis-espacial-de-la-actividad-de-pesca-aparente)
+        -   [Zonas con mayor actividad de pesca aparente total
+            anual](#zonas-con-mayor-actividad-de-pesca-aparente-total-anual)
+        -   [Zonas con mayor actividad de pesca aparente aculada por
+            mes](#zonas-con-mayor-actividad-de-pesca-aparente-aculada-por-mes)
+        -   [Zonas de actividad de pesca aparente anual por pais de
+            registro de la
+            embarcación](#zonas-de-actividad-de-pesca-aparente-anual-por-pais-de-registro-de-la-embarcación)
 
 # Global Fishing Watch
 
@@ -50,31 +71,32 @@ se debe seguir el proceso de registro y se tiene acceso a descargar los
 datos.
 
 Para este ejercicio, vamos a usar los datos de esfuerzo de pesca
-aparente, derivado de los dispositivos AIS, para el mes de octubre de
-2024, en la [zona economica exclusiva que rodea las islas
+aparente, derivado de los dispositivos AIS, para todo el año 2023, en la
+[zona economica exclusiva que rodea las islas
 Galápagos](https://globalfishingwatch.org/map/index?start=2024-08-12T00%3A00%3A00.000Z&end=2024-11-12T00%3A00%3A00.000Z&longitude=-87.53436510669711&latitude=-0.1438653714849388&zoom=5.3216383206620534&sbO=true&dvIn%5B0%5D%5Bid%5D=presence&dvIn%5B0%5D%5Bcfg%5D%5Bvis%5D=false&dvIn%5B1%5D%5Bid%5D=context-layer-eez&dvIn%5B1%5D%5Bcfg%5D%5Bvis%5D=true&dvIn%5B2%5D%5Bid%5D=vms&dvIn%5B2%5D%5Bcfg%5D%5Bvis%5D=false&dvIn%5B3%5D%5Bid%5D=ais&dvIn%5B3%5D%5Bcfg%5D%5Bvis%5D=true&tV=heatmap)
-de la república del Ecuador.
+de la república del Ecuador, tanto como una serie de tiemporal diaria
+por barco y por unidad espacial (0.01°x0.01°) .
 
 Durante la presentación se describirá como acceder a estos datos, sin
 embarco en este documento solo se comparte el resultado de este proceso
 ([descarga de
-datos](https://drive.google.com/file/d/1I2qQ1kEcobrC7svPkXzICL3pEukLFv8F/view?usp=sharing)).
+datos](https://drive.google.com/file/d/1PkXJAQ5HEJNFZQLRI5xNThnvSZmxSObK/view?usp=sharing)).
 
 ## Descripción de los datos
 
-Los datos descargados que vamos a utilizar en este ejercicio son las
+Los datos temporales que vamos a utilizar en este ejercicio son las
 horas de pesca aparente diaria por embarcación detectada dentro de esta
 área de interés.
 
 Estos datos además contienen información acerca de las embarcaciones,
 con nombre, numero IMO, bandera, arte de pesca entre otros
-(<a href="#tbl-datos" class="quarto-xref">Table 1</a>).
+(<a href="#tbl-datosTS" class="quarto-xref">Table 1</a>).
 
 <table class="do-not-create-environment cell">
 <colgroup>
 <col style="width: 5%" />
 <col style="width: 2%" />
-<col style="width: 8%" />
+<col style="width: 6%" />
 <col style="width: 10%" />
 <col style="width: 10%" />
 <col style="width: 9%" />
@@ -105,99 +127,167 @@ con nombre, numero IMO, bandera, arte de pesca entre otros
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">2024-10-14</td>
+<td style="text-align: left;">2023-01-10</td>
 <td style="text-align: left;">ECU</td>
-<td style="text-align: left;">ROLTON</td>
-<td style="text-align: left;">2024-10-10T03:00:00Z</td>
-<td style="text-align: left;">2024-10-17T18:00:00Z</td>
-<td style="text-align: left;">DRIFTING_LONGLINES</td>
+<td style="text-align: left;">DONA ROGE</td>
+<td style="text-align: left;">2023-01-10T10:00:00Z</td>
+<td style="text-align: left;">2023-10-07T11:00:00Z</td>
+<td style="text-align: left;">TUNA_PURSE_SEINES</td>
 <td style="text-align: left;">FISHING</td>
-<td style="text-align: right;">735060449</td>
+<td style="text-align: right;">735057685</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: left;">HC6736</td>
-<td style="text-align: left;">2024-04-11T22:56:07Z</td>
-<td style="text-align: left;">2024-11-12T23:53:51Z</td>
-<td style="text-align: right;">20.47</td>
+<td style="text-align: left;">HC4301</td>
+<td style="text-align: left;">2020-09-07T16:27:31Z</td>
+<td style="text-align: left;">2024-10-21T03:13:40Z</td>
+<td style="text-align: right;">1.49</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2024-10-30</td>
+<td style="text-align: left;">2023-04-15</td>
 <td style="text-align: left;">ECU</td>
-<td style="text-align: left;">AMBAR</td>
-<td style="text-align: left;">2024-10-28T00:00:00Z</td>
-<td style="text-align: left;">2024-10-30T22:00:00Z</td>
-<td style="text-align: left;">DRIFTING_LONGLINES</td>
+<td style="text-align: left;">TINTORERA</td>
+<td style="text-align: left;">2023-01-03T13:00:00Z</td>
+<td style="text-align: left;">2023-04-15T17:00:00Z</td>
 <td style="text-align: left;">FISHING</td>
-<td style="text-align: right;">735059903</td>
+<td style="text-align: left;">FISHING</td>
+<td style="text-align: right;">735059515</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: left;">HC6330</td>
-<td style="text-align: left;">2023-06-14T14:11:03Z</td>
-<td style="text-align: left;">2024-11-12T21:57:40Z</td>
-<td style="text-align: right;">23.42</td>
+<td style="text-align: left;">HC-5964</td>
+<td style="text-align: left;">2020-05-31T16:10:36Z</td>
+<td style="text-align: left;">2024-03-08T18:17:43Z</td>
+<td style="text-align: right;">0.50</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2024-10-29</td>
+<td style="text-align: left;">2023-06-13</td>
 <td style="text-align: left;">ECU</td>
-<td style="text-align: left;">MARIA TATIANA II</td>
-<td style="text-align: left;">2024-10-27T11:00:00Z</td>
-<td style="text-align: left;">2024-10-30T22:00:00Z</td>
-<td style="text-align: left;">DRIFTING_LONGLINES</td>
+<td style="text-align: left;">DONA ROGE</td>
+<td style="text-align: left;">2023-01-10T10:00:00Z</td>
+<td style="text-align: left;">2023-10-07T11:00:00Z</td>
+<td style="text-align: left;">TUNA_PURSE_SEINES</td>
 <td style="text-align: left;">FISHING</td>
-<td style="text-align: right;">735057853</td>
+<td style="text-align: right;">735057685</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: left;">HC4344</td>
-<td style="text-align: left;">2021-11-02T20:20:01Z</td>
-<td style="text-align: left;">2024-11-12T21:59:42Z</td>
-<td style="text-align: right;">23.84</td>
+<td style="text-align: left;">HC4301</td>
+<td style="text-align: left;">2020-09-07T16:27:31Z</td>
+<td style="text-align: left;">2024-10-21T03:13:40Z</td>
+<td style="text-align: right;">1.15</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2024-10-10</td>
+<td style="text-align: left;">2023-07-13</td>
 <td style="text-align: left;">ECU</td>
-<td style="text-align: left;">ROLTON</td>
-<td style="text-align: left;">2024-10-10T03:00:00Z</td>
-<td style="text-align: left;">2024-10-17T18:00:00Z</td>
+<td style="text-align: left;">GRAND KNIGHT</td>
+<td style="text-align: left;">2023-05-25T23:00:00Z</td>
+<td style="text-align: left;">2023-07-13T11:00:00Z</td>
 <td style="text-align: left;">DRIFTING_LONGLINES</td>
 <td style="text-align: left;">FISHING</td>
-<td style="text-align: right;">735060449</td>
+<td style="text-align: right;">735058937</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: left;">HC6736</td>
-<td style="text-align: left;">2024-04-11T22:56:07Z</td>
-<td style="text-align: left;">2024-11-12T23:53:51Z</td>
-<td style="text-align: right;">15.88</td>
+<td style="text-align: left;">HC5259</td>
+<td style="text-align: left;">2022-07-29T23:58:42Z</td>
+<td style="text-align: left;">2023-08-06T02:33:27Z</td>
+<td style="text-align: right;">11.26</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2024-10-28</td>
+<td style="text-align: left;">2023-08-06</td>
 <td style="text-align: left;">ECU</td>
-<td style="text-align: left;">AMBAR</td>
-<td style="text-align: left;">2024-10-28T00:00:00Z</td>
-<td style="text-align: left;">2024-10-30T22:00:00Z</td>
+<td style="text-align: left;">JOTA JOTA</td>
+<td style="text-align: left;">2023-04-07T06:00:00Z</td>
+<td style="text-align: left;">2023-10-01T19:00:00Z</td>
 <td style="text-align: left;">DRIFTING_LONGLINES</td>
 <td style="text-align: left;">FISHING</td>
-<td style="text-align: right;">735059903</td>
+<td style="text-align: right;">735058780</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: left;">HC6330</td>
-<td style="text-align: left;">2023-06-14T14:11:03Z</td>
-<td style="text-align: left;">2024-11-12T21:57:40Z</td>
-<td style="text-align: right;">20.70</td>
+<td style="text-align: left;">HC2508</td>
+<td style="text-align: left;">2022-01-03T17:28:38Z</td>
+<td style="text-align: left;">2024-11-12T23:56:26Z</td>
+<td style="text-align: right;">8.31</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2024-10-27</td>
+<td style="text-align: left;">2023-09-12</td>
 <td style="text-align: left;">ECU</td>
-<td style="text-align: left;">MARIA TATIANA II</td>
-<td style="text-align: left;">2024-10-27T11:00:00Z</td>
-<td style="text-align: left;">2024-10-30T22:00:00Z</td>
-<td style="text-align: left;">DRIFTING_LONGLINES</td>
+<td style="text-align: left;">DON F</td>
+<td style="text-align: left;">2023-06-19T22:00:00Z</td>
+<td style="text-align: left;">2023-10-05T13:00:00Z</td>
+<td style="text-align: left;">TUNA_PURSE_SEINES</td>
 <td style="text-align: left;">FISHING</td>
-<td style="text-align: right;">735057853</td>
+<td style="text-align: right;">735060354</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: left;">HC4344</td>
-<td style="text-align: left;">2021-11-02T20:20:01Z</td>
-<td style="text-align: left;">2024-11-12T21:59:42Z</td>
-<td style="text-align: right;">10.94</td>
+<td style="text-align: left;">HC6655</td>
+<td style="text-align: left;">2023-05-08T22:41:27Z</td>
+<td style="text-align: left;">2024-11-12T23:58:56Z</td>
+<td style="text-align: right;">11.88</td>
 </tr>
 </tbody>
 </table>
 
-# Análisis
+En relación a los datos espaciales que se van a utilizar en este
+ejercicio son las horas de pesca aparente diaria por unidad espacial de
+0.01°x0.01° de latitud y longitud
+(<a href="#tbl-datosSP" class="quarto-xref">Table 2</a>).
+
+<table class="do-not-create-environment cell">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Lat</th>
+<th style="text-align: right;">Lon</th>
+<th style="text-align: left;">Time.Range</th>
+<th style="text-align: left;">flag</th>
+<th style="text-align: right;">Vessel.IDs</th>
+<th style="text-align: right;">Apparent.Fishing.Hours</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4.45</td>
+<td style="text-align: right;">-91.19</td>
+<td style="text-align: left;">2023-02-23</td>
+<td style="text-align: left;">ECU</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3.39</td>
+<td style="text-align: right;">-94.24</td>
+<td style="text-align: left;">2023-02-20</td>
+<td style="text-align: left;">ECU</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3.45</td>
+<td style="text-align: right;">-90.77</td>
+<td style="text-align: left;">2023-02-23</td>
+<td style="text-align: left;">ECU</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2.77</td>
+<td style="text-align: right;">-94.29</td>
+<td style="text-align: left;">2023-02-18</td>
+<td style="text-align: left;">ECU</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.53</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3.66</td>
+<td style="text-align: right;">-93.88</td>
+<td style="text-align: left;">2023-02-03</td>
+<td style="text-align: left;">ECU</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.88</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3.22</td>
+<td style="text-align: right;">-93.74</td>
+<td style="text-align: left;">2023-02-17</td>
+<td style="text-align: left;">ECU</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.67</td>
+</tr>
+</tbody>
+</table>
+
+# Propuesta de Análisis
 
 Los objetivos de este análisis serán:
 
@@ -209,8 +299,37 @@ Los objetivos de este análisis serán:
 
 3.  Obtener una serie temporal diaria de la actividad de pesca.
 
-    1.  Todos los paises combinados.
+    1.  Todos los piases combinados.
 
     2.  Para los 3 países principales.
 
     3.  Para los 3 artes de pesca principales.
+
+4.  Identificar las zonas con mayor actividad de pesca.
+
+5.  Identificar los periodos (meses) con mayor actividad de pesca.
+
+6.  Visualizar la actividad de pesca anual por pais de registro de la
+    embacación.
+
+# Análisis Paso a paso
+
+## Actividad de pesca aparente por país de registro
+
+## Actividad de pesca aparente por arte de pesca
+
+## Serie temporal de actividad diaria de pesca aparente
+
+### Para todos los países
+
+### Para los tres países principales
+
+### Para los tres artes de pesca principales
+
+## Análisis espacial de la actividad de pesca aparente
+
+### Zonas con mayor actividad de pesca aparente total anual
+
+### Zonas con mayor actividad de pesca aparente aculada por mes
+
+### Zonas de actividad de pesca aparente anual por pais de registro de la embarcación
