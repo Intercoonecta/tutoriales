@@ -1,6 +1,6 @@
 # Trabajando con datos de Global Fishing Watch
 Jorge Cornejo-Donoso
-November 15, 2024
+November 18, 2024
 
 -   [Global Fishing Watch](#global-fishing-watch)
 -   [Datos](#datos)
@@ -14,8 +14,7 @@ November 15, 2024
     -   [Serie temporal de actividad diaria de pesca
         aparente](#serie-temporal-de-actividad-diaria-de-pesca-aparente)
         -   [Para todos los países](#para-todos-los-países)
-        -   [Para los tres países
-            principales](#para-los-tres-países-principales)
+        -   [Para los países principales](#para-los-países-principales)
         -   [Para los tres artes de pesca
             principales](#para-los-tres-artes-de-pesca-principales)
     -   [Análisis espacial de la actividad de pesca
@@ -24,9 +23,7 @@ November 15, 2024
             anual](#zonas-con-mayor-actividad-de-pesca-aparente-total-anual)
         -   [Zonas con mayor actividad de pesca aparente aculada por
             mes](#zonas-con-mayor-actividad-de-pesca-aparente-aculada-por-mes)
-        -   [Zonas de actividad de pesca aparente anual por pais de
-            registro de la
-            embarcación](#zonas-de-actividad-de-pesca-aparente-anual-por-pais-de-registro-de-la-embarcación)
+        -   [](#section)
 
 # Global Fishing Watch
 
@@ -93,6 +90,12 @@ horas de pesca aparente diaria por embarcación detectada dentro de esta
 Estos datos además contienen información acerca de las embarcaciones,
 con nombre, numero IMO, bandera, arte de pesca entre otros
 (<a href="#tbl-datosTS" class="quarto-xref">Table 1</a>).
+
+``` r
+data <- read.csv("datos/Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
+
+knitr::kable(head(data))
+```
 
 <table class="do-not-create-environment cell">
 <colgroup>
@@ -226,6 +229,12 @@ ejercicio son las horas de pesca aparente diaria por unidad espacial de
 0.01°x0.01° de latitud y longitud
 (<a href="#tbl-datosSP" class="quarto-xref">Table 2</a>).
 
+``` r
+dataSP <- read.csv("datos/Espacial_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
+
+knitr::kable(head(dataSP))
+```
+
 <table class="do-not-create-environment cell">
 <thead>
 <tr class="header">
@@ -301,18 +310,15 @@ Los objetivos de este análisis serán:
 
 3.  Obtener una serie temporal diaria de la actividad de pesca.
 
-    1.  Todos los piases combinados.
+    1.  Todos los países combinados.
 
-    2.  Para los 3 países principales.
+    2.  Para los países principales.
 
-    3.  Para los 3 artes de pesca principales.
+    3.  Para los artes de pesca.
 
 4.  Identificar las zonas con mayor actividad de pesca.
 
 5.  Identificar los periodos (meses) con mayor actividad de pesca.
-
-6.  Visualizar la actividad de pesca anual por pais de registro de la
-    embacación.
 
 # Análisis Paso a paso
 
@@ -355,25 +361,383 @@ ggplot(hpAnual) +
 src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-5-1.png"
 data-fig-align="center" data-fig-pos="H" />
 
-1.  Actividad mensual de pesca aparente por de pesca por pais y lo
+1.  Actividad mensual de pesca aparente por de pesca por país y lo
     presentaremos en un gráfico.
 
-2.  
+    El proceso en este caso es similar, pero se debe ahora agrupar
+    también por el `mes`. Para esto es necesario crear la columna
+    **mes**, esto lo hacemos usando la funcion `dplr::mutate` y
+    `lubridate::month`.
+
+``` r
+hpMes <- data %>%
+  mutate(mes = month(Time.Range)) %>%  ## <- Obtenemos el mes desde la columna de la fecha
+  group_by(mes, Flag, Vessel.Type) %>% ## Incluimos el mes en el grouping
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+
+ggplot(hpMes) +
+  geom_col(aes(x=Flag, y=hp, colour = Vessel.Type, fill=Vessel.Type)) +
+  xlab("País") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  scale_fill_discrete(name = "Tipo") +
+  scale_colour_discrete(name = "Tipo") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~mes) ## <- Esto permite crear el grafico separando los meses
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-6-1.png"
+data-fig-align="center" data-fig-pos="H" />
 
 ## Actividad de pesca aparente por arte de pesca
+
+Ahora podemos hacer exactamente el mismo proceso, pero esta vez en vez
+de usar el pais como variable de agrupación usamos el arte de pesca.
+
+En esta ocasión, generamos dos data.frames en el mismo chunk de R, el
+anual y el mensual.
+
+``` r
+arteAnual <- data %>%
+  group_by(Gear.Type, Vessel.Type) %>% 
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+  
+
+arteMensual <- data %>%
+  mutate(mes = month(Time.Range)) %>%
+  group_by(mes, Gear.Type, Vessel.Type) %>% 
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+```
+
+Y ahora presentamos los gráficos por arte de pesca.
+
+``` r
+ggplot(arteAnual) +
+  geom_col(aes(x=Gear.Type, y=hp), fill ="darkorange") +
+  xlab("Arte de Pesca") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  scale_fill_discrete(name = "Tipo") +
+  scale_colour_discrete(name = "Tipo") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-8-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
+Ahora presente el mismo tipo de gráficos, pero usamos `facet_wrap` para
+separar los artes de pesca, de esto forma motramos las horas de pesca
+aparente para cada mes, separando por el arte de pesca.
+
+``` r
+ggplot(arteMensual) +
+  geom_col(aes(x=Gear.Type, y=hp), fill="darkorange") +
+  xlab("Arte de Pesca") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  scale_fill_discrete(name = "Tipo") +
+  scale_colour_discrete(name = "Tipo") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~mes) ## <- Esto permite crear el grafico separando los meses
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-9-1.png"
+data-fig-align="center" data-fig-pos="H" />
 
 ## Serie temporal de actividad diaria de pesca aparente
 
 ### Para todos los países
 
-### Para los tres países principales
+Ahora vamos a ver como es el esfuerzo de pesca aparente diario, para
+esto copararemos la actitividad total y luego por paises.
+
+En este caso, lo que tenemos que hacer es agrupar el esfuerzo de pesca
+aparente por día (sumando el esfuerzo individual de cada barco), esto
+luego lo podemos hacer separando por país y/o arte de pesca.
+
+En los gráficos anteriores vimos que Ecuador es el pías que realiza el
+mayor esfuerzo en esta área. Es por esto que solo usaremos los barcos
+ecuatorianos para este ejemplo. De esta forma es necesario filtrar los
+datos y para esto usamos la función `dplyr::filter` .
+
+``` r
+hpDiaEcu <- data %>%
+  filter(Flag == "ECU") %>%  ## Aqui es donde filtramos para barcos de ecuador
+  group_by(Time.Range) %>% ## Incluimos el mes en el grouping
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+```
+
+Y ahora vemos la serie temporal.
+
+``` r
+ggplot(hpDiaEcu) +
+  geom_line(aes(x=as.Date(Time.Range), y=hp), col="darkorange") +
+  xlab("Fecha") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-11-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
+### Para los países principales
+
+Ahora haremos este gráfico temporal para los tres países (excluido
+Ecuador) que realizan el mayor esfuerzo de pesca aparente en la ZEE de
+las islas Galápagos.
+
+Para esto entonces necesitamos excluir los barcos con bandera de ecuador
+(`filter != "ECU"`) y aquellas sin bandera conocida (`!is.na(Flag)`).
+
+Con esto ahora, calculamos el total de horas de esfuerzo de pesca
+aparente por pías.
+
+``` r
+porPais <- data %>%
+  filter(Flag != "ECU", Flag != "",
+         !is.na(Flag)) %>%  ## Eliminamos embarcaciones de Ecuador y aquellas sin bandera
+  group_by(Flag) %>% ## Incluimos el mes en el grouping
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T)) %>% 
+  arrange(desc(hp))
+
+knitr::kable(porPais)
+```
+
+<table class="do-not-create-environment cell">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Flag</th>
+<th style="text-align: right;">hp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PAN</td>
+<td style="text-align: right;">521.05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NIC</td>
+<td style="text-align: right;">20.35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ESP</td>
+<td style="text-align: right;">19.43</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VEN</td>
+<td style="text-align: right;">14.66</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">USA</td>
+<td style="text-align: right;">6.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VUT</td>
+<td style="text-align: right;">0.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">COL</td>
+<td style="text-align: right;">0.21</td>
+</tr>
+</tbody>
+</table>
+
+En la tabla <a href="#tbl-hpXPais" class="quarto-xref">Table 3</a> que
+vamos que las horas de pesca de Vunuatu (VUT) y Colombia (COL) son
+insignificantes y pueden corresponder a falsos positivos, es por esto
+que tambien los eliminaremos del análisis.
+
+``` r
+diaNoEcu <- data %>%
+  filter(Flag == c("PAN", "NIC" ,"ESP", "VEN", "USA")) %>%
+  group_by(Flag, Time.Range) %>% ## Incluimos el mes en el grouping
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+```
+
+``` r
+ggplot(diaNoEcu) +
+  geom_point(aes(x=as.Date(Time.Range), y=hp, col = Flag)) +
+  geom_line(aes(x=as.Date(Time.Range), y=hp, col = Flag)) +
+  xlab("Fecha") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~Flag)
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-14-1.png"
+data-fig-align="center" data-fig-pos="H" />
 
 ### Para los tres artes de pesca principales
 
+Ahora hacemos lo mismo para los artes de pesca.
+
+``` r
+arteDia <- data %>% 
+  filter(Gear.Type != "INCONCLUSIVE",
+         Gear.Type != "OTHER",
+         Gear.Type != "PASSENGER"
+         ) %>% 
+  group_by(Gear.Type, Time.Range) %>% ## Incluimos el mes en el grouping
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+
+
+data %>% 
+  filter(Gear.Type != "INCONCLUSIVE",
+         Gear.Type != "OTHER",
+         Gear.Type != "PASSENGER"
+         ) %>% 
+  group_by(Gear.Type) %>% ## Incluimos el mes en el grouping
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T)) %>% 
+  arrange(desc(hp)) %>% 
+  knitr::kable()
+```
+
+<table class="do-not-create-environment cell">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Gear.Type</th>
+<th style="text-align: right;">hp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DRIFTING_LONGLINES</td>
+<td style="text-align: right;">13356.48</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FISHING</td>
+<td style="text-align: right;">7703.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TUNA_PURSE_SEINES</td>
+<td style="text-align: right;">4262.67</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SET_LONGLINES</td>
+<td style="text-align: right;">1863.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">POLE_AND_LINE</td>
+<td style="text-align: right;">40.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OTHER_PURSE_SEINES</td>
+<td style="text-align: right;">25.17</td>
+</tr>
+</tbody>
+</table>
+
+Ahora podemos presentar estos resultados.
+
+``` r
+ggplot(arteDia) +
+  geom_point(aes(x=as.Date(Time.Range), y=hp, col = Gear.Type), size=.4) +
+  geom_line(aes(x=as.Date(Time.Range), y=hp, col = Gear.Type), size=.4) +
+  xlab("Fecha") +
+  ylab("Horas de pesca aparente (Hrs)") +
+  ggthemes::theme_few() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text = element_text(size = 8)  # Adjust the facet title size
+    )+
+  facet_wrap(~Gear.Type)
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-16-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
 ## Análisis espacial de la actividad de pesca aparente
+
+Ahora trabajamos con los datos espacialesomamos los datos espaciales
 
 ### Zonas con mayor actividad de pesca aparente total anual
 
+Aqui agrupamos los datos espaciales, sumando las horas de pesca aparente
+para todo el año, en cada una de las celdas y luego lo presentamos.
+
+``` r
+spAnual <- dataSP %>% 
+  group_by(Lat, Lon) %>% 
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+```
+
+Ahora hacemos el mapa
+
+``` r
+ggplot(spAnual) +
+  geom_tile(aes(x=Lon, y=Lat, z=hp))
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-18-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
+Esta imágen se ve bastante mal, es necestio agregarlos las islas y mejor
+la presentación en términos generales.
+
+``` r
+# Get Galapagos land data
+
+spAnual_sf <- st_as_sf(spAnual, coords = c("Lon", "Lat"), crs = 4326) # Lo transforma a un                                                              objeto geográfico
+
+galapagos_land <- ne_countries(scale = "medium", returnclass = "sf") %>%
+  filter(name == "Ecuador")  # Filter for Ecuador, as Galapagos belongs to Ecuador
+
+ggplot() +
+  # Add base map
+  geom_sf(data = galapagos_land, fill = "grey50", color = "black") +
+  # Add fishing data
+  geom_tile(data = spAnual, aes(x = Lon, y = Lat, fill = hp, col=hp)) +
+  # Define color gradient
+  scale_color_gradient(low = "darkblue", high = "red", name = "Fishing Hours", limits = c(0, 50)) +
+  scale_fill_gradient(low = "darkblue", high = "red", name = "Fishing Hours", limits = c(0, 50)) +
+  scale_size_continuous(name = "Horas de Pesca Aparente") +
+  labs(
+    title = "Actividad de Aparente en Galapagos EEZ",
+    x = "Longitud",
+    y = "Latitud"
+  ) +
+  theme_minimal() +
+  coord_sf(xlim = c(-95.5, -85), ylim = c(-4.5, 4.5))  # Adjust limits to Galapagos region
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-19-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
 ### Zonas con mayor actividad de pesca aparente aculada por mes
 
-### Zonas de actividad de pesca aparente anual por pais de registro de la embarcación
+Ahora haremos el mismo gráfico, pero separados por mes.
+
+``` r
+spMensual <- dataSP %>% 
+  mutate(mes = month(Time.Range)) %>% 
+  group_by(mes, Lat, Lon) %>% 
+  summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T))
+
+ggplot() +
+  geom_sf(data = galapagos_land, fill = "grey50", color = "black") +
+  geom_tile(data = spMensual, aes(x = Lon, y = Lat, fill = hp, col=hp)) +
+  scale_color_gradient(low = "darkblue", high = "red", name = "Fishing Hours", limits = c(0, 50)) +
+  scale_fill_gradient(low = "darkblue", high = "red", name = "Fishing Hours", limits = c(0, 50)) +
+  scale_size_continuous(name = "Horas de Pesca Aparente") +
+  labs(
+    title = "Actividad de Aparente en Galapagos EEZ",
+    x = "Longitud", y = "Latitud" ) +
+  theme_minimal() +
+  coord_sf(xlim = c(-95.5, -85), ylim = c(-4.5, 4.5))  +# Adjust limits to Galapagos region
+  facet_wrap(~mes)
+```
+
+<img
+src="DatosGFW.markdown_strict_files/figure-markdown_strict/unnamed-chunk-20-1.png"
+data-fig-align="center" data-fig-pos="H" />
+
+
