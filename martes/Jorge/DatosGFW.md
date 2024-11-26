@@ -79,7 +79,7 @@ por barco y por unidad espacial (0.01°x0.01°) .
 Durante la presentación se describirá como acceder a estos datos, sin
 embarco en este documento solo se comparte el resultado de este proceso
 ([descarga de
-datos](https://drive.google.com/file/d/1PkXJAQ5HEJNFZQLRI5xNThnvSZmxSObK/view?usp=sharing)).
+datos](https://drive.google.com/drive/folders/14q8WTG3ABZX3rNneCloVbmK0fr3Cm4LB)).
 
 ## Descripción de los datos
 
