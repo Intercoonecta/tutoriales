@@ -1,6 +1,17 @@
+# R
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-.DS_Store
 tutorialesOHW2024.Rproj
+
+# Jupyter Notebook
+.ipynb_checkpoints
+miercoles/.ipynb_checkpoints
+
+# Byte-compiled / optimized / DLL files
+#__pycache__
+
+# Misc.
+.DS_Store
+miercoles/.DS_Store
