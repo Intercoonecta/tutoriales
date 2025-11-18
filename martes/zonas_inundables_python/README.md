@@ -10,4 +10,5 @@ Tutorial del evento [Hackatón de OceanHackWeek en Español, noviembre 24-28, 20
 
 ## Contenido
 
-- (*Añadir enlaces y breves descripciones o títulos de cada archivo a ser abierto directamente por cada participante*)
+- **inundacion.ipynb**: archivo principal del tutorial. Solo necesitas abrir este archivo para seguirlo.
+- **3957-2.img**: imagen del DTM utilizada en el tutorial. Se ha conservado el nombre original del archivo de la fuente de descarga.
