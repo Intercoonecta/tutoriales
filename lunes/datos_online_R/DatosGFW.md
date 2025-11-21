@@ -55,117 +55,14 @@ data <- read.csv("datos/Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) 
 knitr::kable(head(data))
 ```
 
-<table>
-<thead>
-<tr>
-<th style="text-align: left;"><p>Time.Range</p></th>
-<th style="text-align: left;"><p>Flag</p></th>
-<th style="text-align: left;"><p>Vessel.Name</p></th>
-<th style="text-align: left;"><p>Entry.Timestamp</p></th>
-<th style="text-align: left;"><p>Exit.Timestamp</p></th>
-<th style="text-align: left;"><p>Gear.Type</p></th>
-<th style="text-align: left;"><p>Vessel.Type</p></th>
-<th style="text-align: right;"><p>MMSI</p></th>
-<th style="text-align: right;"><p>IMO</p></th>
-<th style="text-align: left;"><p>CallSign</p></th>
-<th style="text-align: left;"><p>First.Transmission.Date</p></th>
-<th style="text-align: left;"><p>Last.Transmission.Date</p></th>
-<th style="text-align: right;"><p>Apparent.Fishing.Hours</p></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><p>2023-01-10</p></td>
-<td style="text-align: left;"><p>ECU</p></td>
-<td style="text-align: left;"><p>DONA ROGE</p></td>
-<td style="text-align: left;"><p>2023-01-10T10:00:00Z</p></td>
-<td style="text-align: left;"><p>2023-10-07T11:00:00Z</p></td>
-<td style="text-align: left;"><p>TUNA_PURSE_SEINES</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: right;"><p>735057685</p></td>
-<td style="text-align: right;"><p>NA</p></td>
-<td style="text-align: left;"><p>HC4301</p></td>
-<td style="text-align: left;"><p>2020-09-07T16:27:31Z</p></td>
-<td style="text-align: left;"><p>2024-10-21T03:13:40Z</p></td>
-<td style="text-align: right;"><p>1.49</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><p>2023-04-15</p></td>
-<td style="text-align: left;"><p>ECU</p></td>
-<td style="text-align: left;"><p>TINTORERA</p></td>
-<td style="text-align: left;"><p>2023-01-03T13:00:00Z</p></td>
-<td style="text-align: left;"><p>2023-04-15T17:00:00Z</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: right;"><p>735059515</p></td>
-<td style="text-align: right;"><p>NA</p></td>
-<td style="text-align: left;"><p>HC-5964</p></td>
-<td style="text-align: left;"><p>2020-05-31T16:10:36Z</p></td>
-<td style="text-align: left;"><p>2024-03-08T18:17:43Z</p></td>
-<td style="text-align: right;"><p>0.50</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><p>2023-06-13</p></td>
-<td style="text-align: left;"><p>ECU</p></td>
-<td style="text-align: left;"><p>DONA ROGE</p></td>
-<td style="text-align: left;"><p>2023-01-10T10:00:00Z</p></td>
-<td style="text-align: left;"><p>2023-10-07T11:00:00Z</p></td>
-<td style="text-align: left;"><p>TUNA_PURSE_SEINES</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: right;"><p>735057685</p></td>
-<td style="text-align: right;"><p>NA</p></td>
-<td style="text-align: left;"><p>HC4301</p></td>
-<td style="text-align: left;"><p>2020-09-07T16:27:31Z</p></td>
-<td style="text-align: left;"><p>2024-10-21T03:13:40Z</p></td>
-<td style="text-align: right;"><p>1.15</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><p>2023-07-13</p></td>
-<td style="text-align: left;"><p>ECU</p></td>
-<td style="text-align: left;"><p>GRAND KNIGHT</p></td>
-<td style="text-align: left;"><p>2023-05-25T23:00:00Z</p></td>
-<td style="text-align: left;"><p>2023-07-13T11:00:00Z</p></td>
-<td style="text-align: left;"><p>DRIFTING_LONGLINES</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: right;"><p>735058937</p></td>
-<td style="text-align: right;"><p>NA</p></td>
-<td style="text-align: left;"><p>HC5259</p></td>
-<td style="text-align: left;"><p>2022-07-29T23:58:42Z</p></td>
-<td style="text-align: left;"><p>2023-08-06T02:33:27Z</p></td>
-<td style="text-align: right;"><p>11.26</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><p>2023-08-06</p></td>
-<td style="text-align: left;"><p>ECU</p></td>
-<td style="text-align: left;"><p>JOTA JOTA</p></td>
-<td style="text-align: left;"><p>2023-04-07T06:00:00Z</p></td>
-<td style="text-align: left;"><p>2023-10-01T19:00:00Z</p></td>
-<td style="text-align: left;"><p>DRIFTING_LONGLINES</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: right;"><p>735058780</p></td>
-<td style="text-align: right;"><p>NA</p></td>
-<td style="text-align: left;"><p>HC2508</p></td>
-<td style="text-align: left;"><p>2022-01-03T17:28:38Z</p></td>
-<td style="text-align: left;"><p>2024-11-12T23:56:26Z</p></td>
-<td style="text-align: right;"><p>8.31</p></td>
-</tr>
-<tr>
-<td style="text-align: left;"><p>2023-09-12</p></td>
-<td style="text-align: left;"><p>ECU</p></td>
-<td style="text-align: left;"><p>DON F</p></td>
-<td style="text-align: left;"><p>2023-06-19T22:00:00Z</p></td>
-<td style="text-align: left;"><p>2023-10-05T13:00:00Z</p></td>
-<td style="text-align: left;"><p>TUNA_PURSE_SEINES</p></td>
-<td style="text-align: left;"><p>FISHING</p></td>
-<td style="text-align: right;"><p>735060354</p></td>
-<td style="text-align: right;"><p>NA</p></td>
-<td style="text-align: left;"><p>HC6655</p></td>
-<td style="text-align: left;"><p>2023-05-08T22:41:27Z</p></td>
-<td style="text-align: left;"><p>2024-11-12T23:58:56Z</p></td>
-<td style="text-align: right;"><p>11.88</p></td>
-</tr>
-</tbody>
-</table>
+| Time.Range | Flag | Vessel.Name | Entry.Timestamp | Exit.Timestamp | Gear.Type | Vessel.Type | MMSI | IMO | CallSign | First.Transmission.Date | Last.Transmission.Date | Apparent.Fishing.Hours |
+|:---|:---|:---|:---|:---|:---|:---|---:|---:|:---|:---|:---|---:|
+| 2023-01-10 | ECU | DONA ROGE | 2023-01-10T10:00:00Z | 2023-10-07T11:00:00Z | TUNA_PURSE_SEINES | FISHING | 735057685 | NA | HC4301 | 2020-09-07T16:27:31Z | 2024-10-21T03:13:40Z | 1.49 |
+| 2023-04-15 | ECU | TINTORERA | 2023-01-03T13:00:00Z | 2023-04-15T17:00:00Z | FISHING | FISHING | 735059515 | NA | HC-5964 | 2020-05-31T16:10:36Z | 2024-03-08T18:17:43Z | 0.50 |
+| 2023-06-13 | ECU | DONA ROGE | 2023-01-10T10:00:00Z | 2023-10-07T11:00:00Z | TUNA_PURSE_SEINES | FISHING | 735057685 | NA | HC4301 | 2020-09-07T16:27:31Z | 2024-10-21T03:13:40Z | 1.15 |
+| 2023-07-13 | ECU | GRAND KNIGHT | 2023-05-25T23:00:00Z | 2023-07-13T11:00:00Z | DRIFTING_LONGLINES | FISHING | 735058937 | NA | HC5259 | 2022-07-29T23:58:42Z | 2023-08-06T02:33:27Z | 11.26 |
+| 2023-08-06 | ECU | JOTA JOTA | 2023-04-07T06:00:00Z | 2023-10-01T19:00:00Z | DRIFTING_LONGLINES | FISHING | 735058780 | NA | HC2508 | 2022-01-03T17:28:38Z | 2024-11-12T23:56:26Z | 8.31 |
+| 2023-09-12 | ECU | DON F | 2023-06-19T22:00:00Z | 2023-10-05T13:00:00Z | TUNA_PURSE_SEINES | FISHING | 735060354 | NA | HC6655 | 2023-05-08T22:41:27Z | 2024-11-12T23:58:56Z | 11.88 |
 
 En relación a los datos espaciales que se van a utilizar en este ejercicio son las horas de pesca aparente diaria por unidad espacial de 0.01°x0.01° de latitud y longitud (<a href="#tbl-datosSP" class="quarto-xref">Table 2</a>).
 
@@ -175,21 +72,14 @@ dataSP <- read.csv("datos/Espacial_Ecuadorian Exclusive Economic Zone (Galapagos
 knitr::kable(head(dataSP))
 ```
 
-+------+--------+------------+------+------------+------------------------+
-| Lat  | Lon    | Time.Range | flag | Vessel.IDs | Apparent.Fishing.Hours |
-+=====:+=======:+:===========+:=====+===========:+=======================:+
-| 4.45 | -91.19 | 2023-02-23 | ECU  | 1          | 0.02                   |
-+------+--------+------------+------+------------+------------------------+
-| 3.39 | -94.24 | 2023-02-20 | ECU  | 1          | 1.12                   |
-+------+--------+------------+------+------------+------------------------+
-| 3.45 | -90.77 | 2023-02-23 | ECU  | 1          | 0.42                   |
-+------+--------+------------+------+------------+------------------------+
-| 2.77 | -94.29 | 2023-02-18 | ECU  | 1          | 2.53                   |
-+------+--------+------------+------+------------+------------------------+
-| 3.66 | -93.88 | 2023-02-03 | ECU  | 1          | 0.88                   |
-+------+--------+------------+------+------------+------------------------+
-| 3.22 | -93.74 | 2023-02-17 | ECU  | 1          | 0.67                   |
-+------+--------+------------+------+------------+------------------------+
+|  Lat |    Lon | Time.Range | flag | Vessel.IDs | Apparent.Fishing.Hours |
+|-----:|-------:|:-----------|:-----|-----------:|-----------------------:|
+| 4.45 | -91.19 | 2023-02-23 | ECU  |          1 |                   0.02 |
+| 3.39 | -94.24 | 2023-02-20 | ECU  |          1 |                   1.12 |
+| 3.45 | -90.77 | 2023-02-23 | ECU  |          1 |                   0.42 |
+| 2.77 | -94.29 | 2023-02-18 | ECU  |          1 |                   2.53 |
+| 3.66 | -93.88 | 2023-02-03 | ECU  |          1 |                   0.88 |
+| 3.22 | -93.74 | 2023-02-17 | ECU  |          1 |                   0.67 |
 
 # Propuesta de Análisis {#propuesta-de-análisis}
 
@@ -384,23 +274,15 @@ porPais <- data %>%
 knitr::kable(porPais)
 ```
 
-+------+--------+
-| Flag | hp     |
-+:=====+=======:+
+| Flag |     hp |
+|:-----|-------:|
 | PAN  | 521.05 |
-+------+--------+
-| NIC  | 20.35  |
-+------+--------+
-| ESP  | 19.43  |
-+------+--------+
-| VEN  | 14.66  |
-+------+--------+
-| USA  | 6.11   |
-+------+--------+
-| VUT  | 0.34   |
-+------+--------+
-| COL  | 0.21   |
-+------+--------+
+| NIC  |  20.35 |
+| ESP  |  19.43 |
+| VEN  |  14.66 |
+| USA  |   6.11 |
+| VUT  |   0.34 |
+| COL  |   0.21 |
 
 En la tabla <a href="#tbl-hpXPais" class="quarto-xref">Table 3</a> que vamos que las horas de pesca de Vunuatu (VUT) y Colombia (COL) son insignificantes y pueden corresponder a falsos positivos, es por esto que tambien los eliminaremos del análisis.
 
@@ -453,21 +335,14 @@ data %>%
   knitr::kable()
 ```
 
-+--------------------+----------+
-| Gear.Type          | hp       |
-+:===================+=========:+
+| Gear.Type          |       hp |
+|:-------------------|---------:|
 | DRIFTING_LONGLINES | 13356.48 |
-+--------------------+----------+
-| FISHING            | 7703.03  |
-+--------------------+----------+
-| TUNA_PURSE_SEINES  | 4262.67  |
-+--------------------+----------+
-| SET_LONGLINES      | 1863.25  |
-+--------------------+----------+
-| POLE_AND_LINE      | 40.45    |
-+--------------------+----------+
-| OTHER_PURSE_SEINES | 25.17    |
-+--------------------+----------+
+| FISHING            |  7703.03 |
+| TUNA_PURSE_SEINES  |  4262.67 |
+| SET_LONGLINES      |  1863.25 |
+| POLE_AND_LINE      |    40.45 |
+| OTHER_PURSE_SEINES |    25.17 |
 
 Ahora podemos presentar estos resultados.
 

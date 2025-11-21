@@ -445,478 +445,129 @@ con nombre, numero IMO, bandera, arte de pesca entre otros
 <pre class="r"><code>data &lt;- read.csv(&quot;datos/Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv&quot;)
 
 knitr::kable(head(data))</code></pre>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align: left;">
-<p>
-Time.Range
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Flag
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Vessel.Name
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Entry.Timestamp
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Exit.Timestamp
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Gear.Type
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Vessel.Type
-</p>
-</th>
-<th style="text-align: right;">
-<p>
-MMSI
-</p>
-</th>
-<th style="text-align: right;">
-<p>
-IMO
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-CallSign
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-First.Transmission.Date
-</p>
-</th>
-<th style="text-align: left;">
-<p>
-Last.Transmission.Date
-</p>
-</th>
-<th style="text-align: right;">
-<p>
-Apparent.Fishing.Hours
-</p>
-</th>
+<tr class="header">
+<th align="left">Time.Range</th>
+<th align="left">Flag</th>
+<th align="left">Vessel.Name</th>
+<th align="left">Entry.Timestamp</th>
+<th align="left">Exit.Timestamp</th>
+<th align="left">Gear.Type</th>
+<th align="left">Vessel.Type</th>
+<th align="right">MMSI</th>
+<th align="right">IMO</th>
+<th align="left">CallSign</th>
+<th align="left">First.Transmission.Date</th>
+<th align="left">Last.Transmission.Date</th>
+<th align="right">Apparent.Fishing.Hours</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align: left;">
-<p>
-2023-01-10
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-ECU
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-DONA ROGE
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-01-10T10:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-10-07T11:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-TUNA_PURSE_SEINES
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-735057685
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-NA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-HC4301
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2020-09-07T16:27:31Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2024-10-21T03:13:40Z
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-1.49
-</p>
-</td>
+<tr class="odd">
+<td align="left">2023-01-10</td>
+<td align="left">ECU</td>
+<td align="left">DONA ROGE</td>
+<td align="left">2023-01-10T10:00:00Z</td>
+<td align="left">2023-10-07T11:00:00Z</td>
+<td align="left">TUNA_PURSE_SEINES</td>
+<td align="left">FISHING</td>
+<td align="right">735057685</td>
+<td align="right">NA</td>
+<td align="left">HC4301</td>
+<td align="left">2020-09-07T16:27:31Z</td>
+<td align="left">2024-10-21T03:13:40Z</td>
+<td align="right">1.49</td>
 </tr>
-<tr>
-<td style="text-align: left;">
-<p>
-2023-04-15
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-ECU
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-TINTORERA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-01-03T13:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-04-15T17:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-735059515
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-NA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-HC-5964
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2020-05-31T16:10:36Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2024-03-08T18:17:43Z
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-0.50
-</p>
-</td>
+<tr class="even">
+<td align="left">2023-04-15</td>
+<td align="left">ECU</td>
+<td align="left">TINTORERA</td>
+<td align="left">2023-01-03T13:00:00Z</td>
+<td align="left">2023-04-15T17:00:00Z</td>
+<td align="left">FISHING</td>
+<td align="left">FISHING</td>
+<td align="right">735059515</td>
+<td align="right">NA</td>
+<td align="left">HC-5964</td>
+<td align="left">2020-05-31T16:10:36Z</td>
+<td align="left">2024-03-08T18:17:43Z</td>
+<td align="right">0.50</td>
 </tr>
-<tr>
-<td style="text-align: left;">
-<p>
-2023-06-13
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-ECU
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-DONA ROGE
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-01-10T10:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-10-07T11:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-TUNA_PURSE_SEINES
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-735057685
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-NA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-HC4301
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2020-09-07T16:27:31Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2024-10-21T03:13:40Z
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-1.15
-</p>
-</td>
+<tr class="odd">
+<td align="left">2023-06-13</td>
+<td align="left">ECU</td>
+<td align="left">DONA ROGE</td>
+<td align="left">2023-01-10T10:00:00Z</td>
+<td align="left">2023-10-07T11:00:00Z</td>
+<td align="left">TUNA_PURSE_SEINES</td>
+<td align="left">FISHING</td>
+<td align="right">735057685</td>
+<td align="right">NA</td>
+<td align="left">HC4301</td>
+<td align="left">2020-09-07T16:27:31Z</td>
+<td align="left">2024-10-21T03:13:40Z</td>
+<td align="right">1.15</td>
 </tr>
-<tr>
-<td style="text-align: left;">
-<p>
-2023-07-13
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-ECU
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-GRAND KNIGHT
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-05-25T23:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-07-13T11:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-DRIFTING_LONGLINES
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-735058937
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-NA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-HC5259
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2022-07-29T23:58:42Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-08-06T02:33:27Z
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-11.26
-</p>
-</td>
+<tr class="even">
+<td align="left">2023-07-13</td>
+<td align="left">ECU</td>
+<td align="left">GRAND KNIGHT</td>
+<td align="left">2023-05-25T23:00:00Z</td>
+<td align="left">2023-07-13T11:00:00Z</td>
+<td align="left">DRIFTING_LONGLINES</td>
+<td align="left">FISHING</td>
+<td align="right">735058937</td>
+<td align="right">NA</td>
+<td align="left">HC5259</td>
+<td align="left">2022-07-29T23:58:42Z</td>
+<td align="left">2023-08-06T02:33:27Z</td>
+<td align="right">11.26</td>
 </tr>
-<tr>
-<td style="text-align: left;">
-<p>
-2023-08-06
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-ECU
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-JOTA JOTA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-04-07T06:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-10-01T19:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-DRIFTING_LONGLINES
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-735058780
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-NA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-HC2508
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2022-01-03T17:28:38Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2024-11-12T23:56:26Z
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-8.31
-</p>
-</td>
+<tr class="odd">
+<td align="left">2023-08-06</td>
+<td align="left">ECU</td>
+<td align="left">JOTA JOTA</td>
+<td align="left">2023-04-07T06:00:00Z</td>
+<td align="left">2023-10-01T19:00:00Z</td>
+<td align="left">DRIFTING_LONGLINES</td>
+<td align="left">FISHING</td>
+<td align="right">735058780</td>
+<td align="right">NA</td>
+<td align="left">HC2508</td>
+<td align="left">2022-01-03T17:28:38Z</td>
+<td align="left">2024-11-12T23:56:26Z</td>
+<td align="right">8.31</td>
 </tr>
-<tr>
-<td style="text-align: left;">
-<p>
-2023-09-12
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-ECU
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-DON F
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-06-19T22:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-10-05T13:00:00Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-TUNA_PURSE_SEINES
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-FISHING
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-735060354
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-NA
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-HC6655
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2023-05-08T22:41:27Z
-</p>
-</td>
-<td style="text-align: left;">
-<p>
-2024-11-12T23:58:56Z
-</p>
-</td>
-<td style="text-align: right;">
-<p>
-11.88
-</p>
-</td>
+<tr class="even">
+<td align="left">2023-09-12</td>
+<td align="left">ECU</td>
+<td align="left">DON F</td>
+<td align="left">2023-06-19T22:00:00Z</td>
+<td align="left">2023-10-05T13:00:00Z</td>
+<td align="left">TUNA_PURSE_SEINES</td>
+<td align="left">FISHING</td>
+<td align="right">735060354</td>
+<td align="right">NA</td>
+<td align="left">HC6655</td>
+<td align="left">2023-05-08T22:41:27Z</td>
+<td align="left">2024-11-12T23:58:56Z</td>
+<td align="right">11.88</td>
 </tr>
 </tbody>
 </table>
@@ -927,14 +578,14 @@ ejercicio son las horas de pesca aparente diaria por unidad espacial de
 <pre class="r"><code>dataSP &lt;- read.csv(&quot;datos/Espacial_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv&quot;)
 
 knitr::kable(head(dataSP))</code></pre>
-<table style="width:95%;">
+<table>
 <colgroup>
 <col width="8%" />
 <col width="11%" />
-<col width="16%" />
+<col width="17%" />
 <col width="8%" />
-<col width="16%" />
-<col width="32%" />
+<col width="17%" />
+<col width="35%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1157,11 +808,7 @@ aparente por pías.</p>
   arrange(desc(hp))
 
 knitr::kable(porPais)</code></pre>
-<table style="width:22%;">
-<colgroup>
-<col width="9%" />
-<col width="12%" />
-</colgroup>
+<table>
 <thead>
 <tr class="header">
 <th align="left">Flag</th>
@@ -1238,11 +885,7 @@ data %&gt;%
   summarise(hp = sum(Apparent.Fishing.Hours, na.rm=T)) %&gt;% 
   arrange(desc(hp)) %&gt;% 
   knitr::kable()</code></pre>
-<table style="width:44%;">
-<colgroup>
-<col width="29%" />
-<col width="15%" />
-</colgroup>
+<table>
 <thead>
 <tr class="header">
 <th align="left">Gear.Type</th>
