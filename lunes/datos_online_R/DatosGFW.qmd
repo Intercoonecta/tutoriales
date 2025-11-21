@@ -490,3 +490,41 @@ ggplot() +
   coord_sf(xlim = c(-95.5, -85), ylim = c(-4.5, 4.5))  +# Adjust limits to Galapagos region
   facet_wrap(~mes)
 ```
+
+# Usando gfwR
+
+Si se cuenta con el tiempo suficiente, se presentará el uso del paquete `gfwR`
+para la descarga de los datos en forma directa desde R.
+
+```{r eval=F}
+# Check/install remotes
+
+#if (!require("remotes"))
+#  install.packages("remotes")
+
+#remotes::install_github("GlobalFishingWatch/gfwr",
+#                        dependencies = TRUE)
+
+
+require(gfwr)
+
+
+## https://globalfishingwatch.org/our-apis/tokens
+## usethis::edit_r_environ()
+#GFW_TOKEN="PASTE_YOUR_TOKEN_HERE"
+
+
+#key <- gfw_auth()
+#key <- Sys.getenv("GFW_TOKEN")
+
+
+espacial <- gfw_ais_presence(
+    spatial_resolution = "HIGH",
+    temporal_resolution = "DAILY",
+    group_by = "VESSEL_ID",
+    start_date = "2023-01-01",
+    end_date = "2024-01-01",
+    region = 8403, ##   MRGID para Galapagos
+    region_source = "EEZ") 
+
+```
