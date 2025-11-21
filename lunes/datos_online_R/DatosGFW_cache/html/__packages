@@ -1,0 +1,10 @@
+dplyr
+lubridate
+sf
+ggplot2
+ggthemes
+maps
+countrycode
+stringr
+rnaturalearth
+rnaturalearthdata
