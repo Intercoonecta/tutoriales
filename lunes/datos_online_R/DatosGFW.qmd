@@ -138,10 +138,7 @@ y longitud (@tbl-datosSP).
 #|    Datos temporales de esfuerzo aparente de pesca diaria para el año 2023. Los datos contienen además de la informacion de Latitud y Longitud, el país de origen y un identificador interno de la embarcacion.
 
 dataSP <- read.csv("~/shared/datos_para_tutoriales/tutoriales/datos_online/datos/Espacial_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
-<<<<<<< HEAD
 
-=======
->>>>>>> 46697020a088f4acbf7fddb0b66b2a28ff2d5af4
 knitr::kable(head(dataSP))
 ```
 
