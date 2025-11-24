@@ -123,7 +123,7 @@ nombre, numero IMO, bandera, arte de pesca entre otros (@tbl-datosTS).
 #| tbl-cap: >
 #|    Datos temporales de esfuerzo aparente de pesca diaria para el año 2023. Los datos contienen además información de caracteriazción de las embarcaciiones operando en la ZEE. 
 
-data <- read.csv("datos/Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
+data <- read.csv("~/shared/datos_para_tutoriales/tutoriales/datos_online/datos/Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
 
 knitr::kable(head(data))
 ```
@@ -137,7 +137,7 @@ y longitud (@tbl-datosSP).
 #| tbl-cap: >
 #|    Datos temporales de esfuerzo aparente de pesca diaria para el año 2023. Los datos contienen además de la informacion de Latitud y Longitud, el país de origen y un identificador interno de la embarcacion.
 
-dataSP <- read.csv("datos/Espacial_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
+dataSP <- read.csv("~/shared/datos_para_tutoriales/tutoriales/datos_online/datos/Espacial_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z/layer-activity-data-0/public-global-fishing-effort-v3.0.csv")
 
 knitr::kable(head(dataSP))
 ```
@@ -499,20 +499,17 @@ para la descarga de los datos en forma directa desde R.
 ```{r eval=F}
 # Check/install remotes
 
-#if (!require("remotes"))
-#  install.packages("remotes")
-
-#remotes::install_github("GlobalFishingWatch/gfwr",
-#                        dependencies = TRUE)
+remotes::install_github("GlobalFishingWatch/gfwr",
+                        ref = "develop", ## <- Esto es fundamental, porque cambian los nombres de las funciones.
+                        dependencies = TRUE)
 
 
-require(gfwr)
+library(gfwr)
 
 
 ## https://globalfishingwatch.org/our-apis/tokens
 ## usethis::edit_r_environ()
 #GFW_TOKEN="PASTE_YOUR_TOKEN_HERE"
-
 
 #key <- gfw_auth()
 #key <- Sys.getenv("GFW_TOKEN")
@@ -523,8 +520,10 @@ espacial <- gfw_ais_presence(
     temporal_resolution = "DAILY",
     group_by = "VESSEL_ID",
     start_date = "2023-01-01",
-    end_date = "2024-01-01",
+    end_date = "2023-01-10",
     region = 8403, ##   MRGID para Galapagos
     region_source = "EEZ") 
 
 ```
+
+Desde aca se puede re-hacer los graficos y mapas anteriores, hay que verificar nombres de columnas e ir paso a pasado.
