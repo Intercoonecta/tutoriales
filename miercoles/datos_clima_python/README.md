@@ -10,4 +10,7 @@ Tutorial del evento [Hackatón de OceanHackWeek en Español, noviembre 24-28, 20
 
 ## Contenido
 
-- (*Añadir enlaces y breves descripciones o títulos de cada archivo a ser abierto directamente por cada participante*)
+- Descarga_modelos_CMIP6.ipynb
+  Este notebook presenta un API de Python para seleccionar, descargar, y guardar archivos de salida de simulaciones realizadas por diferentes Earth System Models.
+- Visualizar_tos_CMIP6.ipynb
+  Este notebook presenta diferentes ejemplos de cálculos que se pueden realizar con salidas de temperatura de superficie procedentes de una simulación de Earth System Model.
