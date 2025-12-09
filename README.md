@@ -1,6 +1,7 @@
 # README
 
-Tutoriales de los hackatones de [OceanHackWeek en español](https://intercoonecta.github.io).
+Tutoriales del [**Hackatón de Noviembre 2025**](https://intercoonecta.github.io/ohw2025.html), de [OceanHackWeek en español](https://intercoonecta.github.io).
+
 
 Los tutoriales de cada evento están disponibles en una rama ("branch") del repositorio, por año:
 
