@@ -1,9 +1,15 @@
 # README
 
-Tutoriales del evento [Hackatón de OceanHackWeek en Español, noviembre 9-20, 2026](https://intercoonecta.github.io/ohw2026.html)
+Tutorial del evento [Hackatón de OceanHackWeek en Español, noviembre, 2026](https://intercoonecta.github.io/ohw2026.html)
 
-## Tutoriales del lunes 16 de noviembre
+-   **Título:** Datos de Global Fishing Watch
+-   **Lenguaje:** R
+-   **Instructores:** Jorge Cornejo-Donoso, <https://github.com/cornejotux>
+-   **Fecha:** Lunes 16 de noviembre
+-   **Grabación en YouTube:** (*será añadida cuando esté disponible*)
 
-1. [Zonas inundables (Python)](zonas_inundables_python)
-2. [Pingüinos en el océano austral (Python)](pinguinos_oceano_austral_python)
-3. [Tutorial 3 (Python)](plataforma_sudamerica_python)
+## Contenido: POR ACTUALIZAR
+
+-   [Tutorial](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/datos_online_R/DatosGFW.md)
+-   [Archivo en R](https://github.com/Intercoonecta/tutoriales/blob/main/lunes/datos_online_R/DatosGFW.qmd) del tutorial
+-   Link al paquete [gfwR](https://github.com/GlobalFishingWatch/gfwr)
