@@ -238,13 +238,13 @@ data <- rbind(hp, hp2024_2025)
 ```
     
     1.2. Con los datos ya descargados, agrupamos todas las embarcaciones que 
-    pertenecen al mismo país (`Flag`) y que son del mismo tipo (`Vessel Type`), 
+    pertenecen al mismo país (`Flag`),
     para luego sumar las  horas de pesca aparente (`Apparent Fishing Hours`).
 
 ```{r echo=TRUE}
 
 hpAnual <- data %>%
-  group_by(Flag, `Vessel Type`) %>% 
+  group_by(flag) %>% 
   summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
   
 ```
@@ -254,7 +254,7 @@ Ahora que tenemos el número acumulado de horas podemos crear un gráfico usando
 
 ```{r fig.width=5, fig.height=3, echo=TRUE}
 ggplot(hpAnual) +
-  geom_col(aes(x=Flag, y=hp, colour = `Vessel Type`, fill=`Vessel Type`)) +
+  geom_col(aes(x=flag, y=hp)) +
   xlab("País") +
   ylab("Horas de pesca aparente (Hrs)") +
   scale_fill_discrete(name = "Tipo") +
@@ -276,11 +276,11 @@ ggplot(hpAnual) +
 hpplot <- data %>%
   mutate(mes = month(`Time Range`),
          year = year(`Time Range`)) %>%  ## <- Obtenemos el mes desde la columna de la fecha
-  group_by(mes, Flag, `Vessel Type`) %>% ## Incluimos el mes en el grouping
+  group_by(mes, flag) %>% ## Incluimos el mes en el grouping
   summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
 
 ggplot(hpplot) +
-  geom_col(aes(x=Flag, y=hp, colour = `Vessel Type`, fill=`Vessel Type`)) +
+  geom_col(aes(x=flag, y=hp)) +
   xlab("País") +
   ylab("Horas de pesca aparente (Hrs)") +
   scale_fill_discrete(name = "Tipo") +
@@ -290,58 +290,6 @@ ggplot(hpplot) +
   facet_wrap(~mes) ## <- Esto permite crear el grafico separando los meses
 ```
 
-## Actividad de pesca aparente por arte de pesca
-
-Ahora podemos hacer exactamente el mismo proceso, pero esta vez en vez de usar
-el país como variable de agrupación, usamos el arte de pesca.
-
-En esta ocasión, generamos dos data.frames en el mismo chunk de R, el anual y el
-mensual.
-
-```{r echo=TRUE}
-
-arteAnual <- data %>%
-  mutate(year = year(`Time Range`)) %>% 
-  group_by(`Gear Type`, `Vessel Type`, year) %>% 
-  summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
-  
-
-arteMensual <- data %>%
-  mutate(mes = month(`Time Range`)) %>%
-  group_by(mes, `Gear Type`, `Vessel Type`) %>% 
-  summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
-
-```
-
-Y presentamos los gráficos por arte de pesca.
-
-```{r}
-ggplot(arteAnual) +
-  geom_col(aes(x=`Gear Type`, y=hp), fill ="darkorange") +
-  xlab("Arte de Pesca") +
-  ylab("Horas de pesca aparente (Hrs)") +
-  scale_fill_discrete(name = "Tipo") +
-  scale_colour_discrete(name = "Tipo") +
-  ggthemes::theme_few() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
-
-```
-
-Usando la función `facet_wrap` podemos presentar los artes de pesca para cada 
-año.
-
-```{r}
-ggplot(arteAnual) +
-  geom_col(aes(x=`Gear Type`, y=hp), fill="darkorange") +
-  xlab("Arte de Pesca") +
-  ylab("Horas de pesca aparente (Hrs)") +
-  scale_fill_discrete(name = "Tipo") +
-  scale_colour_discrete(name = "Tipo") +
-  ggthemes::theme_few() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  facet_wrap(~year, ncol = 1) ## <- Esto permite crear el grafico separando los meses
-
-```
 
 ## Serie temporal de actividad diaria de pesca aparente
 
@@ -361,7 +309,7 @@ datos utilizando la función `dplyr::filter`.
 
 ```{r}
 hpDiaEcu <- data %>%
-  filter(Flag == "ECU") %>%  ## Aqui es donde filtramos para barcos de ecuador
+  filter(flag == "ECU") %>%  ## Aqui es donde filtramos para barcos de ecuador
   group_by(`Time Range`) %>% ## Incluimos el mes en el grouping
   summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
 ```
@@ -395,9 +343,9 @@ país.
 #|    Horas de actividad aparente de pesca total por país.
 
 porPais <- data %>%
-  filter(Flag != "ECU", Flag != "",
-         !is.na(Flag)) %>%  ## Eliminamos embarcaciones de Ecuador y aquellas sin bandera
-  group_by(Flag) %>% ## Incluimos el mes en el grouping
+  filter(flag != "ECU", flag != "",
+         !is.na(flag)) %>%  ## Eliminamos embarcaciones de Ecuador y aquellas sin bandera
+  group_by(flag) %>% ## Incluimos el mes en el grouping
   summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T)) %>% 
   arrange(desc(hp))
 
@@ -412,66 +360,22 @@ análisis.
 
 ```{r}
 diaNoEcu <- data %>%
-  filter(Flag == c("PAN", "NIC" ,"CRI", "VEN", "PER")) %>%
-  group_by(Flag, `Time Range`) %>% 
+  filter(flag == c("PAN", "NIC" ,"CRI", "VEN", "PER")) %>%
+  group_by(flag, `Time Range`) %>% 
   summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
 ```
 
 ```{r}
 ggplot(diaNoEcu) +
-  geom_point(aes(x=as.Date(`Time Range`), y=hp, col = Flag)) +
-  geom_line(aes(x=as.Date(`Time Range`), y=hp, col = Flag)) +
+  geom_point(aes(x=as.Date(`Time Range`), y=hp, col = flag)) +
+  geom_line(aes(x=as.Date(`Time Range`), y=hp, col = flag)) +
   xlab("Fecha") +
   ylab("Horas de actividad aparente (Hrs)") +
   ggthemes::theme_few() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  facet_wrap(~Flag)
+  facet_wrap(~flag)
 ```
 
-### Para los tres artes de pesca principales
-
-Ahora hacemos lo mismo para los artes de pesca.
-
-```{r}
-#| label: tbl-hpXArte
-#| tbl-cap: >
-#|    Horas de actividad aparente de pesca total por arete de pesca. Artes no identificados fueron eliminados.
-
-arteDia <- data %>% 
-  filter(`Gear Type` != "INCONCLUSIVE",
-         `Gear Type` != "OTHER",
-         `Gear Type` != "PASSENGER"
-         ) %>% 
-  group_by(`Gear Type`, `Time Range`) %>%
-  summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
-
-
-data %>% 
-  filter(`Gear Type` != "INCONCLUSIVE",
-         `Gear Type` != "OTHER",
-         `Gear Type` != "PASSENGER"
-         ) %>% 
-  group_by(`Gear Type`) %>%
-  summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T)) %>% 
-  arrange(desc(hp)) %>% 
-  knitr::kable()
-
-```
-
-Ahora podemos presentar estos resultados.
-
-```{r fig.width=8}
-ggplot(arteDia) +
-  geom_point(aes(x=as.Date(`Time Range`), y=hp, col = `Gear Type`), size=.4) +
-  geom_line(aes(x=as.Date(`Time Range`), y=hp, col = `Gear Type`), size=.4) +
-  xlab("Fecha") +
-  ylab("Horas de actividad aparente (Hrs)") +
-  ggthemes::theme_few() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-    strip.text = element_text(size = 8)  # Adjust the facet title size
-    )+
-  facet_wrap(~`Gear Type`)
-```
 
 ## Análisis espacial de la actividad de pesca aparente
 
@@ -548,29 +452,7 @@ ggplot() +
   coord_sf(xlim = c(-95.5, -85), ylim = c(-4.5, 4.5))  +# Adjust limits to Galapagos region
   facet_wrap(~year)
 ```
-### Zonas por arte de pesca y año
 
-Separados por arte de pesca y años.
-
-```{r fig.height=8, fig.width=8}
-spGTyYear <- data %>% 
-  mutate(year = year(`Time Range`)) %>% 
-  group_by(year, `Gear Type`, Lat, Lon) %>% 
-  summarise(hp = sum(`Apparent Fishing Hours`, na.rm=T))
-
-ggplot() +
-  geom_sf(data = galapagos_land, fill = "grey50", color = "black") +
-  geom_tile(data = spGTyYear, aes(x = Lon, y = Lat, fill = hp, col=hp)) +
-  scale_color_gradient(low = "darkblue", high = "red", name = "Horas", limits = c(0, 50)) +
-  scale_fill_gradient(low = "darkblue", high = "red", name = "Horas", limits = c(0, 50)) +
-  scale_size_continuous(name = "Horas de Actividad Aparente") +
-  labs(
-    title = "Actividad de Aparente en Galapagos EEZ",
-    x = "Longitud", y = "Latitud" ) +
-  theme_minimal() +
-  coord_sf(xlim = c(-95.5, -85), ylim = c(-4.5, 4.5))  +# Adjust limits to Galapagos region
-  facet_grid(`Gear Type`~year)
-```
 
 # Otras funciones de interés
 
@@ -593,7 +475,7 @@ temp <- gfw_ais_presence(spatial_resolution = "HIGH",
   start_date = "2026-01-01",
   end_date = "2026-07-01",
   region_source = "EEZ",
-  group_by = "VESSEL_ID",
+  group_by = "FLAG",
   region = 8403,
   key = gfw_auth(),
   filter_by = i)
@@ -606,14 +488,14 @@ presSpeed <- rbind(presSpeed, temp)
 ## Información de embarcaciones
 
 ```{r}
-gfwr::gfw_vessel_info(ids = as.vector(presSpeed$`Vessel ID`[1]),
-                      search_type = "id")$selfReportedInfo |> 
+gfwr::gfw_vessel_info(query = 735060382,
+                      search_type = "search") $selfReportedInfo |> 
   kableExtra::kable()
 
 
-gfwr::gfw_vessel_info(ids = as.vector(presSpeed$`Vessel ID`[3]),
-                      search_type = "id")$combinedSourcesInfo |> 
-  kableExtra::kable()
+#gfwr::gfw_vessel_info(ids = as.vector(presSpeed$`Vessel ID`[3]),
+#                      search_type = "id")$combinedSourcesInfo |> 
+#  kableExtra::kable()
 ```
 
 
