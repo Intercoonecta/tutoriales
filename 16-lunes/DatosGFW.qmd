@@ -123,13 +123,16 @@ nombre, numero IMO, MMSI, bandera, arte de pesca entre otros (@tbl-datosTS).
 #| tbl-cap: >
 #|    Datos temporales de esfuerzo aparente de pesca diaria para el año 2023. Los datos contienen además información de caracterización de las embarcaciones operando en la ZEE. 
 
-data <- read.csv(here(
-  "16-lunes",
-  "datos",
-  "Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z",
-  "layer-activity-data-0",
-  "public-global-fishing-effort-v3.0.csv"
-))
+data <- read.csv(
+  here::here(
+    "16-lunes",
+    "datos",
+    "Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z",
+    "layer-activity-data-0",
+    "public-global-fishing-effort-v5.0.csv"
+  )
+)
+
 
 knitr::kable(head(data))
 ```
@@ -143,13 +146,15 @@ las horas de actividad de pesca aparente diaria por unidad espacial de
 #| tbl-cap: >
 #|    Datos temporales de actividad aparente de pesca diaria para el año 2023. Los datos contienen además de la información de Latitud y Longitud, el país de origen y un identificador interno de la embarcación.
 
-dataSP <- read.csv(here(
-  "16-lunes",
-  "datos",
-  "Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z",
-  "layer-activity-data-0",
-  "public-global-fishing-effort-v3.0.csv"
-))
+dataSP <- read.csv(
+  here::here(
+    "16-lunes",
+    "datos",
+    "SP_Temporal_Ecuadorian Exclusive Economic Zone (Galapagos) - 2023-01-01T00_00_00.000Z,2024-01-01T00_00_00.000Z",
+    "layer-activity-data-0",
+    "public-global-fishing-effort-v5.0.csv"
+  )
+)
 
 knitr::kable(head(dataSP))
 ```
@@ -208,7 +213,9 @@ hp <- gfw_ais_fishing_hours(
       start_date = "2023-01-01",
       end_date = "2024-01-01",
       region_source = "EEZ",
-      region = 8403 #(https://www.marineregions.org/eezdetails.php?mrgid=8403)
+      region = 8403,
+      group_by = "FLAG"
+        #(https://www.marineregions.org/eezdetails.php?mrgid=8403)
 )
   
 ## Ahora un ejemplo de como hacer esto con un loop
@@ -221,7 +228,8 @@ for (i in 2024:2025)
         start_date = (paste(i, "-01-01", sep="")),
         end_date = (paste(i+1, "-01-01", sep="")),
         region_source = "EEZ",
-        region = 8403) #(https://www.marineregions.org/eezdetails.php?mrgid=8403)
+        region = 8403,
+      group_by = "FLAG") #(https://www.marineregions.org/eezdetails.php?mrgid=8403)
   hp2024_2025 <- rbind(hp2024_2025, hp_temp)
 }
 
