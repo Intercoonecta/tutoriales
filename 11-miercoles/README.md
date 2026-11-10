@@ -4,6 +4,5 @@ Tutoriales del evento [Hackatón de OceanHackWeek en Español, noviembre 9-20, 2
 
 ## Tutoriales del miércoles 11 de noviembre
 
-1. [Zonas inundables (Python)](zonas_inundables_python)
-2. [Pingüinos en el océano austral (Python)](pinguinos_oceano_austral_python)
-3. [Tutorial 3 (Python)](plataforma_sudamerica_python)
+1. [Tutorial mínimo sobre creación de funciones y paquetes en R](R_codigo_reusable)
+
