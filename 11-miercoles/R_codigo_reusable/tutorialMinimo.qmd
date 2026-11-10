@@ -5,7 +5,7 @@ lang: es
 author: "Héctor Villalobos"
 date: today
 format: 
-  html:
+  gfm:
     toc: false
 editor: visual
 ---
