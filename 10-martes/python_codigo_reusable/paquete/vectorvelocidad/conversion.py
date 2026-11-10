@@ -1,7 +1,7 @@
 import math
 
 
-def rapidez_angulo_a_u_v(rapidez: float, angulo: float): -> tuple(float, float)
+def rapidez_angulo_a_u_v(rapidez: float, angulo: float) -> tuple(float, float):
     """
     Convertir un vector de velocidad de (rapidez, angulo) a (u, v)
     
