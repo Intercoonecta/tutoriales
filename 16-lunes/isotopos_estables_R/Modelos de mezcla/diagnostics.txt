@@ -1,0 +1,751 @@
+
+################################################################################
+# Gelman-Rubin Diagnostic
+################################################################################
+
+Generally the Gelman diagnostic should be < 1.05
+
+
+Out of 285 variables: 265 > 1.01
+
+                      
+192 > 1.05
+
+                      
+139 > 1.1
+
+
+The worst variables are:
+
+              Point est. Upper C.I.
+p.fac1[2,2]     6.381912  12.633922
+p.fac1[1,2]     5.730082  11.523859
+p.global[2]     5.730082  11.523859
+p.fac1[2,4]     5.194194  11.891682
+ilr.global[2]   4.263461  12.148617
+p.global[3]     4.112411  10.039899
+p.fac1[1,3]     4.112411  10.039899
+ilr.global[1]   4.096089   9.219328
+p.fac1[1,4]     4.036841   7.919361
+p.global[4]     4.036841   7.919361
+
+
+And here are the Gelman diagnostics for all variables:
+
+               Point est. Upper C.I.
+deviance        1.3462590   1.913492
+fac2.sig        2.5092581  13.533475
+ilr.fac1[1,1]         NaN        NaN
+ilr.fac1[1,2]         NaN        NaN
+ilr.fac1[1,3]         NaN        NaN
+ilr.fac1[2,1]   1.3064907   1.845827
+ilr.fac1[2,2]   1.2337640   1.614755
+ilr.fac1[2,3]   3.2428950   7.867337
+ilr.fac1[3,1]   1.2738724   1.819254
+ilr.fac1[3,2]   1.1322310   1.328186
+ilr.fac1[3,3]   1.0211296   1.053018
+ilr.fac2[1,1]   1.7635401   7.943361
+ilr.fac2[1,2]   1.2913094   1.651927
+ilr.fac2[1,3]   1.3989742   4.092022
+ilr.fac2[10,1]  1.3478186   3.174803
+ilr.fac2[10,2]  1.2862372   1.323211
+ilr.fac2[10,3]  1.3501967   3.218488
+ilr.fac2[2,1]   2.0967288  10.440163
+ilr.fac2[2,2]   1.5112441   5.581822
+ilr.fac2[2,3]   1.2887163   1.388438
+ilr.fac2[3,1]   1.3120997   2.486108
+ilr.fac2[3,2]   1.4083905   4.205261
+ilr.fac2[3,3]   1.4172109   4.313261
+ilr.fac2[4,1]   2.0327578   9.990842
+ilr.fac2[4,2]   1.4475403   4.751949
+ilr.fac2[4,3]   1.3152274   2.406841
+ilr.fac2[5,1]   2.1244136  10.713826
+ilr.fac2[5,2]   1.4510688   4.826489
+ilr.fac2[5,3]   1.2980280   1.785729
+ilr.fac2[6,1]   1.2968948   2.249034
+ilr.fac2[6,2]   2.0391697  10.017452
+ilr.fac2[6,3]   1.4005914   4.045219
+ilr.fac2[7,1]   1.6723995   7.090776
+ilr.fac2[7,2]   1.3717742   3.622401
+ilr.fac2[7,3]   1.2903627   1.457862
+ilr.fac2[8,1]   1.6293945   6.662265
+ilr.fac2[8,2]   1.3323361   2.838875
+ilr.fac2[8,3]   1.2871623   1.288157
+ilr.fac2[9,1]   2.5112533  12.946611
+ilr.fac2[9,2]   1.2832727   1.437214
+ilr.fac2[9,3]   2.6895762  14.438207
+ilr.global[1]   4.0960894   9.219328
+ilr.global[2]   4.2634606  12.148617
+ilr.global[3]   2.0448102   7.195026
+loglik[1]       1.0647427   1.191995
+loglik[10]      1.2044512   1.604797
+loglik[100]     1.0775413   1.249734
+loglik[101]     1.0184006   1.019792
+loglik[102]     1.0177244   1.020766
+loglik[103]     1.0686151   1.195986
+loglik[104]     1.0325667   1.067635
+loglik[105]     1.0379608   1.109043
+loglik[106]     1.0243171   1.058049
+loglik[107]     1.0823154   1.260869
+loglik[108]     1.0482913   1.143551
+loglik[109]     1.0390705   1.072650
+loglik[11]      1.0352100   1.094999
+loglik[110]     1.1278179   1.400446
+loglik[111]     1.0851349   1.268944
+loglik[112]     1.0363847   1.072498
+loglik[113]     1.0430463   1.088355
+loglik[114]     1.1458324   1.448645
+loglik[115]     1.4633483   2.297909
+loglik[116]     1.0297726   1.057369
+loglik[117]     1.2643659   1.790532
+loglik[118]     1.1170971   1.368628
+loglik[119]     1.0527000   1.168246
+loglik[12]      1.0351830   1.086827
+loglik[120]     1.0914395   1.283180
+loglik[121]     1.0548189   1.181026
+loglik[122]     1.0006223   1.002278
+loglik[123]     1.0031752   1.005569
+loglik[124]     1.0856657   1.269672
+loglik[125]     1.0765088   1.239673
+loglik[126]     1.1240321   1.390088
+loglik[127]     1.1463477   1.427475
+loglik[128]     1.2409289   1.672095
+loglik[129]     1.1491020   1.432067
+loglik[13]      1.0755153   1.220723
+loglik[130]     1.1865001   1.529587
+loglik[131]     1.0386037   1.112433
+loglik[132]     1.3150105   1.837479
+loglik[133]     1.0094865   1.034084
+loglik[134]     1.0096423   1.037215
+loglik[135]     1.5722153   2.465077
+loglik[136]     1.6001296   2.475134
+loglik[137]     1.0991413   1.314887
+loglik[138]     1.0876780   1.262533
+loglik[139]     1.0213754   1.053857
+loglik[14]      1.0773563   1.208978
+loglik[140]     1.0128735   1.035226
+loglik[141]     1.0531794   1.177699
+loglik[142]     0.9998403   1.000918
+loglik[143]     1.1026332   1.316829
+loglik[144]     1.0506097   1.154149
+loglik[145]     1.1390647   1.420059
+loglik[146]     1.0712944   1.228751
+loglik[147]     1.0110613   1.038145
+loglik[148]     1.1782162   1.519028
+loglik[149]     1.0695504   1.209308
+loglik[15]      1.0208004   1.059410
+loglik[150]     1.1402815   1.418995
+loglik[151]     1.2196522   1.611168
+loglik[152]     1.1256076   1.387163
+loglik[153]     1.1612298   1.498583
+loglik[154]     1.0172653   1.042806
+loglik[155]     1.0188296   1.029557
+loglik[156]     1.0055683   1.014076
+loglik[157]     1.0504254   1.168355
+loglik[158]     1.0730979   1.224573
+loglik[159]     1.2031716   1.573139
+loglik[16]      1.0829740   1.256123
+loglik[160]     1.2872895   1.779936
+loglik[161]     1.0188336   1.055437
+loglik[162]     1.0593791   1.196857
+loglik[163]     1.0109899   1.010993
+loglik[164]     1.1783102   1.520038
+loglik[165]     1.0099541   1.020035
+loglik[166]     1.0475125   1.158634
+loglik[167]     1.0188403   1.065572
+loglik[168]     1.0922075   1.287653
+loglik[169]     1.0268305   1.094184
+loglik[17]      1.0200419   1.064055
+loglik[170]     1.0033101   1.013122
+loglik[171]     1.0138054   1.050350
+loglik[172]     1.1104137   1.347926
+loglik[173]     1.1780645   1.518776
+loglik[174]     1.0372658   1.094458
+loglik[175]     1.0382274   1.123905
+loglik[176]     1.0250631   1.063774
+loglik[177]     1.1423659   1.433017
+loglik[178]     1.0547908   1.156098
+loglik[179]     1.3742780   1.975978
+loglik[18]      1.0589967   1.193603
+loglik[180]     1.0359794   1.090627
+loglik[181]     1.2869893   1.812153
+loglik[182]     1.1266366   1.387021
+loglik[183]     1.0737029   1.212996
+loglik[184]     2.5462186   4.655154
+loglik[185]     2.4524743   4.339993
+loglik[186]     1.0885308   1.144446
+loglik[187]     1.2466583   1.849813
+loglik[188]     1.2952675   1.850247
+loglik[189]     1.0786606   1.094946
+loglik[19]      1.0598141   1.174242
+loglik[190]     2.2195325  10.536314
+loglik[191]     1.7560541   3.000392
+loglik[192]     2.0036738   8.151271
+loglik[193]     1.6196257   2.998927
+loglik[194]     1.0594330   1.068497
+loglik[195]     1.0065712   1.024867
+loglik[196]     1.2184966   1.638972
+loglik[197]     1.1204656   1.370096
+loglik[198]     1.0374708   1.126979
+loglik[199]     1.0031283   1.006660
+loglik[2]       1.1377346   1.431409
+loglik[20]      1.0697841   1.224271
+loglik[200]     1.1713456   1.512180
+loglik[201]     1.2053510   1.605231
+loglik[202]     1.4233840   2.193584
+loglik[203]     1.1943648   1.630933
+loglik[204]     1.1667592   1.489243
+loglik[205]     1.0404746   1.135261
+loglik[206]     1.6312464   2.828884
+loglik[207]     1.0872776   1.270898
+loglik[208]     1.3671192   2.037453
+loglik[209]     1.0448080   1.105195
+loglik[21]      1.1219100   1.383066
+loglik[210]     1.0163355   1.059618
+loglik[211]     1.0873835   1.280710
+loglik[212]     1.0061932   1.012498
+loglik[213]     1.0208333   1.058584
+loglik[214]     1.2179817   1.635586
+loglik[215]     1.1700199   1.511537
+loglik[216]     1.0954354   1.297989
+loglik[217]     1.5297547   2.503753
+loglik[218]     1.0573372   1.184010
+loglik[219]     1.0724514   1.233981
+loglik[22]      1.1944244   1.562160
+loglik[220]     1.0658261   1.215358
+loglik[221]     1.2756217   1.889770
+loglik[222]     1.0389282   1.103691
+loglik[223]     1.0120711   1.027886
+loglik[23]      1.0125913   1.014981
+loglik[24]      1.0079445   1.017242
+loglik[25]      1.1255909   1.392925
+loglik[26]      1.0105578   1.023151
+loglik[27]      1.0258553   1.086133
+loglik[28]      1.0514307   1.170386
+loglik[29]      1.0448483   1.144168
+loglik[3]       1.0345083   1.109135
+loglik[30]      1.0228295   1.046463
+loglik[31]      1.2750072   1.763927
+loglik[32]      1.1658738   1.485917
+loglik[33]      1.0186603   1.064317
+loglik[34]      1.0755563   1.236112
+loglik[35]      1.0121438   1.014035
+loglik[36]      1.1123213   1.355497
+loglik[37]      1.1576330   1.473845
+loglik[38]      1.0374065   1.085824
+loglik[39]      1.1222873   1.375990
+loglik[4]       1.0660981   1.192110
+loglik[40]      1.0235687   1.053268
+loglik[41]      1.0135622   1.042915
+loglik[42]      1.2744674   1.743270
+loglik[43]      1.1053775   1.318718
+loglik[44]      1.0120235   1.018443
+loglik[45]      1.0898034   1.283918
+loglik[46]      1.0709031   1.230109
+loglik[47]      1.0493864   1.156105
+loglik[48]      1.0325436   1.074091
+loglik[49]      1.0746072   1.242067
+loglik[5]       1.1732849   1.526448
+loglik[50]      1.1643108   1.496069
+loglik[51]      1.2312877   1.667061
+loglik[52]      1.0332187   1.083502
+loglik[53]      1.0811258   1.255898
+loglik[54]      1.0714981   1.233018
+loglik[55]      1.0485313   1.158236
+loglik[56]      1.4422205   2.187156
+loglik[57]      1.1653959   1.504131
+loglik[58]      1.1375463   1.428443
+loglik[59]      1.0518225   1.159914
+loglik[6]       1.2961734   1.799577
+loglik[60]      1.1344703   1.400405
+loglik[61]      1.0051354   1.008935
+loglik[62]      1.0171649   1.039220
+loglik[63]      1.0265601   1.081610
+loglik[64]      1.0239275   1.078160
+loglik[65]      1.1303595   1.387759
+loglik[66]      1.0915724   1.287188
+loglik[67]      1.0275775   1.068897
+loglik[68]      1.0827153   1.263697
+loglik[69]      1.0244275   1.077706
+loglik[7]       1.0474325   1.156980
+loglik[70]      1.1905548   1.567323
+loglik[71]      1.1393532   1.405432
+loglik[72]      1.1940095   1.552358
+loglik[73]      1.1796527   1.521363
+loglik[74]      1.1057243   1.312514
+loglik[75]      1.0222586   1.050117
+loglik[76]      1.0191173   1.056107
+loglik[77]      1.0167942   1.052309
+loglik[78]      1.0968006   1.302404
+loglik[79]      1.0064946   1.014626
+loglik[8]       1.3671167   1.958860
+loglik[80]      1.1282844   1.388108
+loglik[81]      1.0216109   1.064716
+loglik[82]      1.0046769   1.005795
+loglik[83]      1.0174183   1.056198
+loglik[84]      1.0108329   1.031581
+loglik[85]      1.0032947   1.013284
+loglik[86]      1.0150521   1.052444
+loglik[87]      1.0158609   1.046905
+loglik[88]      1.0145177   1.043228
+loglik[89]      1.0126053   1.023991
+loglik[9]       1.0775952   1.241831
+loglik[90]      1.0161935   1.058387
+loglik[91]      1.1204079   1.361871
+loglik[92]      1.0034437   1.009952
+loglik[93]      1.0651141   1.159592
+loglik[94]      1.1122989   1.329677
+loglik[95]      1.0430921   1.136039
+loglik[96]      1.1254844   1.371476
+loglik[97]      1.0481080   1.157514
+loglik[98]      1.0682334   1.192822
+loglik[99]      1.0570708   1.178221
+p.fac1[1,1]     3.0341764   5.965744
+p.fac1[1,2]     5.7300820  11.523859
+p.fac1[1,3]     4.1124110  10.039899
+p.fac1[1,4]     4.0368415   7.919361
+p.fac1[2,1]     2.5382046   5.833564
+p.fac1[2,2]     6.3819124  12.633922
+p.fac1[2,3]     2.2215459   4.203116
+p.fac1[2,4]     5.1941942  11.891682
+p.fac1[3,1]     1.3132995   2.291412
+p.fac1[3,2]     2.2945236   4.084810
+p.fac1[3,3]     1.4459751   2.151319
+p.fac1[3,4]     2.1305831   4.186786
+p.global[1]     3.0341764   5.965744
+p.global[2]     5.7300820  11.523859
+p.global[3]     4.1124110  10.039899
+p.global[4]     4.0368415   7.919361
+resid.prop[1]   3.2167115   6.662611
+resid.prop[2]   1.2045011   1.585544
+
+################################################################################
+# Heidelberger and Welch Diagnostic
+################################################################################
+
+A few failures is normal and acceptable...
+Number of failures in each chain (out of 
+285
+ variables):
+
+
+             Chain 1 Chain 2 Chain 3
+Stationarity      18      42       1
+Half-width       108     126      97
+
+
+And here are the Heidelberger-Welch diagnostics for all variables:
+
+               stest.1 pval.1 hwtest.1 stest.2 pval.2 hwtest.2 stest.3 pval.3 hwtest.3
+deviance          pass  0.746     pass    pass  0.217     pass    pass  0.707     pass
+fac2.sig          pass  0.321     fail    pass  0.141     fail    pass  0.237     fail
+ilr.fac1[2,1]     pass  0.936     fail    pass  0.069     fail    pass  0.345     fail
+ilr.fac1[2,2]     pass  0.271     fail    fail   0.05     fail    pass  0.179     fail
+ilr.fac1[2,3]     pass   0.99     fail    pass  0.988     fail    pass  0.178     fail
+ilr.fac1[3,1]     pass  0.374     fail    pass  0.085     fail    pass  0.121     fail
+ilr.fac1[3,2]     pass    0.8     fail    fail   0.03     fail    pass  0.462     fail
+ilr.fac1[3,3]     pass  0.403     fail    fail  0.023     fail    pass  0.690     fail
+ilr.fac2[1,1]     pass  0.277     fail    pass  0.068     fail    pass  0.291     fail
+ilr.fac2[1,2]     pass  0.255     fail    pass  0.054     fail    pass  0.528     fail
+ilr.fac2[1,3]     fail  0.033     fail    pass  0.227     fail    pass  0.183     fail
+ilr.fac2[10,1]    pass  0.114     fail    pass  0.991     fail    pass  0.075     fail
+ilr.fac2[10,2]    pass  0.638     fail    pass  0.923     fail    pass  0.221     fail
+ilr.fac2[10,3]    pass   0.14     fail    pass  0.086     fail    pass  0.441     fail
+ilr.fac2[2,1]     pass  0.218     fail    pass  0.749     fail    pass  0.714     fail
+ilr.fac2[2,2]     pass  0.171     fail    pass  0.239     fail    pass  0.964     fail
+ilr.fac2[2,3]     pass  0.281     fail    pass  0.475     fail    pass  0.645     fail
+ilr.fac2[3,1]     fail  0.003     fail    pass  0.186     fail    pass  0.119     fail
+ilr.fac2[3,2]     pass  0.121     fail    pass  0.589     fail    pass  0.696     fail
+ilr.fac2[3,3]     pass  0.317     fail    pass  0.642     fail    pass  0.115     fail
+ilr.fac2[4,1]     pass  0.745     fail    pass  0.124     fail    pass  0.291     fail
+ilr.fac2[4,2]     pass   0.06     fail    pass  0.787     fail    pass  0.126     fail
+ilr.fac2[4,3]     fail  0.006     fail    pass  0.207     fail    pass  0.840     fail
+ilr.fac2[5,1]     pass  0.113     fail    pass   0.27     fail    pass  0.488     fail
+ilr.fac2[5,2]     fail   fail     fail    pass  0.053     fail    pass  0.267     fail
+ilr.fac2[5,3]     pass  0.292     fail    pass  0.073     fail    pass  0.063     fail
+ilr.fac2[6,1]     fail   fail     fail    pass  0.198     fail    pass  0.388     fail
+ilr.fac2[6,2]     pass  0.168     fail    fail  0.006     fail    pass  0.064     fail
+ilr.fac2[6,3]     pass  0.746     fail    pass  0.149     fail    pass  0.406     fail
+ilr.fac2[7,1]     pass  0.414     fail    fail  0.013     fail    pass  0.214     fail
+ilr.fac2[7,2]     pass   0.28     fail    pass  0.066     fail    pass  0.404     fail
+ilr.fac2[7,3]     pass  0.307     fail    fail   0.01     fail    pass  0.986     fail
+ilr.fac2[8,1]     pass  0.196     fail    pass  0.229     fail    pass  0.267     fail
+ilr.fac2[8,2]     pass   0.07     fail    pass  0.398     fail    pass  0.284     fail
+ilr.fac2[8,3]     pass  0.358     fail    pass  0.117     fail    pass  0.098     fail
+ilr.fac2[9,1]     pass  0.256     fail    pass  0.444     fail    pass  0.115     fail
+ilr.fac2[9,2]     pass  0.888     fail    pass  0.408     fail    pass  0.686     fail
+ilr.fac2[9,3]     fail  0.001     fail    pass  0.076     fail    pass  0.259     fail
+ilr.global[1]     pass  0.081     fail    pass  0.205     fail    pass  0.464     fail
+ilr.global[2]     pass  0.388     fail    pass  0.781     fail    pass  0.221     fail
+ilr.global[3]     pass  0.998     fail    fail   fail     fail    pass  0.999     fail
+loglik[1]         pass  0.893     pass    pass  0.398     pass    pass  0.123     pass
+loglik[10]        pass  0.153     pass    pass  0.218     pass    pass  0.090     pass
+loglik[100]       pass  0.763     fail    fail  0.016     fail    pass  0.390     fail
+loglik[101]       pass   0.47     fail    pass  0.466     fail    pass  0.095     fail
+loglik[102]       pass  0.147     fail    pass  0.197     fail    pass  0.159     fail
+loglik[103]       pass  0.531     pass    pass  0.883     pass    pass  0.195     pass
+loglik[104]       pass  0.104     pass    pass  0.244     pass    pass  0.208     pass
+loglik[105]       pass   0.19     pass    pass  0.324     pass    pass  0.846     pass
+loglik[106]       pass  0.205     fail    pass  0.183     fail    pass  0.748     fail
+loglik[107]       pass  0.396     pass    pass  0.054     pass    pass  0.196     pass
+loglik[108]       pass  0.079     pass    pass  0.647     pass    pass  0.157     pass
+loglik[109]       pass  0.078     pass    pass  0.158     pass    pass  0.155     pass
+loglik[11]        pass   0.79     fail    pass  0.205     fail    pass  0.205     fail
+loglik[110]       pass  0.179     pass    pass  0.052     pass    pass  0.176     pass
+loglik[111]       pass  0.102     pass    pass  0.482     pass    pass  0.535     pass
+loglik[112]       pass   0.14     pass    fail  0.003     fail    pass  0.211     pass
+loglik[113]       pass  0.226     pass    pass  0.601     pass    pass  0.128     pass
+loglik[114]       pass   0.06     pass    fail   fail     fail    pass  0.324     pass
+loglik[115]       pass   0.06     pass    fail  0.001     fail    pass  0.436     pass
+loglik[116]       pass  0.227     pass    pass  0.099     pass    pass  0.316     pass
+loglik[117]       pass  0.536     pass    pass  0.151     pass    pass  0.352     pass
+loglik[118]       pass  0.895     pass    pass  0.232     pass    pass  0.087     pass
+loglik[119]       pass  0.922     fail    pass  0.356     pass    pass  0.202     pass
+loglik[12]        pass  0.056     pass    pass  0.136     pass    pass  0.226     pass
+loglik[120]       pass  0.108     pass    pass  0.067     pass    pass  0.288     pass
+loglik[121]       pass  0.376     pass    fail   fail     fail    pass  0.457     pass
+loglik[122]       pass  0.454     fail    pass  0.065     fail    pass  0.112     fail
+loglik[123]       pass  0.374     fail    pass  0.069     fail    pass  0.127     fail
+loglik[124]       pass  0.094     pass    pass  0.203     pass    pass  0.216     pass
+loglik[125]       pass   0.78     fail    fail  0.001     fail    pass  0.516     fail
+loglik[126]       pass  0.607     pass    pass  0.094     pass    pass  0.403     pass
+loglik[127]       pass  0.109     pass    pass  0.115     pass    pass  0.206     pass
+loglik[128]       pass  0.437     fail    pass  0.052     fail    pass  0.216     fail
+loglik[129]       pass  0.751     fail    pass  0.065     fail    pass  0.377     fail
+loglik[13]        pass  0.062     pass    pass  0.452     pass    pass  0.436     pass
+loglik[130]       pass  0.175     pass    pass   0.15     pass    pass  0.504     pass
+loglik[131]       pass  0.233     pass    pass  0.064     pass    pass  0.054     pass
+loglik[132]       pass  0.324     pass    fail  0.018     fail    pass  0.118     pass
+loglik[133]       pass  0.695     pass    pass  0.103     pass    pass  0.062     pass
+loglik[134]       pass  0.105     pass    pass  0.303     pass    pass  0.059     pass
+loglik[135]       pass  0.899     fail    pass  0.447     pass    pass  0.214     fail
+loglik[136]       pass  0.723     pass    pass  0.082     pass    pass  0.089     pass
+loglik[137]       pass  0.073     pass    pass  0.946     pass    pass  0.149     pass
+loglik[138]       pass  0.679     pass    pass  0.302     pass    pass  0.118     pass
+loglik[139]       pass  0.627     pass    pass  0.207     pass    pass  0.063     pass
+loglik[14]        pass  0.144     pass    pass  0.058     pass    pass  0.702     pass
+loglik[140]       pass  0.299     pass    pass  0.171     pass    pass  0.204     pass
+loglik[141]       pass  0.493     pass    pass  0.393     pass    pass  0.134     pass
+loglik[142]       pass  0.101     pass    pass  0.158     pass    pass  0.644     pass
+loglik[143]       pass  0.057     pass    pass  0.059     pass    pass  0.115     pass
+loglik[144]       pass  0.189     pass    pass   0.11     pass    pass  0.201     pass
+loglik[145]       pass  0.235     pass    pass  0.086     pass    pass  0.193     pass
+loglik[146]       pass  0.055     pass    pass  0.071     pass    pass  0.252     pass
+loglik[147]       pass  0.341     pass    pass  0.114     pass    pass  0.625     pass
+loglik[148]       pass  0.164     pass    pass  0.087     pass    pass  0.303     pass
+loglik[149]       pass  0.669     pass    pass  0.136     pass    pass  0.174     pass
+loglik[15]        pass  0.051     fail    pass   0.17     fail    pass  0.351     fail
+loglik[150]       pass  0.411     fail    fail  0.007     fail    pass  0.269     fail
+loglik[151]       pass  0.156     pass    fail  0.015     fail    pass  0.167     pass
+loglik[152]       pass  0.061     pass    pass   0.12     pass    pass  0.222     pass
+loglik[153]       fail  0.029     fail    pass   0.17     fail    pass  0.139     fail
+loglik[154]       pass  0.253     pass    pass  0.603     pass    pass  0.168     pass
+loglik[155]       pass  0.145     fail    pass  0.074     fail    pass  0.265     fail
+loglik[156]       pass  0.209     fail    pass  0.108     fail    pass  0.306     fail
+loglik[157]       pass  0.335     pass    pass  0.101     pass    pass  0.057     pass
+loglik[158]       pass  0.248     fail    pass  0.174     fail    pass  0.072     fail
+loglik[159]       pass  0.138     pass    pass  0.203     pass    pass  0.051     pass
+loglik[16]        fail  0.039     fail    fail  0.023     fail    pass  0.569     pass
+loglik[160]       pass  0.436     pass    fail  0.011     fail    pass  0.107     pass
+loglik[161]       pass  0.053     pass    pass  0.084     fail    pass  0.089     pass
+ [ reached 'max' / getOption("max.print") -- omitted 171 rows ]
+
+################################################################################
+# Geweke Diagnostic
+################################################################################
+
+The Geweke diagnostic is a standard z-score, so we'd expect 5% to be outside +/-1.96
+Number of variables outside +/-1.96 in each chain (out of 
+285
+):
+
+
+       Chain 1 Chain 2 Chain 3
+Geweke      48     121     116
+
+
+And here are the Geweke diagnostics for all variables:
+
+               chain1  chain2 chain3
+deviance       -0.952  -1.371  3.888
+fac2.sig       -0.665   4.050 -0.630
+ilr.fac1[2,1]   0.536   1.824 -2.011
+ilr.fac1[2,2]   0.012  -0.655 -1.756
+ilr.fac1[2,3]  -0.426  -0.196  2.544
+ilr.fac1[3,1]  -1.659   1.738  6.284
+ilr.fac1[3,2]  -0.242  -1.082 -1.009
+ilr.fac1[3,3]   1.060  -1.796 -2.862
+ilr.fac2[1,1]  -0.373 -10.681 -0.507
+ilr.fac2[1,2]  -1.850  -3.983  0.574
+ilr.fac2[1,3]   0.242   4.251 -0.336
+ilr.fac2[10,1] -1.166  -1.224  1.395
+ilr.fac2[10,2]  0.982  -0.587 -0.294
+ilr.fac2[10,3]  1.256   0.372 -1.393
+ilr.fac2[2,1]  -0.447  -1.058  1.311
+ilr.fac2[2,2]   0.294  25.054 -0.067
+ilr.fac2[2,3]  -1.634  -2.550 -2.358
+ilr.fac2[3,1]  -2.529 -13.117 -1.786
+ilr.fac2[3,2]  -0.918   3.693  1.765
+ilr.fac2[3,3]   0.394   0.106 -1.272
+ilr.fac2[4,1]   0.789  -4.844  0.085
+ilr.fac2[4,2]  -1.744   0.102  2.748
+ilr.fac2[4,3]  -1.089   2.014 -2.301
+ilr.fac2[5,1]   0.384  -5.194  2.194
+ilr.fac2[5,2]  -1.714   8.626 -0.166
+ilr.fac2[5,3]  -0.165  -0.704 -1.751
+ilr.fac2[6,1]  -1.257 -11.098 -2.332
+ilr.fac2[6,2]  -1.075   4.735  0.276
+ilr.fac2[6,3]  -0.240  -0.029  0.435
+ilr.fac2[7,1]  -0.002  -2.152  0.435
+ilr.fac2[7,2]  -1.169   0.069 -1.287
+ilr.fac2[7,3]  -0.715   0.936 -0.055
+ilr.fac2[8,1]   0.058  -3.273 -1.256
+ilr.fac2[8,2]  -1.349   0.584  0.226
+ilr.fac2[8,3]  -0.318   0.267  0.526
+ilr.fac2[9,1]  -1.857   1.757 -0.833
+ilr.fac2[9,2]   0.628  -0.189  0.018
+ilr.fac2[9,3]   1.414  -3.468 -0.051
+ilr.global[1]   1.845   3.822  3.134
+ilr.global[2]   7.116  -1.886 -2.765
+ilr.global[3]  -0.127  20.041 -0.465
+loglik[1]       0.027  -2.116 -2.154
+loglik[10]      0.256   3.042  0.580
+loglik[100]     0.014  -1.867 -0.222
+loglik[101]    -0.595  -0.729  1.621
+loglik[102]    -0.585  -1.122  1.922
+loglik[103]     0.007   0.763  2.640
+loglik[104]    -0.698  -1.736 -1.399
+loglik[105]     0.964   1.239  1.286
+loglik[106]     0.832   1.543  1.644
+loglik[107]     0.218   2.773  3.256
+loglik[108]    -1.587   1.154  2.760
+loglik[109]    -3.152   0.169  1.550
+loglik[11]     -0.269  -0.098 -2.426
+loglik[110]     1.998   2.794 -3.492
+loglik[111]     1.966  -0.029  0.130
+loglik[112]    -2.752   0.262  1.546
+loglik[113]    -3.352  -0.173  1.700
+loglik[114]    -2.224  -1.453  1.598
+loglik[115]     1.412   3.875  2.478
+loglik[116]    -2.121  -0.246  1.184
+loglik[117]     0.652   3.102  3.375
+loglik[118]     0.667  -1.439 -5.536
+loglik[119]     0.219  -1.528 -3.535
+loglik[12]     -2.994  -3.756  2.382
+loglik[120]     1.647   1.612  0.076
+loglik[121]     0.558  -1.212 -0.815
+loglik[122]    -0.501  -3.138 -1.808
+loglik[123]    -0.662  -3.171 -1.676
+loglik[124]    -2.134  -0.326  2.440
+loglik[125]     0.177  -0.336  2.122
+loglik[126]     0.503   2.737  2.990
+loglik[127]     1.163   2.051  1.167
+loglik[128]    -1.025   1.668  0.344
+loglik[129]    -0.791   1.756  1.082
+loglik[13]      1.259  -2.700 -6.404
+loglik[130]     1.083   1.004 -2.783
+loglik[131]    -2.081  -2.005  2.609
+loglik[132]    -0.092   3.231  1.404
+loglik[133]    -2.026  -0.777  4.479
+loglik[134]    -1.482   1.065  4.063
+loglik[135]    -0.424  -1.193  0.959
+loglik[136]     1.028  -1.746 -5.464
+loglik[137]     0.971  -0.021 -5.364
+loglik[138]     1.062   0.515 -3.233
+loglik[139]     1.451   0.581 -2.050
+loglik[14]      1.136  -0.466 -5.582
+loglik[140]     1.871   0.537 -0.331
+loglik[141]     0.055  -0.941 -0.334
+loglik[142]     1.005  -1.119 -0.448
+loglik[143]     2.167  -0.940  0.529
+loglik[144]     1.114   1.633  0.310
+loglik[145]    -1.158  -2.324  1.881
+loglik[146]     2.068  -0.952  0.423
+loglik[147]     0.997  -1.323 -1.301
+loglik[148]     1.581  -1.203 -2.473
+loglik[149]     0.474   0.753 -1.866
+loglik[15]      1.447   5.595 -6.013
+loglik[150]    -0.069   1.264 -0.063
+loglik[151]     0.690   2.685  1.424
+loglik[152]     1.581   1.243 -0.410
+loglik[153]     1.874   0.814 -3.374
+loglik[154]     1.509   1.236 -0.454
+loglik[155]    -1.773  -3.663  3.744
+loglik[156]     0.401  -0.301 -1.789
+loglik[157]    -3.145   0.685  5.628
+loglik[158]     0.039  -0.682 -1.930
+loglik[159]    -0.220  -1.439 -1.934
+loglik[16]      1.633   2.534 -4.635
+loglik[160]    -0.116   2.979 -0.429
+loglik[161]    -1.383   0.888 -0.930
+loglik[162]    -2.580   1.029  4.894
+loglik[163]     0.810   1.317 -0.875
+loglik[164]    -1.880   0.175  1.351
+loglik[165]    -0.516  -0.348 -1.817
+loglik[166]     0.620  -0.178 -2.788
+loglik[167]     0.769  -0.938 -0.159
+loglik[168]     2.199  -1.038  0.144
+loglik[169]     0.253  -1.062 -0.608
+loglik[17]      1.116   4.256 -5.076
+loglik[170]     0.600  -1.274 -1.010
+loglik[171]     1.699  -0.960  0.161
+loglik[172]    -0.074  -0.480  0.181
+loglik[173]    -2.196   0.656  2.808
+loglik[174]    -0.781  -1.751  0.908
+loglik[175]     0.133  -3.640 -7.118
+loglik[176]    -1.245  -2.658  1.210
+loglik[177]     2.134   1.421  0.433
+loglik[178]     0.164   0.081 -3.983
+loglik[179]     1.330   2.536  3.293
+loglik[18]      0.512  -1.613 -2.823
+loglik[180]    -0.611  -1.695  1.455
+loglik[181]     0.437   3.383  3.800
+loglik[182]     0.694   1.617  0.827
+loglik[183]    -1.044  -1.683  2.641
+loglik[184]    -3.395   1.495  2.873
+loglik[185]    -3.332   1.292  2.502
+loglik[186]     1.210  -2.576  3.119
+loglik[187]    -0.371  -4.915  2.529
+loglik[188]     0.956  -1.619 -3.968
+loglik[189]     1.963  -1.060  2.803
+loglik[19]     -1.338   1.157  3.158
+loglik[190]     0.780  -1.849 -2.613
+loglik[191]     2.517   1.240 -0.891
+loglik[192]    -2.152  -1.290  3.622
+loglik[193]     1.519   2.191 -3.644
+loglik[194]     0.363  -0.070  1.852
+loglik[195]     0.593  -1.003 -2.179
+loglik[196]     0.269   2.617 -0.287
+loglik[197]     1.578  -0.401 -1.309
+loglik[198]     1.017  -1.302 -1.986
+loglik[199]    -0.260   0.031  0.677
+loglik[2]      -0.333  -2.594 -1.720
+loglik[20]     -0.501  -2.494  4.443
+loglik[200]    -0.067   3.360 -0.142
+loglik[201]     0.155   2.954  0.037
+loglik[202]     1.837   3.451  0.980
+loglik[203]     1.992   1.187 -2.159
+loglik[204]     1.192   3.317 -1.254
+loglik[205]     1.070  -0.658 -1.995
+loglik[206]     0.188   4.974  2.408
+loglik[207]     1.201  -3.655  2.685
+loglik[208]     2.594   4.503  0.600
+loglik[209]     0.828  -1.234  1.827
+loglik[21]      2.505   2.967 -3.978
+loglik[210]     0.853  -1.280 -2.127
+loglik[211]     0.708  -4.427  0.240
+loglik[212]     0.209   0.436 -2.494
+loglik[213]     1.144  -2.074 -0.767
+loglik[214]     1.886   5.576 -2.413
+loglik[215]     0.007   2.305 -0.687
+loglik[216]     0.288   4.717 -1.875
+loglik[217]     1.101   4.254 -0.340
+loglik[218]    -0.275   3.980  2.116
+loglik[219]     1.491   5.176 -3.883
+loglik[22]     -2.325  -1.759  1.100
+loglik[220]     1.180   4.921 -4.019
+loglik[221]     1.951   1.735 -2.063
+loglik[222]     0.201  -2.123 -2.200
+loglik[223]     0.329  -1.096 -2.247
+loglik[23]     -1.229  -3.401  5.549
+loglik[24]      1.193   3.096 -1.261
+loglik[25]      2.445   2.682 -4.030
+loglik[26]      0.582   3.176  1.420
+loglik[27]     -0.293  -2.813  1.178
+loglik[28]      2.167   0.459 -4.358
+loglik[29]      0.884   4.118  0.482
+loglik[3]       1.062  -1.433 -0.715
+loglik[30]     -0.864   1.050  2.125
+loglik[31]     -1.670  -1.413  0.191
+loglik[32]     -0.099  -0.033 -1.370
+loglik[33]     -0.108  -3.013  0.089
+loglik[34]     -0.844   2.642 -0.224
+loglik[35]     -0.686  -0.303  1.915
+loglik[36]      2.533   2.984 -4.218
+loglik[37]     -2.269  -2.191  1.749
+loglik[38]     -1.472   1.522  2.416
+loglik[39]     -0.710   1.051  1.940
+loglik[4]      -1.556   0.183  2.778
+loglik[40]     -1.829  -2.853  6.839
+loglik[41]      0.526   2.811  1.076
+loglik[42]     -0.280  -0.649 -1.266
+loglik[43]      0.402  -2.034 -0.813
+loglik[44]     -0.666   0.911 -0.958
+loglik[45]     -0.997   0.771  0.794
+loglik[46]     -2.797  -2.800  1.190
+loglik[47]      0.377  -2.766 -0.998
+loglik[48]     -2.603  -2.699  2.459
+loglik[49]      0.230   0.140 -0.649
+loglik[5]      -0.368  -2.652 -1.183
+loglik[50]      0.483   0.659 -0.883
+loglik[51]      0.619   1.911 -0.584
+loglik[52]      0.155  -1.581 -2.274
+loglik[53]      0.272  -3.461 -1.681
+loglik[54]     -1.758   2.880  2.013
+loglik[55]      0.222  -0.142 -0.414
+loglik[56]     -2.400  -4.006  2.966
+loglik[57]     -0.192  -3.053 -0.845
+loglik[58]     -0.035  -3.300 -1.137
+loglik[59]      0.909  -0.702 -0.053
+loglik[6]       0.329  -4.628 -1.000
+loglik[60]     -1.752  -2.804 -0.385
+loglik[61]      1.175   1.775 -1.446
+loglik[62]     -0.224  -3.540 -0.963
+loglik[63]      0.854  -2.355 -0.692
+loglik[64]      2.254   3.448 -1.224
+loglik[65]     -0.562  -2.973 -0.861
+loglik[66]      2.577   0.405  1.110
+loglik[67]      0.533   1.550 -0.902
+loglik[68]     -2.758  -2.831  1.072
+loglik[69]      1.540  -1.678 -1.140
+loglik[7]       0.123   5.212 -3.554
+loglik[70]      1.304  -3.031  0.211
+loglik[71]      0.801   0.278 -2.502
+loglik[72]      0.557   0.531 -1.483
+loglik[73]      1.368   1.112  0.037
+loglik[74]      1.023   0.002 -2.447
+loglik[75]      2.084   1.537 -4.620
+loglik[76]      0.917  -2.238 -0.570
+loglik[77]      1.989  -1.488 -0.354
+loglik[78]      1.385   0.883  0.126
+loglik[79]      1.646   3.235 -1.548
+loglik[8]      -0.573  -5.882 -0.095
+loglik[80]     -0.830  -0.484  3.107
+loglik[81]      1.109  -1.822 -0.259
+loglik[82]      1.456  -1.826 -0.105
+loglik[83]     -0.845  -0.208  2.907
+loglik[84]     -0.423  -0.580 -1.903
+loglik[85]     -1.631  -1.501  2.444
+loglik[86]     -0.892  -0.336  3.929
+loglik[87]      1.508  -1.824 -0.953
+loglik[88]      1.574  -1.661 -0.580
+loglik[89]      0.283   1.832 -1.232
+loglik[9]      -0.264  -1.836 -2.169
+loglik[90]      2.951   3.761 -3.136
+loglik[91]     -0.627   2.231  1.185
+loglik[92]      1.956   2.457 -1.601
+loglik[93]     -1.887  -0.404  2.270
+loglik[94]      0.720   0.535 -2.254
+loglik[95]      0.452  -2.753 -0.985
+loglik[96]      0.548  -0.586 -0.595
+loglik[97]      0.783  -0.950 -3.933
+loglik[98]     -0.742  -2.003 -4.048
+loglik[99]      0.801   1.321  1.646
+p.fac1[1,1]     6.198   4.192  3.780
+p.fac1[1,2]    -0.333  -0.153 -2.336
+p.fac1[1,3]    -4.908   5.375  2.442
+p.fac1[1,4]     0.063  -3.127  0.875
+p.fac1[2,1]     8.933   4.832  2.312
+p.fac1[2,2]    -0.867  -4.194 -0.239
+p.fac1[2,3]    -1.822   2.927  4.370
+p.fac1[2,4]     0.354  -2.691 -0.854
+p.fac1[3,1]     3.222   3.790  6.501
+p.fac1[3,2]     0.676  -2.449 -8.994
+p.fac1[3,3]    -0.509   4.003  1.328
+p.fac1[3,4]    -1.176  -7.407  6.442
+p.global[1]     6.198   4.192  3.780
+p.global[2]    -0.333  -0.153 -2.336
+p.global[3]    -4.908   5.375  2.442
+p.global[4]     0.063  -3.127  0.875
+resid.prop[1]  -0.544   0.100  1.572
+resid.prop[2]   0.095  -0.719  0.221

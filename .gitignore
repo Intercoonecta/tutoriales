@@ -7,6 +7,9 @@
 # Macs
 .DS_Store
 
+# Windows
+desktop.ini
+
 
 # --------- From Python template for .gitignore
 
