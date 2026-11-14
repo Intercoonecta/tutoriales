@@ -5,3 +5,4 @@ Tutoriales del evento [Hackatón de OceanHackWeek en Español, noviembre 9-20, 2
 ## Tutoriales del lunes 16 de noviembre
 
 1. [Datos de Global Fishing Watch (R)](DatosGFW)
+2. [Aplicación de Isótopos Estables (R)](isotopos_estables_R)
