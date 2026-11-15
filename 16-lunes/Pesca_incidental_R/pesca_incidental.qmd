@@ -1,0 +1,229 @@
+---
+title: "Pesca incidental de peces de pico en la pesquería de cerco de atún  tropical"
+lang: es
+author: "Héctor Villalobos"
+date: today
+format: 
+  html:
+    toc: false
+editor: visual
+---
+
+## Introducción
+
+Vamos a analizar datos de captura incidental de peces de pico en la pesquería de atún (flota cerquera) en el Océano Pacífico Oriental Tropical. Estos datos son compilados por el programa de observadores a bordo la Comisión Interamericana del Atún Tropical (CIAT o IATTC) y están disponibles en su página: <https://www.iattc.org/es-ES/Data/Public-domain>.
+
+## Métodos y Resultados
+
+### Cargar paquetes
+
+Para este tutorial requerimos algunos paquetes:
+
+```{r}
+#| message: FALSE
+library(sp)         # Clases y métodos para datos espaciales 
+library(PBSmapping) # Mapeo de datos pesqueros y herramientas de análisis espaciales
+```
+
+### Importar y explorar los datos
+
+Los datos descargados y ya descomprimidos se encuentran en la carpeta `data` de este tutorial. Usamos la función `read.csv()` que solo requiere especificar la ruta y nombre del archivo.
+
+```{r}
+pic <- read.csv("./data/PublicPSBillfishSetType.csv")
+```
+
+Podemos explorar los datos importados con la función `head()`, que muestra los primeros registros. Los nombres de algunas columnas son bastante intutivos, como `Year`, `Month`, `LatC1` y `LonC1`.
+
+```{r}
+head(pic)
+```
+
+De acuerdo con el documento `PSBillfish-Picudos.pdf` que también se encuentra en `data`, se tiene información de tres tipos de lances de pesca (`SetType`):
+
+1.  realizados sobre manadas de delfines (DEL)
+
+2.  sobre objetos flotantes (OBJ)
+
+3.  sobre cardúmenes de atún no asociados (NOA).
+
+Están agregados en cuadrantes 1º $\times$ 1º de longitud-latitud y para cada mes desde 1993 hasta diciembre de 2025. Para cada cuadrante/año/mes se conoce el número de lances realizados (`NumSets`), que sería una medida del esfuerzo pesquero y las capturas de varias especies en número de individuos capturados. Para este tutorial vamos a concentrarnos en los últimos seis años.
+
+```{r}
+pic <- pic[pic$Year > 2019, ]
+```
+
+#### ¿Para que tipo de lance tenemos más registros?
+
+Esta pregunta podemos responderla sumando el número de lances por tipo de lance:
+
+```{r}
+esfuerzo <- aggregate(pic$NumSets, list(SetType = pic$SetType), sum)
+esfuerzo
+```
+
+Ahora, podemos graficar el esfuerzo por tipo de lance, para lo cual necesitamos agregar el esfuerzo por cuadrante y tipo de lance
+
+```{r}
+esf <- aggregate(pic$NumSets, list(lon = pic$LonC1, 
+                                   lat = pic$LatC1, 
+                                   SetType = pic$SetType), sum)
+names(esf)[4] <- "esfuerzo"
+head(esf)
+```
+
+Separamos por tipo de lance, y convertimos a la clase `"EventData"` de **PBSmapping**.
+
+```{r}
+DEL.f <- esf[esf$SetType == "DEL", c(1, 2, 4)]
+OBJ.f <- esf[esf$SetType == "OBJ", c(1, 2, 4)]
+NOA.f <- esf[esf$SetType == "NOA", c(1, 2, 4)]
+
+# Convertir a clase EventData
+DEL.f <- data.frame(EID = 1:nrow(DEL.f), DEL.f)
+ names(DEL.f)[2:4] <- c("X", "Y", "Z")
+ class(DEL.f) <- c("EventData", "data.frame")
+
+OBJ.f <- data.frame(EID = 1:nrow(OBJ.f), OBJ.f)
+ names(OBJ.f)[2:4] <- c("X", "Y", "Z")
+ class(OBJ.f) <- c("EventData", "data.frame")
+
+NOA.f <- data.frame(EID = 1:nrow(NOA.f), NOA.f)
+ names(NOA.f)[2:4] <- c("X", "Y", "Z")
+ class(NOA.f) <- c("EventData", "data.frame")
+```
+
+Ahora necesitamos un mapa. Lo podemos importar de la base GSHHG (*A Global Self-consistent, Hierarchical, High-resolution Geography Database*;<https://www.soest.hawaii.edu/pwessel/gshhg/>). En la carpeta `data/gshhg` se incluye esta base en baja resolución.
+
+```{r, eval = FALSE}
+# Funcion para convertir a Poligonos espaciales
+PolySet2SpatialPolygons <- function(PolySet){
+  require(sp)
+  PS <- PolySet
+  if (!inherits(PS, "PolySet")) 
+    stop("not a PolySet object")
+  
+  coords <- as.data.frame(PS[, c('X', 'Y')])
+  poly_coords <- split(coords, PS$PID)
+  
+  # Create a list of Polygon objects
+  polygon_list <- lapply(poly_coords, function(coords) {
+    Polygon(coords)})
+  
+  # Create a Polygons object
+  polygons <- Polygons(polygon_list, ID = "polygons")
+  
+  # Create a SpatialPolygons object
+  spatial_polygons <- SpatialPolygons(list(polygons))
+  spatial_polygons
+}
+
+# coordenadas de interés
+xl <- c(-130, -60)
+yl <- c(-35, 45)
+PS <- importGSHHS("./data/gshhg/gshhs_l.b", maxLevel = 1,
+                  xlim = xl + 360, ylim = yl, useWest = TRUE)
+
+# convertir a SpatialPolygons
+mapa <- PolySet2SpatialPolygons(PS)
+
+# si queremos guardar nuestro mapa para no extraerlo cada vez
+saveRDS(mapa, "./data/mapaCIAT.rds")
+```
+
+Cargar el mapa previamente guardado
+
+```{r}
+mapa <- readRDS("./data/mapaCIAT.rds")
+```
+
+Ahora si, nuestra figuras quedarían de la siguiente manera:
+
+```{r}
+#| label: fig-eff
+#| fig-cap: "Esfuerzo de pesca por tipo de lance."
+#| fig-subcap: 
+#|   - "DEL"
+#|   - "OBJ"
+#|   - "NOA"
+#| layout-ncol: 1
+#| fig-height: 5.8
+#| fig-width: 6
+
+plot(mapa, xlim = c(-150, -70), ylim = c(-30, 32), axes = TRUE, border = "grey")
+addBubbles(DEL.f, max.size = 0.4, z.max = 850, legend.breaks = c(100, 400, 850),
+           legend.title = "esfuerzo")
+
+plot(mapa, xlim = c(-150, -70), ylim = c(-30, 32), axes = TRUE, border = "grey")
+addBubbles(OBJ.f, max.size = 0.4, z.max = 850, legend.breaks = c(100, 400, 850),
+           legend.title = "esfuerzo")
+
+plot(mapa, xlim = c(-150, -70), ylim = c(-30, 32), axes = TRUE, border = "grey")
+addBubbles(NOA.f, max.size = 0.4, z.max = 850, legend.breaks = c(100, 400, 850),
+           legend.title = "esfuerzo")
+```
+
+#### ¿Cuál es la especie de picudo mejor representada por tipo de lance?
+
+De manera similar, podemos explorar cuales son las especies más abundantes por tipo de lances
+
+```{r}
+aggregate(pic[, 7:13], list(pic$SetType), sum)
+```
+
+El marlin azul (BUM) es la especie más capturada, especialmente en lances sobre objetos flotantes, por lo que filtraremos nuestros datos para esta especie y tipo de lance.
+
+```{r}
+BUM <- pic[pic$SetType == "OBJ", 
+           c('Year', 'Month', 'LonC1', 'LatC1', 
+             'NumSets', 'BUM')]
+
+BUM <- aggregate(BUM[, c(5, 6)], list(lon = BUM$LonC1, 
+                                      lat = BUM$LatC1,
+                                      mes = BUM$Month), sum)
+```
+
+Preparamos los datos por mes para representarlos en un mapa,
+
+```{r}
+BUM$cipue <- BUM$BUM/BUM$NumSets
+
+# para cada mes
+for(i in 1:12){
+  x <- BUM[BUM$mes == i, c(1, 2, 6)]
+  x <- data.frame(EID = 1:nrow(x), x)
+  names(x)[2:4] <- c("X", "Y", "Z")
+  class(x) <- c("EventData", "data.frame")  
+  assign(paste0("BUM.", i), x)
+}
+```
+
+Finalmente, las figuras de la captura incidental por unidad de esfuerzo del marlin azul, para dada mes quedarían de la siguiente manera
+
+```{r}
+#| label: fig-bum_cipue
+#| fig-cap: "Captura incidental por unidad de esfuerzo de marlin azul (*Makaira nigricans*)."
+#| fig-height: 6.2
+#| fig-width: 6.5
+#| fig-subcap: 
+#|   - "enero"
+#|   - "febrero"
+#|   - "marzo"
+#|   - "abril"
+#|   - "mayo"
+#|   - "junio"
+#|   - "julio"
+#|   - "agosto"
+#|   - "septiembre"
+#|   - "octubre"
+#|   - "noviembre"
+#|   - "diciembre"
+#| layout-ncol: 3 
+
+for(i in 1:12){
+  plot(mapa, xlim = c(-150, -70), ylim = c(-30, 32), axes = TRUE, border = "grey")
+  addBubbles(get(paste0("BUM.", i)), max.size = 0.4, z.max = 8, 
+             legend.breaks = c(1, 8),legend.title = "cipue")  
+}
+
+```
