@@ -1,0 +1,508 @@
+---
+title: "De la Autocorrelación a los Modelos Espaciales"
+# author: "Arelly Ornelas"
+output: 
+  rmarkdown::github_document:
+    fig_width: 6
+    fig_height: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+
+
+```{r, include=FALSE} 
+packages <- c("sf", "spdep", "spatialreg", "ggplot2")
+# Revisar si los paquetes están instalados
+no_i <- packages[!packages %in% installed.packages()[, "Package"]]
+# instalar paquetes faltantes
+if (length(no_i) > 0) {
+  install.packages(no_i, repos = "https://cran.rstudio.com/", dep = T)
+}
+
+library(spdep)      # datos espaciales, Moran, correlogramas
+library(sf)         # datos espaciales
+library(spatialreg) # modelos SAR/SEM/SAC
+library(ggplot2)
+```
+
+
+##  ¿Dónde nos quedamos? 
+
+
+En la charla <a href="https://github.com/Intercoonecta/tutoriales/tree/main/11-miercoles/analisis_estadistico_R"
+   style="color:#D1008F;"> Estadística descriptiva con datos espaciales</a>:  trabajamos con datos marinos de la costa de California y vimos:
+
+- Estadística descriptiva: histogramas, boxplots y gráficos de violín.
+- Relaciones entre variables: gráficos de dispersión y correlaciones.
+- Mapas de variables ambientales, cuantiles y representaciones bivariadas.
+- Identificación de valores atípicos globales y locales.
+
+  👽 Definición de vecinos por distancia y por proximidad.  
+
+  🏋️‍♀️ Matriz de pesos espaciales \(W\).  
+
+  🗺️ Autocorrelación espacial Moran's I: permite identificar asociaciones espaciales High-High, Low-Low,   High-Low y Low-High. 
+  
+
+
+### A los datos
+
+El `csv`  contiene información sobre algas en el Noroeste de México. Las variables son: longitud, latitud, temperatura, clorofila y altura.
+
+```{r,  echo=F}
+# leer datos
+dm <- read.csv("Data/datos_marinos_sim.csv")
+# head(dm)
+
+# Coordenadas
+coords <- cbind(dm$lon, dm$lat)
+
+# Definir límites  de los ejes
+xlim <- c(min(dm$lon) - 0.2, max(dm$lon) + 0.2)
+ylim <- c(min(dm$lat) - 0.2, max(dm$lat) + 0.2)
+
+
+ggplot() +
+  borders("world", xlim = xlim, ylim = ylim,
+          fill = "gray90", colour = "gray70") +
+  geom_point(data = dm,
+             aes(x = lon, y = lat, colour = altura),
+             size = 2) +
+  scale_color_gradient(low = "lightblue", high = "#174709") +
+  coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
+  labs(title = "",
+       x = "Lon", y = "Lat", colour = "Altura") +
+  theme_minimal()
+
+```
+
+### ¿A quién puedo considerar vecinos?
+
+>  ¿Cuáles opciones vimos? 
+
+
+ Seguimos con `k-NN` con \(k = 4\) y la  matriz de pesos \(W\) correspondiente.
+
+```{r inicio, echo=T}
+# Cuatro vecinos más próximos
+
+nb_knn <- knn2nb(knearneigh(coords, k = 4))
+
+# Matriz de pesos estandarizada por filas: suma de los elementos de cada fila sea igual a 1. 
+W <- nb2listw(nb_knn, style = "W")
+
+# Vecinos de la primera observación
+nb_knn[[1]]
+# W$neighbours[[1]] 
+
+# Pesos asignados a esos vecinos
+W$weights[[1]]
+
+# Valor observado y promedio de sus vecinos
+dm$altura[1]
+lag.listw(W, dm$altura)[1]
+```
+
+### Moran's I global
+
+> REcuerdan a LISA? 
+
+ 
+LISA  permite identificar dónde se presentan asociaciones espaciales locales.
+<!--LISA:  Local Indicators of Spatial Association -->
+
+- **HH y LL:** observaciones rodeadas de vecinos con valores semejantes.
+- **HL y LH:** observaciones diferentes de sus vecinos.
+
+
+El Moran's I global resume en **un solo número si los vecinos se parecen**.
+
+\(H_0\): Ausencia de autocorrelación espacial global. 
+
+\(H_a\): Existe autocorrelación espacial global (positiva o negativa).
+
+
+```{r moran_global, echo=T}
+
+#  moran.test(dm[,"temperatura"], W , alternative = "greater") #positiva. Default
+  moran.test(dm[,"temperatura"], W, alternative = "less") #negativa 
+#  moran.test(dm[,"temperatura"], W, alternative = "two.side")  
+moran.test(dm[,"clorofila"], W ) 
+moran.test(dm[,"altura"], W ) 
+
+```
+
+
+⚠️ **Un resultado no significativo con `greater` (o `less`) no demuestra ausencia de autocorrelación espacial.**
+
+-  Podría existir autocorrelación negativa (o positiva).
+
+
+> ¿Cuál de las tres variables tiene más estructura espacial?
+
+> ¿Cuál parece distribuirse al azar?
+
+
+### Gráfico de dispersión de Moran.
+```{r moran_plot, echo=T}
+
+
+moran.plot(dm$altura, listw = W, pch = 19, col = "tan",
+           xlab = "Altura observada",
+           ylab = "Lag espacial (media de los vecinos)")
+```
+
+- Eje X: el valor de `altura` cada punto.
+- Eje Y: la media de `altura` de sus vecinos.
+- La pendiente de la recta es el Moran's I.
+- Los puntos marcados con un rombo y un número son observaciones influyentes. 
+
+> ¿Cómo se lee el gráfico? 
+
+- **Superior derecho (HH):** alturas altas rodeadas de alturas altas.
+- **Inferior izquierdo (LL):** alturas bajas rodeadas de alturas bajas.
+- **Inferior derecho (HL):** alturas altas rodeadas de alturas bajas.
+- **Superior izquierdo (LH):** alturas bajas rodeadas de alturas altas.
+
+>  ¿Qué pasa si comparamos con puntos cada vez más lejanos?
+ 
+### Correlogramas espaciales
+
+Calcula Moran's I para diferentes órdenes de vecindad  y dibuja el resultado.
+
+- Orden 1: mis vecinos.
+- Orden 2: los vecinos de mis vecinos.
+- Y así sucesivamente.
+
+ > ¿Hasta qué distancia se parecen mis datos?
+
+ > Para diseñar un muestreo: ¿A qué distancia dos estaciones dejan de dar información repetida?
+
+```{r correlograma, echo=T}
+
+(cg_alt <- sp.correlogram(nb_knn, dm$altura, order = 8, method = "I",
+                         style = "W", zero.policy = TRUE))
+
+
+plot(cg_alt, main = "Altura" , ylim=c(-0.1,1))
+
+```
+
+<!-- 
+- () cuántas observaciones tienen vecinos en ese orden de vecindad
+- `estimate`: Moran's I en cada orden.
+- `expectation`: valor esperado si no hubiera patrón espacial (casi 0).
+- `Pr(I)`: p-valor. 
+- plot:  el punto es el Moran's I y la barra es ± 2 desviaciones estándar. Si la barra no cruza la línea horizontal (valor esperado bajo H₀), sugiere autocorrelación espacial estadísticamente significativa.. -->
+
+> ¿Hasta qué orden de vecindad hay autocorrelación en la altura?
+
+> ¿Qué le cambiamos al código para ver el correlograma de la temperatura?
+
+
+
+
+## Introducción a los modelos espaciales
+
+### Regresiòn lineal  `OLS`
+
+
+\[
+y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,
+\qquad \varepsilon_i \overset{iid}{\sim} N(0,\sigma^2)
+\]
+
+*iid* = independientes idénticamente distribuidos
+
+> ¿La altura depende de la temperatura y de la clorofila?
+
+```{r ols, echo=T}
+
+fml <- altura ~ temperatura + clorofila
+lm_1 <- lm(fml, data = dm)
+summary(lm_1)
+
+
+```
+
+> ¿Qué hipótesis contrastan estos p - valores?
+
+> ¿Podemos confiar en ellos?
+
+
+
+### Limitaciones ante la dependencia espacial
+
+⚠️ La regresión  `OLS` (ordinary least square) supone que los errores son independientes.
+
+
+🟰 **Pseudorreplicación espacial:** si las estaciones vecinas se parecen, 200 observaciones pueden aportar menos información que 200 datos independientes.
+  
+      ➡️ ➡️ los errores estándar pueden subestimarse y los p-valores resultar demasiado optimistas.
+
+🔀 **Posible sesgo:** si la altura de un sitio depende de la altura de sus vecinos e ignoramos esa relación, los coeficientes también pueden estar sesgados.
+
+     🎯 No basta con detectar autocorrelación en la altura. Importa si persiste en los residuos, i.e., en lo que el modelo no explica. 
+
+#### Gráfico de residuos    
+
+
+```{r residuos, echo=F}
+
+dm$res_ols <- residuals(lm_1)
+
+# Mapa de los residuos
+ggplot(dm, aes(x = lon, y = lat)) +
+  borders("world", fill = "gray90", colour = "gray70") +
+  geom_point(aes(fill = res_ols), shape = 21, colour = "gray40", size = 2.5) +
+  scale_fill_gradient2(low = "#063a2f", mid = "#c7e0dc", high = "#321950") +
+  coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
+  theme_minimal() +
+  labs(title = "Residuos de OLS",
+       x = "Lon", y = "Lat", fill = "Residuo")
+
+
+```
+> ¿Se ve algún patrón espacial en los residuos?
+
+Los residuos positivos y negativos tienden a agruparse espacialmente
+
+#### TEst 
+ \[
+H_0: \text{No existe autocorrelación espacial en los residuos.}
+\]
+
+\[
+H_a: \text{Existe autocorrelación espacial positiva en los residuos.}
+\]
+
+```{r  res_morantest}
+
+# Moran's I de los residuos
+lm.morantest(lm_1, W)
+
+```
+
+> ¿Qué dice el Moran's I?
+
+🎯 La regresión `OLS` no ha explicado toda la estructura espacial de los datos. 
+
+## Tres modelos espaciales
+
+ Hay tres formas básicas de `meter` el espacio en una regresión. La diferencia es dónde colocamos la dependencia:
+
+🌀 SAR (Spatial Autoregressive Model): la respuesta de un sitio depende de sus covariables y también de la altura de sus vecinos.
+
+\[
+y = \rho W y + X\beta + \varepsilon
+\]
+
+  -- P.e.: organismos que se dispersan entre sitios, un contaminante que se propaga.
+
+🌀 SEM (Spatial Error Model): la respuesta no depende de los vecinos, pero nos faltan variables que sí tienen patrón espacial. Lo que no medimos se queda en el error, y el error hereda el patrón.
+
+\[
+y = X\beta + u, \qquad u = \lambda W u + \varepsilon
+\]
+
+-- P.e.: variables con estructura espacial que no medimos (corrientes, batimetría, nutrientes).
+
+🌀 SAC (Spatial Autoregressive Combined): combina los dos anteriores.
+
+\[
+y = \rho W y + X\beta + u, \qquad u = \lambda W u + \varepsilon
+\]
+
+Para los tres:
+
+- \(W y\) es la media de la respuesta en los vecinos (como vimos antes).
+- \(\rho\) y \(\lambda\) miden la intensidad de la dependencia. Si valen 0, volvemos a la regresión convencional.
+-  \(\varepsilon_i \overset{iid}{\sim} N(0,\sigma^2)\)
+
+
+### ¿Cuál elegir?
+
+
+  **Primero el contexto del problema, después la estadística:**
+  
+  --  Si existe un mecanismo de dispersión o transporte entre sitios, `SAR`
+
+  --  Si sospechamos de variables no medidas con estructura espacial, `SEM`.
+
+  **Pruebas de multiplicadores de Lagrange (LM)** parten de la regresión clásica y preguntan: 
+
+❓ ¿Existe evidencia para incorporar la dependencia espacial en la respuesta (SAR)?
+\[
+H_0:\rho=0 \qquad H_a:\rho\neq 0
+\]
+
+❓ ¿Existe evidencia para incorporarla en los errores (SEM)?
+
+\[
+H_0:\lambda=0 \qquad H_a:\lambda\neq 0
+\]
+
+❓ ¿Existe evidencia conjunta de dependencia espacial (SARMA)?
+SARMA: Spatial AutoRegressive Moving Average.
+
+\[
+H_0:\rho=\lambda=0
+\qquad
+H_a:\rho\neq 0 \;\text{o}\; \lambda\neq 0
+\]
+
+⚠️ Estas pruebas suponen errores normales y con variabilidad constante.
+
+```{r pruebas_lm, echo=T}
+
+summary(lm.RStests(lm_1, W, test = "all"))
+
+```
+
+- `RSlag`: evalúa la dependencia espacial en la respuesta.
+- `RSerr`: evalúa la dependencia espacial en los errores.
+- `adjRSlag` y `adjRSerr`: versiones ajustadas que consideran la posible presencia del otro tipo de dependencia.
+- `SARMA`: prueba conjunta de dependencia espacial.
+
+> ¿Qué modelo sugieren las pruebas?
+
+🎯 Las pruebas favorecen un modelo `SAR`, que será necesario ajustar y evaluar.
+
+
+### Ajuste de `SAR`, `SEM` y `SAC`
+
+```{r model, echo=T}
+
+# REcordar que fml: altura ~ temperatura + clorofila
+m_sar <- lagsarlm(fml,   data = dm, listw = W)   # SAR
+m_sem <- errorsarlm(fml, data = dm, listw = W)   # SEM
+m_sac <- sacsarlm(fml,   data = dm, listw = W)   # SAC
+
+summary(m_sar)
+
+```
+
+#### El modelo `SAR` ajustado es:
+
+\[
+\widehat{\text{altura}}_i = -435.48 + 16\,\text{temperatura}_i + 27.48\,\text{clorofila}_i + 0.901\sum_j w_{ij}\text{altura}_j
+\]
+
+- `Coefficients`: temperatura y clorofila presentan coeficientes positivos y significativos. 
+
+> ¿Es \(\rho\) distinto de 0?
+
+- `Rho: 0.9014`, `z-value: 50.536, p-value: < 2.22e-16`: indica una dependencia espacial positiva muy intensa y estadísticamente significativa.
+
+- `LR test value: 442.09, p-value: < 2.22e-16`: compara `SAR` con `OLS`. Existe evidencia de que incorporar el rezago espacial mejora el ajuste del modelo.
+
+> ¿Queda autocorrelación espacial en los errores del SAR?
+
+- `LM test for residual autocorrelation test value: 0.70859, p-value: 0.39991`: evalúa si queda dependencia espacial en los errores del SAR. A \(\alpha=0.05\) no hay evidencia estadísticamente significativa de autocorrelación espacial residual.
+
+
+### Comparación de modelos
+
+```{r compara, echo=T}
+
+mods <- list(OLS = lm_1, SAR = m_sar, SEM = m_sem, SAC = m_sac)
+
+comp <- data.frame(
+  temperatura = sapply(mods, function(m) coef(m)["temperatura"]),
+  clorofila   = sapply(mods, function(m) coef(m)["clorofila"]),
+  rho         = c(NA, m_sar$rho, NA, m_sac$rho),
+  lambda      = c(NA, NA, m_sem$lambda, m_sac$lambda),
+  AIC         = sapply(mods, AIC),
+  I_residuos  = sapply(mods, function(m) moran.test(residuals(m), W,  alternative = "two.sided")$estimate[1]), 
+  p_residuos  = sapply(mods, function(m)
+    moran.test(residuals(m), W, alternative = "two.sided")$p.value),
+    row.names   = names(mods)
+)
+
+round(comp, 2)
+
+```
+
+- `AIC`: cuanto más bajo, mejor equilibrio entre ajuste y complejidad. 
+  
+- `I_residuos`: Moran's I de los residuos. Valores cercanos a `cero` sugieren poca autocorrelación espacial residual.
+
+> ¿Hay diferencias entre  modelos?
+
+🎯 Los coeficientes cambian, especialmente el de clorofila (40.91 en `OLS` y 27.48 en `SAR`).
+🎯 Los errores estándar disminuyen (temperatura: 4.28 en `OLS` y 1.21 en `SAR`).
+
+    ➡️  Incorporar la dependencia espacial modifica la incertidumbre de las estimaciones
+
+🎯 `SAR` presenta el menor `AIC` y reduce la autocorrelación residual respecto a `OLS` 
+
+🎯 `SAC` ofrece un ajuste  equivalente según el `AIC`, pero con un parámetro de más. 
+
+     ➡️ `SAR` es una opción razonable.
+
+
+### Interpretación de los coeficientes del SAR
+
+😀 En `OLS`, el coeficiente de temperatura indica cuánto cambia, en promedio, la altura por cada unidad adicional de temperatura, manteniendo constantes las demás variables.
+
+🤯 En `SAR`, los cambios pueden propagarse entre estaciones y regresar a la estación de origen a través de sus vecinos.
+
+- Por eso, el coeficiente de temperatura `r round(comp["SAR", "temperatura"],3)` no representa el efecto completo: si aumenta la temperatura en una estación, cambia su altura; ese cambio afecta la altura de sus vecinos y, a su vez, puede regresar a la estación de origen.
+    
+➡️ Tres tipos de impactos: 
+
+  - Directo: cambio en la altura de la propia estación, incluyendo el efecto que regresa a través de sus vecinos.
+  
+  - Indirecto (spillover): cambio en la altura de otras estaciones debido al aumento de temperatura en una estación.
+  
+  - Total:  suma de los dos anteriores.
+
+    
+```{r impactos, echo=T}
+
+(imp_sar <- impacts(m_sar, listw = W))
+
+```
+
+> ¿Qué parte del efecto de la temperatura llega a través de los vecinos?
+
+- Si la temperatura aumenta una unidad en todas las estaciones, la altura aumenta, en promedio, `r round(imp_sar$total[1], 2)` unidades.
+- 
+- De ese cambio, `r round(imp_sar$direct[1], 2)` corresponden al efecto directo en cada estación y `r round(imp_sar$indirect[1], 2)` al efecto indirecto transmitido entre estaciones.
+
+🎯 El efecto total es mayor que el coeficiente estimado (`r round(coef(m_sar)["temperatura"], 2)`), debido a la propagación espacial.
+
+ 🚧 En el SEM no hace falta: los coeficientes se interpretan directamente.
+
+
+### ¿Cuándo es necesario considerar modelos espaciales?
+- Cuando los residuos de `OLS` tienen autocorrelación espacial.
+- Cuando existe un mecanismo que conecta los sitios vecinos (dispersión, transporte, contagio).
+<!-- - No siempre hace falta: a veces una covariable explica el patrón espacial (la temperatura y la latitud). -->
+
+
+#### check list
+
+- Mapa de la variable.
+- Moran's I y correlograma.
+- Regresión `OLS`.
+- Moran's I de los residuos y pruebas de multiplicadores de Lagrange.
+- Modelo espacial.
+- Comparación y revisión de los residuos.
+
+
+#### Principales decisiones metodológicas
+- Quién es vecino de quién: k-NN, distancia y número de vecinos.
+- Qué modelo: SAR, SEM o SAC.
+- Qué hacer si la variabilidad cambia entre zonas.
+
+
+> ¿Qué más puedo hacer?
+
+
+- Geoestadística: variogramas y kriging para predecir en sitios no muestreados.
+- Regresión geográficamente ponderada (GWR): coeficientes que cambian en el espacio.
+- Modelos espacio-temporales.
