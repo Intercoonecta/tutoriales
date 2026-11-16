@@ -11,13 +11,15 @@ editor: visual
 
 ## Introducción
 
-Vamos a analizar datos de captura incidental de peces de pico en la pesquería de atún (flota cerquera) en el Océano Pacífico Oriental Tropical. Estos datos son compilados por el programa de observadores a bordo la Comisión Interamericana del Atún Tropical (CIAT o IATTC) y están disponibles en su página: <https://www.iattc.org/es-ES/Data/Public-domain>.
+Los peces de pico o "picudos" (marlines, pez espada, pez vela, etc.) son capturados de manera incidental durante las operaciones de pesca que tienen como especie objetivo a los atunes. Analizaremos la base de datos de la flota cerquera que opera en el Océano Pacífico Oriental Tropical. Estos provienen del programa de observadores a bordo de la flota y son compilados por la Comisión Interamericana del Atún Tropical (CIAT o IATTC, por sus siglas en inglés).
+
+Esta base de datos y otras están disponibles en la página: <https://www.iattc.org/es-ES/Data/Public-domain>.
 
 ## Métodos y Resultados
 
 ### Cargar paquetes
 
-Para este tutorial requerimos algunos paquetes:
+Para este tutorial requerimos los siguientes paquetes:
 
 ```{r}
 #| message: FALSE
@@ -47,7 +49,9 @@ De acuerdo con el documento `PSBillfish-Picudos.pdf` que también se encuentra e
 
 3.  sobre cardúmenes de atún no asociados (NOA).
 
-Están agregados en cuadrantes 1º $\times$ 1º de longitud-latitud y para cada mes desde 1993 hasta diciembre de 2025. Para cada cuadrante/año/mes se conoce el número de lances realizados (`NumSets`), que sería una medida del esfuerzo pesquero y las capturas de varias especies en número de individuos capturados. Para este tutorial vamos a concentrarnos en los últimos seis años.
+Están agregados en cuadrantes 1º $\times$ 1º de longitud-latitud y por mes desde 1993 hasta diciembre de 2025. Para cada cuadrante/año/mes se conoce el número de lances realizados (`NumSets`), que sería una medida del esfuerzo pesquero y las capturas de varias especies en número de individuos capturados. Las especies corresponden al marlin negro (BLM, *Istiompax indica*); marlin azul (BUM, *Makaira nigricans*); marlin rayado (MLS, *Kajikia audax*); pez vela (SFA, *Istiophorus platypterus*); marlin trompa corta (SSP, *Tetrapturus angustirostris*) y pez espada ( SWO, *Xiphias gladius*). En el código BIL se incluyen aquellos individuos que no lograron identificarse.
+
+Para este tutorial vamos a concentrarnos en los últimos seis años.
 
 ```{r}
 pic <- pic[pic$Year > 2019, ]
@@ -55,14 +59,14 @@ pic <- pic[pic$Year > 2019, ]
 
 #### ¿Para que tipo de lance tenemos más registros?
 
-Esta pregunta podemos responderla sumando el número de lances por tipo de lance:
+Esta pregunta podemos responderla sumando el número de lances por tipo de indicador:
 
 ```{r}
 esfuerzo <- aggregate(pic$NumSets, list(SetType = pic$SetType), sum)
 esfuerzo
 ```
 
-Ahora, podemos graficar el esfuerzo por tipo de lance, para lo cual necesitamos agregar el esfuerzo por cuadrante y tipo de lance
+Ahora, podemos graficar el esfuerzo para cada tipo de lance, para lo cual necesitamos agregar el esfuerzo por cuadrante de pesca y tipo de lance
 
 ```{r}
 esf <- aggregate(pic$NumSets, list(lon = pic$LonC1, 
@@ -93,7 +97,7 @@ NOA.f <- data.frame(EID = 1:nrow(NOA.f), NOA.f)
  class(NOA.f) <- c("EventData", "data.frame")
 ```
 
-Ahora necesitamos un mapa. Lo podemos importar de la base GSHHG (*A Global Self-consistent, Hierarchical, High-resolution Geography Database*;<https://www.soest.hawaii.edu/pwessel/gshhg/>). En la carpeta `data/gshhg` se incluye esta base en baja resolución.
+Ahora necesitamos un mapa. Lo podemos importar de la base GSHHG (*A Global Self-consistent, Hierarchical, High-resolution Geography Database*; <https://www.soest.hawaii.edu/pwessel/gshhg/>). En la carpeta `data/gshhg` se incluye esta base en baja resolución.
 
 ```{r, eval = FALSE}
 # Funcion para convertir a Poligonos espaciales
@@ -141,12 +145,12 @@ Ahora si, nuestra figuras quedarían de la siguiente manera:
 
 ```{r}
 #| label: fig-eff
-#| fig-cap: "Esfuerzo de pesca por tipo de lance."
+#| fig-cap: "Esfuerzo de pesca de la flota atunera cerquera por tipo de lance."
 #| fig-subcap: 
 #|   - "DEL"
 #|   - "OBJ"
 #|   - "NOA"
-#| layout-ncol: 1
+#| layout-ncol: 2
 #| fig-height: 5.8
 #| fig-width: 6
 

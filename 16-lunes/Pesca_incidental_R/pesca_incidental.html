@@ -139,13 +139,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="introducción" class="level2">
 <h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
-<p>Vamos a analizar datos de captura incidental de peces de pico en la pesquería de atún (flota cerquera) en el Océano Pacífico Oriental Tropical. Estos datos son compilados por el programa de observadores a bordo la Comisión Interamericana del Atún Tropical (CIAT o IATTC) y están disponibles en su página: <a href="https://www.iattc.org/es-ES/Data/Public-domain" class="uri">https://www.iattc.org/es-ES/Data/Public-domain</a>.</p>
+<p>Los peces de pico o “picudos” (marlines, pez espada, pez vela, etc.) son capturados de manera incidental durante las operaciones de pesca que tienen como especie objetivo a los atunes. Analizaremos la base de datos de la flota cerquera que opera en el Océano Pacífico Oriental Tropical. Estos provienen del programa de observadores a bordo de la flota y son compilados por la Comisión Interamericana del Atún Tropical (CIAT o IATTC, por sus siglas en inglés).</p>
+<p>Esta base de datos y otras están disponibles en la página: <a href="https://www.iattc.org/es-ES/Data/Public-domain" class="uri">https://www.iattc.org/es-ES/Data/Public-domain</a>.</p>
 </section>
 <section id="métodos-y-resultados" class="level2">
 <h2 class="anchored" data-anchor-id="métodos-y-resultados">Métodos y Resultados</h2>
 <section id="cargar-paquetes" class="level3">
 <h3 class="anchored" data-anchor-id="cargar-paquetes">Cargar paquetes</h3>
-<p>Para este tutorial requerimos algunos paquetes:</p>
+<p>Para este tutorial requerimos los siguientes paquetes:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)         <span class="co"># Clases y métodos para datos espaciales </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PBSmapping) <span class="co"># Mapeo de datos pesqueros y herramientas de análisis espaciales</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -176,13 +177,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>sobre objetos flotantes (OBJ)</p></li>
 <li><p>sobre cardúmenes de atún no asociados (NOA).</p></li>
 </ol>
-<p>Están agregados en cuadrantes 1º <span class="math inline">\(\times\)</span> 1º de longitud-latitud y para cada mes desde 1993 hasta diciembre de 2025. Para cada cuadrante/año/mes se conoce el número de lances realizados (<code>NumSets</code>), que sería una medida del esfuerzo pesquero y las capturas de varias especies en número de individuos capturados. Para este tutorial vamos a concentrarnos en los últimos seis años.</p>
+<p>Están agregados en cuadrantes 1º <span class="math inline">\(\times\)</span> 1º de longitud-latitud y por mes desde 1993 hasta diciembre de 2025. Para cada cuadrante/año/mes se conoce el número de lances realizados (<code>NumSets</code>), que sería una medida del esfuerzo pesquero y las capturas de varias especies en número de individuos capturados. Las especies corresponden al marlin negro (BLM, <em>Istiompax indica</em>); marlin azul (BUM, <em>Makaira nigricans</em>); marlin rayado (MLS, <em>Kajikia audax</em>); pez vela (SFA, <em>Istiophorus platypterus</em>); marlin trompa corta (SSP, <em>Tetrapturus angustirostris</em>) y pez espada ( SWO, <em>Xiphias gladius</em>). En el código BIL se incluyen aquellos individuos que no lograron identificarse.</p>
+<p>Para este tutorial vamos a concentrarnos en los últimos seis años.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pic <span class="ot">&lt;-</span> pic[pic<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">2019</span>, ]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="para-que-tipo-de-lance-tenemos-más-registros" class="level4">
 <h4 class="anchored" data-anchor-id="para-que-tipo-de-lance-tenemos-más-registros">¿Para que tipo de lance tenemos más registros?</h4>
-<p>Esta pregunta podemos responderla sumando el número de lances por tipo de lance:</p>
+<p>Esta pregunta podemos responderla sumando el número de lances por tipo de indicador:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>esfuerzo <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(pic<span class="sc">$</span>NumSets, <span class="fu">list</span>(<span class="at">SetType =</span> pic<span class="sc">$</span>SetType), sum)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>esfuerzo</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -193,7 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 3     OBJ 78472</code></pre>
 </div>
 </div>
-<p>Ahora, podemos graficar el esfuerzo por tipo de lance, para lo cual necesitamos agregar el esfuerzo por cuadrante y tipo de lance</p>
+<p>Ahora, podemos graficar el esfuerzo para cada tipo de lance, para lo cual necesitamos agregar el esfuerzo por cuadrante de pesca y tipo de lance</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>esf <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(pic<span class="sc">$</span>NumSets, <span class="fu">list</span>(<span class="at">lon =</span> pic<span class="sc">$</span>LonC1, </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">lat =</span> pic<span class="sc">$</span>LatC1, </span>
@@ -229,7 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(NOA.f)[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>)</span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a> <span class="fu">class</span>(NOA.f) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"EventData"</span>, <span class="st">"data.frame"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Ahora necesitamos un mapa. Lo podemos importar de la base GSHHG (<em>A Global Self-consistent, Hierarchical, High-resolution Geography Database</em>;<a href="https://www.soest.hawaii.edu/pwessel/gshhg/" class="uri">https://www.soest.hawaii.edu/pwessel/gshhg/</a>). En la carpeta <code>data/gshhg</code> se incluye esta base en baja resolución.</p>
+<p>Ahora necesitamos un mapa. Lo podemos importar de la base GSHHG (<em>A Global Self-consistent, Hierarchical, High-resolution Geography Database</em>; <a href="https://www.soest.hawaii.edu/pwessel/gshhg/" class="uri">https://www.soest.hawaii.edu/pwessel/gshhg/</a>). En la carpeta <code>data/gshhg</code> se incluye esta base en baja resolución.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion para convertir a Poligonos espaciales</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>PolySet2SpatialPolygons <span class="ot">&lt;-</span> <span class="cf">function</span>(PolySet){</span>
@@ -285,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-eff" class="cell quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-eff-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="pesca_incidental_files/figure-html/fig-eff-1.png" class="img-fluid figure-img" data-ref-parent="fig-eff" width="576"></p>
@@ -293,9 +295,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-eff-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="pesca_incidental_files/figure-html/fig-eff-2.png" class="img-fluid figure-img" data-ref-parent="fig-eff" width="576"></p>
@@ -305,7 +305,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-eff-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="pesca_incidental_files/figure-html/fig-eff-3.png" class="img-fluid figure-img" data-ref-parent="fig-eff" width="576"></p>
@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figura&nbsp;1: Esfuerzo de pesca por tipo de lance.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figura&nbsp;1: Esfuerzo de pesca de la flota atunera cerquera por tipo de lance.</figcaption><p></p>
 </figure>
 </div>
 </div>
