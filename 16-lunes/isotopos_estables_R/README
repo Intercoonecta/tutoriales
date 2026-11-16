@@ -1,0 +1,45 @@
+Bienvenidos al tutorial sobre el uso de isotopos estables en R
+
+Los isótopos estables de carbono (δ13C) y nitrógeno (δ15N) son ampliamente utilizados en estudios de ecología migratoria y conectividad de hábitat (Trueman et al., 2012; Magozzi et al., 2017; Garcés et al., 2019), análisis de dieta (Bachiller and Irigoien, 2015; Canseco et al., 2023), redes tróficas y estructura de la comunidad (Post, 2002; Jackson et al., 2011; Canseco et al., 2024) y contaminación (Gaston and Suthers, 2004).
+
+Se basan en la proporción del isótopo pesado (13C/15N) con respecto al ligero (12C/14N) en una muestra con respecto a un estándar usando la notación estandarizada δ (Coplen, 2011). El δ13C nos permite identificar potenciales fuentes de carbono y su movimiento a lo largo de la cadena trofica debido a que por cada posición trófica se enriquece en promedio ~1‰ (DeNiro and Epstein, 1976; Vander Zanden and Rasmussen, 1999) mientras que el δ15N suele utilizarse para estimar la posición trófica de diferentes especies en la trama trófica dado su enriquecimiento promedio de ~3‰ por cada nivel trófico (DeNiro and Epstein, 1981; Minagawa and Wada, 1984; Post, 2002).
+
+En este tutorial aprenderemos a llevar a cabo un analisis exploratorio de los datos analizados de los isotopos estables de carbono y nitrogeno.
+
+El curso se dividira en 4 partes:
+
+Analisis exploratorio
+Graficas para observar nuestros datos
+Calculo de la posicion trofica
+Estimacion de la contribucion a una mezcla
+Comenzaremos con un ejerciciio exploratorio para comprender los valores recibidos desde el laboratorio de analisis y lo que tenemos que revisar. Posteriormtne graficaremos nuestros resultados y generaremos hipotesis sobre la distribucion de los datos relacionados con las diferentes especies. Estimaremos la posicion trofica de las especies objetivo de estudio y por ultimo cuantificaremos la contribucion de cada potencial presa al tejido muscular de nuestros depredadores.
+
+Comenzamos!
+
+Referencias
+
+-Bachiller E, Irigoien X. Trophodynamics and diet overlap of small pelagic fish species in the Bay of Biscay. Marine Ecology Progress Series 2015;534:179–98.
+
+-Canseco J. A., Chavez L, Niklitschek EJ et al. Variability and uncertainty associated to methods for estimating diet composition: The case of Champsocephalus gunnari in the South Orkney Islands. Estuarine, Coastal and Shelf Science 2023;285:108302. https://doi.org/10.1016/j.ecss.2023.108302.
+
+-Canseco Jose Antonio, Niklitschek EJ, Quezada-Romegialli C et al. Comparing trophic position estimates using bulk and compound specific stable isotope analyses: applying new approaches to mackerel icefish Champsocephalus gunnari. PeerJ 2024;12:e17372. https://doi.org/10.7717/peerj.17372.
+
+-Coplen TB. Guidelines and recommended terms for expression of stable-isotope-ratio and gas-ratio measurement results. Rapid Communications in Mass Spectrometry 2011;25(17):2538–60. https://doi.org/10.1002/rcm.5129.
+
+-DeNiro M. J., Epstein S. You are what you eat (plus a few‰) the carbon isotope cycle in food chains. Geological Society of America 1976;6:834–5.
+
+-DeNiro Michael J., Epstein S. Influence of diet on the distribution of nitrogen isotopes in animals. Geochimica et Cosmochimica Acta 1981;45(3):341–51.
+
+-Garcés C, Niklitschek EJ, Plaza G et al. Anchoveta Engraulis ringens along the Chilean coast: Management units, demographic units and water masses: Insights from multiple otolith-based approaches. Fisheries Oceanography 2019;28(0):735–50. https://doi.org/10.1111/fog.12455.
+
+-Gaston TF, Suthers IM. Spatial variation in δ13C and δ15N of liver, muscle and bone in a rocky reef planktivorous fish: the relative contribution of sewage. Journal of Experimental Marine Biology and Ecology 2004;304(1):17–33. https://doi.org/10.1016/j.jembe.2003.11.022.
+
+-Jackson AL, Inger R, Parnell AC et al. Comparing isotopic niche widths among and within communities: SIBER–Stable Isotope Bayesian Ellipses in R. Journal of Animal Ecology 2011;80(3):595– 602.
+
+-Magozzi S, Yool A, Vander Zanden HB et al. Using ocean models to predict spatial and temporal variation in marine carbon isotopes. Ecosphere 2017;8(5):e01763. https://doi.org/10.1002/ecs2.1763.
+
+-Minagawa M, Wada E. Stepwise enrichment of 15N along food chains: Further evidence and the relation between δ15N and animal age. Geochimica et Cosmochimica Acta 1984;48(5):1135–40. https://doi.org/10.1016/0016-7037(84)90204-7. -Post DM. Using stable isotopes to estimate trophic position: models, methods, and assumptions. Ecology 2002;83(3):703–18.
+
+-Trueman CN, MacKenzie KM, Palmer MR. Identifying migrations in marine fishes through stable-isotope analysis. Journal of Fish Biology 2012;81(2):826–47. https://doi.org/10.1111/j.1095- 8649.2012.03361.x.
+
+-Vander Zanden MJ, Rasmussen JB. Primary consumer δ13C and δ15N and the trophic position of aquatic consumers. Ecology 1999;80(4):1395–404.
