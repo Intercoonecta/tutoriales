@@ -5,3 +5,4 @@ Tutoriales del evento [Hackatón de OceanHackWeek en Español, noviembre 9-20, 2
 ## Tutoriales del miércoles 18 de noviembre
 
 1. [Datos Argo (Python)](datos_argo_python)
+2. [Uso de IA en programación](opencode)
