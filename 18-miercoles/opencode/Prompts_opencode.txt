@@ -1,4 +1,4 @@
 Prompts de ejemplo
 
-
+# OK
 Elaborar una multiplicacion de matrices de m x n por una de n x p en python, validarpara hacer las dimensiones para hacer la multiplicacion matricial
