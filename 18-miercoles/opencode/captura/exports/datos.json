@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "id_estacion": "a",
+    "fecha": "1961212",
+    "latitud": 27.0,
+    "longitud": -114.0,
+    "temperatura": 5.0,
+    "pH": 4.0,
+    "clorofila": 5.0,
+    "especie": "Sardina"
+  },
+  {
+    "id": 2,
+    "id_estacion": "55",
+    "fecha": "2026-",
+    "latitud": 28.0,
+    "longitud": -113.0,
+    "temperatura": 56.0,
+    "pH": 67.0,
+    "clorofila": 333.0,
+    "especie": null
+  }
+]
