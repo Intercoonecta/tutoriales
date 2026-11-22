@@ -1,48 +1,14 @@
-# Prompt
+# README
 
-## Archivo de prompt para opencode
+Tutorial del evento [Hackatón de OceanHackWeek en Español, noviembre 9-20, 2026](https://intercoonecta.github.io/ohw2026.html)
 
+- **Título:** Uso de la IA en programación con `opencode` (https://opencode.ai)
+- **Lenguaje:** Instrucciones en texto a opencode a través de la terminal. Estas prompts generan programas en Python
+- **Instructores:** Manuel Álvaro Pacheco Hoyo, https://github.com/maph666
+- **Fecha:** Miércoles 18 de noviembre
+- **Grabación en YouTube:** (*será añadida cuando esté disponible*)
 
+## Contenido
 
-#### Un prompt es una instrucción, pregunta o texto que se escribe para interactuar con un sistema de inteligencia artificial (IA) y pedirle que realice una tarea concreta.
-
-
-
-# Prompt #0
-
-Hacer un programa en Python para resolver una ecuación de segundo grado solo pasándole los coeficientes de la ecuación a resolver, tomar en cuenta  todas las opciones para resolver la ecuación Ax^2+Bx+C=0
-
-
-
-# Prompt #1
-
-Hacer un programa en Python para multiplicación de matrices con dimensiones de m x n y  n x p, validar que las matrices tengan las dimensiones adecuadas para poder  realizar la operación , el programa tendrá que proporcionar las funciones de captura para los datos .
-
-
-
-# Prompt #2
-
-Hacer un programa en Python para resolver sistemas de ecuaciones de n incógnitas utilizando la matriz inversa por el método de Gauss-Jordán para resolver el Sistema ecuaciones
-
-
-
-# Prompt #3
-
-Hacer un crud utilizando SQLite como base de datos, los datos que queremos almacenar son id, id\_estación, fecha, latitud, longitud, temperatura ,pH, clorofila, especie
-Elaborar una imagen que muestre las coordenadas de los datos y poder elegir el campo que requiramos mostrar , agregar opciones en el menú para generar de acuerdo a los datos un archivo csv, en otra opción generar un archivo con estructura json de los datos y por ultimo otra opción para  un archivo tsv
-Mostrar las opciones en el menú del crud.
-
-Agregar una opción para alimentar la base de datos a través de  un archivo csv , que respete la estructura de nuestra base de datos.
-
-
-
-# Prompt #5
-
-
-
-Bajar dataset de iris flower utilizando Python sin utilizar librerías
-
-https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
-
-Requiero hacer una red neuronal con el conjunto de datos de iris el archivo es iris.csv, utilizar 80% para entrenamiento y 20%, para pruebas , limpiar los datos para ver si hay inconsistencias en el archivo, mezclar los datos para seleccionar 80% para entrenamiento y 20% para pruebas, una vez entrenada la red probar los datos y ver el % de aciertos que tenemos de acuerdo al entrenamiento de nuestra red neuronal.
-
+- [prompts.md](prompts.md). Archivo de prompt para opencode. Contiene las prompts utilizadas en el tutorial.
+- Las carpetas [captura](captura) y [rx](rx) contienen resultados de algunas de las prompts.
